@@ -61,23 +61,27 @@
 				authInputsWidth = ((inputWidth - authTypeWidth) / 2) - 4,
 
 				type = this.element.find('[name=type]').val(),
+				auth = this.element.find('[name=auth]').val(),
 
 				totalHeight = this.element.height(),
-				// totalHeight - header height - url field height - type/auth/method field height - button height - field margins
-				bodyHeight = totalHeight - 22 - 36 - 60 - 45 - 24,
+				// totalHeight - header height - url field height - type/auth/http-method field height - button height - field margins
+				bodyHeight = totalHeight - 22 - 34 - 36 - 45 - 24,
 				responseHeadersHeight = this.element.find('.explorpc-response-headers').outerHeight(),
 				// totalHeight - header height - responseHeadersHeight - padding
 				responseBodyHeight = totalHeight - 22 - responseHeadersHeight - 24 - 24;
 
 			if (type !== "raw") {
-				bodyHeight -= 36; // method field height
+				bodyHeight -= 34; // method field height
 				if (type === "json-rpc") bodyHeight -= 33; // notification field height
+			}
+			if (auth) {
+				bodyHeight -= 24; // username/password
 			}
 			this.element
 				.find('.explorpc-request, .explorpc-response').height(totalHeight).width(sectionWidth).end()
-				.find('[name=url], [name=method], [name=responseHeaders], [name=responseBody]').width(inputWidth).end()
-				.find('.explorpc-response-body').height(responseBodyHeight).end()
-				.find('.explorpc-response-body pre').height(responseBodyHeight - 22).end()
+				.find('[name=url], [name=method], .explorpc-response pre').width(inputWidth).end()
+				.find('.explorpc-response-body').height(responseBodyHeight)
+					.find('pre').height(responseBodyHeight - 22).end().end()
 				.find('[name=username], [name=password]').width(authInputsWidth);
 			this._bodyEditor.setSize(inputWidth, bodyHeight);
 		},
@@ -135,6 +139,7 @@
 		_authChanged: function(event) {
 			var auth = this.element.find('[name=auth]').val();
 			this.element.toggleClass('explorpc-auth-basic', auth === 'basic')
+			this._adjustDimensions();
 		},
 
 		_doRequest: function(event) {
