@@ -22,17 +22,18 @@
 		<script src="static/codemirror/lib/codemirror.js"></script>
 		<script src="static/codemirror/mode/javascript/javascript.js"></script>
 		<script src="static/codemirror/mode/xml/xml.js"></script>
+		<script src="static/codemirror/lib/util/formatting.js"></script>
 		<script src="static/codemirror/lib/util/runmode.js"></script>
 		<script src="static/js/codemirror_httpheaders.js"></script>
 		<script src="static/js/explorpc.js"></script>
 		<script type="text/javascript">
 			$(function() {
-					$('input, textarea').placeholder();
-					$('#tryit').button().bind('click', function() {
-						$('.explorpc').explorpc();
-						});
+				$('input, textarea').placeholder();
+				$('#tryit').button().bind('click', function() {
 					$('.explorpc').explorpc();
-					});
+				});
+				$('.explorpc').explorpc();
+			});
 		</script>
 	</head>
 

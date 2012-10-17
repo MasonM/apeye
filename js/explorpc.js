@@ -172,7 +172,6 @@
 			var req = $.ajax(params)
 				.fail($.proxy(this._requestError, this))
 				.done($.proxy(this._requestDone, this));
-			debugger; //bug with multiple 404s
 		},
 
 		_getJsonRPCRequestBody: function() {
@@ -200,18 +199,18 @@
 			var errorDesc = "Request failed. Error #" + jqXHR.status + ": " + jqXHR.statusText;
 			this.element.find('.explorpc-dialog')
 				.text(errorDesc)
+				.find('.explorpc-response-headers pre').text('No response headers').end()
+				.find('.explorpc-response-body pre').text('No response body').end()
 				.dialog({
 					'height': 'auto',
 					'position': { my: "center", at: "center", of: this.element },
 					'dialogClass': 'explorpc-dialog'
 				});
-			this.element
-				.find('.explorpc-response-headers pre').text('No response headers').end()
-				.find('.explorpc-response-body pre').text('No response body');
 		},
 
 		_requestDone: function(data, success, jqXHR) {
 			var headers = jqXHR.getAllResponseHeaders(),
+				body = jqXHR.responseText,
 				tempDiv = document.createElement('div'),
 				statusLine = "HTTP/1.1 " + jqXHR.status + " " + jqXHR.statusText + "\n",
 				statusType = this._getTypeFromStatus(jqXHR.status);
@@ -219,7 +218,7 @@
 			statusLine = "<span class=\"explorpc-" + statusType + "\">" + statusLine + "</span>";
 			CodeMirror.runMode(headers, "message/http", tempDiv);
 			this.element.find('.explorpc-response-headers pre').html(statusLine + tempDiv.innerHTML);
-			this.element.find('.explorpc-response-body pre').text(jqXHR.responseText);
+			this.element.find('.explorpc-response-body pre').text(body);
 		},
 
 		_getTypeFromStatus: function(status) {
