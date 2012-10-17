@@ -183,15 +183,19 @@
 
 		_getJsonRPCRequestBody: function() {
 			var method = this.element.find('[name=method]').val(),
-				params = this.element.find('[name=body]').val(),
+				params = this._bodyEditor.getValue(),
 				request = '';
 			request = '{"jsonrpc":"2.0","method":"' + method + '","params":' + params;
-			if (this.element.find('[name=notification]:checked').length) request += ',"id": 1';
+			if (!this.element.find('[name=notification]:checked').length) request += ',"id": ' + this._getRandomId();
 			return request += '}';
 		},
 
+		_getRandomId: function() {
+			return Math.floor(Math.random() * 99999);
+		},
+
 		_getSoapRequestBody: function() {
-			var body = this.element.find('[name=body]').val(), request = '';
+			var body = this._bodyEditor.getVal(), request = '';
 			request = '<?xml version="1.0" encoding="UTF-8"?>\
 				<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:enc="http://www.w3.org/2003/05/soap-encoding">\
 					<env:Body>' + body + '</env:Body>\
