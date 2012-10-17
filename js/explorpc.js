@@ -167,6 +167,7 @@
 			var req = $.ajax(params)
 				.fail($.proxy(this._requestError, this))
 				.done($.proxy(this._requestDone, this));
+			debugger; //bug with multiple 404s
 		},
 
 		_getJsonRPCRequestBody: function() {
