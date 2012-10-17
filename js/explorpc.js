@@ -35,7 +35,9 @@
 				.delegate('[name=auth]', 'change', $.proxy(this._authChanged, this))
 				.delegate('[name=request]', 'click', $.proxy(this._doRequest, this))
 				.delegate('.explorpc-expand', 'click', $.proxy(this.toggleExpand, this))
+				.find('.explorpc-expand').hover(this._expandHover).end()
 				.find('button').button();
+
 			this._bodyEditor = CodeMirror.fromTextArea(this.element.find('[name=body]')[0], {
 				lineNumbers: false,
 				matchBrackets: true,
@@ -45,6 +47,7 @@
 					this.highlightedLine = editor.setLineClass(editor.getCursor().line, null, "activeline");
 				}, 
 			});
+
 			this._httpMethodChanged();
 			this._authChanged();
 			this._typeChanged();
@@ -84,6 +87,10 @@
 					.find('pre').height(responseBodyHeight - 22).end().end()
 				.find('[name=username], [name=password]').width(authInputsWidth);
 			this._bodyEditor.setSize(inputWidth, bodyHeight);
+		},
+
+		_expandHover: function(event) {
+			$(this).toggleClass('ui-state-hover', (event.type === 'mouseenter'));
 		},
 
 		toggleExpand: function(event) {
