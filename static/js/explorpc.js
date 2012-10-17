@@ -3,23 +3,23 @@
 	$.widget("mm.explorpc", {
 		_placeHolders: {
 			"json-rpc": {
+				"[name=method]": "Method name",
 				"[name=body]": "JSON params array, e.g. [\"Hello JSON-RPC\"]",
-				"[name=responseBody]": "JSON result"
 			},
 			"soap": {
 				"[name=method]": "SOAPAction header",
 				"[name=body]": "SOAP body, e.g. <m:Search xmlns:m=\"http://google.com\"><term>foobar</term></m:Search>",
-				"[name=responseBody]": "SOAP response body"
 			},
 			"xml-rpc": {
+				"[name=method]": "Method name",
 				"[name=body]": "XML payload <params>, e.g. <params><param><value>foo</value></param></params>",
-				"[name=responseBody]": "XML response <methodResponse>"
 			},
 			"raw": {
 				"[name=body]": "Request body",
-				"[name=responseBody]": "HTTP response body"
 			}
 		},
+
+		_bodyEditor: null,
 
 		options: {
 			type: "json-rpc",
@@ -36,6 +36,15 @@
 				.delegate('[name=request]', 'click', $.proxy(this._doRequest, this))
 				.delegate('.explorpc-expand', 'click', $.proxy(this.toggleExpand, this))
 				.find('button').button();
+			this._bodyEditor = CodeMirror.fromTextArea(this.element.find('[name=body]')[0], {
+				lineNumbers: false,
+				matchBrackets: true,
+				indentUnit: 3,
+				onCursorActivity: function (editor) {
+					if (this.highlightedLine) editor.setLineClass(this.highlightedLine, null, null);
+					this.highlightedLine = editor.setLineClass(editor.getCursor().line, null, "activeline");
+				}, 
+			});
 			this._httpMethodChanged();
 			this._authChanged();
 			this._typeChanged();
@@ -66,11 +75,11 @@
 			}
 			this.element
 				.find('.explorpc-request, .explorpc-response').height(totalHeight).width(sectionWidth).end()
-				.find('.explorpc-body').height(bodyHeight).end()
-				.find('[name=url], [name=method], [name=responseHeaders], [name=responseBody], [name=body]').width(inputWidth).end()
+				.find('[name=url], [name=method], [name=responseHeaders], [name=responseBody]').width(inputWidth).end()
 				.find('.explorpc-response-body').height(responseBodyHeight).end()
 				.find('.explorpc-response-body pre').height(responseBodyHeight - 22).end()
 				.find('[name=username], [name=password]').width(authInputsWidth);
+			this._bodyEditor.setSize(inputWidth, bodyHeight);
 		},
 
 		toggleExpand: function(event) {
@@ -95,12 +104,26 @@
 				httpMethodSelect.removeAttr('disabled');
 			}
 
+			this._bodyEditor.setOption('mode', this.getMimeType());
+
 			$.each(this._placeHolders[type], $.proxy(function(selector, placeholderString) {
 				this.element.find(selector).attr('placeholder', placeholderString);
 			}, this));
 
 			this._adjustDimensions();
 		}, 
+
+		getMimeType: function() {
+			switch (this.element.find('[name=type]').val()) {
+				case 'json-rpc':
+					return 'application/json';
+				case 'soap':
+					return 'text/xml';
+				case 'raw':
+				default:
+					return 'text/plain';
+			}
+		},
 
 		_httpMethodChanged: function(event) {
 			var httpMethod = this.element.find('[name=httpMethod]').val();
@@ -130,13 +153,12 @@
 				params.password = this.element.find('[name=password]').val();
 			}
 
+			params.contentType = this.getMimeType();
 			switch (this.element.find('[name=type]').val()) {
 				case 'json-rpc':
-					params.contentType = 'application/json; charset=utf-8';
 					params.data = this._getJsonRPCRequestBody();
 					break;
 				case 'soap':
-					params.contentType = 'text/xml; charset=utf-8';
 					params.headers = { "SOAPAction": this.element.find('[name=method]').val() };
 					params.data = this._getSoapRequestBody();
 					break;
