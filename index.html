@@ -1,50 +1,50 @@
 <!doctype html>
 <html class="no-js" lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-        <title>ExploRPC</title>
-        <meta name="description" content="A handy widget for testing RPC-based APIs">
-        <meta name="author" content="Mason Malone">
+		<title>ExploRPC</title>
+		<meta name="description" content="A handy widget for testing RPC-based APIs">
+		<meta name="author" content="Mason Malone">
 
-        <meta name="viewport" content="width=device-width">
-        <link rel="stylesheet" href="static/css/normalize.css">
-        <link rel="stylesheet" href="static/css/base.css">
-        <link rel="stylesheet" href="static/css/main.css">
-        <link rel="stylesheet" href="static/codemirror/lib/codemirror.css">
-        <link rel="stylesheet" href="static/css/humanity/jquery-ui-1.8.23.custom.css">
+		<meta name="viewport" content="width=device-width">
+		<link rel="stylesheet" href="static/css/normalize.css">
+		<link rel="stylesheet" href="static/css/base.css">
+		<link rel="stylesheet" href="static/css/main.css">
+		<link rel="stylesheet" href="static/codemirror/lib/codemirror.css">
+		<link rel="stylesheet" href="static/css/humanity/jquery-ui-1.8.23.custom.css">
 
-        <script src="static/js/modernizr-2.5.3.min.js"></script>
-        <script src="static/js/jquery-1.8.1.min.js"></script>
-        <script src="static/js/jquery-ui-1.8.23.custom.min.js"></script>
-        <script src="static/js/jquery.placeholder.min.js"></script>
-        <script src="static/codemirror/lib/codemirror.js"></script>
-        <script src="static/codemirror/mode/javascript/javascript.js"></script>
-        <script src="static/codemirror/mode/xml/xml.js"></script>
-        <script src="static/codemirror/lib/util/runmode.js"></script>
-        <script src="static/js/codemirror_httpheaders.js"></script>
-        <script src="static/js/explorpc.js"></script>
-        <script type="text/javascript">
-            $(function() {
-				$('input, textarea').placeholder();
-				$('#tryit').button().bind('click', function() {
+		<script src="static/js/modernizr-2.5.3.min.js"></script>
+		<script src="static/js/jquery-1.8.1.min.js"></script>
+		<script src="static/js/jquery-ui-1.8.23.custom.min.js"></script>
+		<script src="static/js/jquery.placeholder.min.js"></script>
+		<script src="static/codemirror/lib/codemirror.js"></script>
+		<script src="static/codemirror/mode/javascript/javascript.js"></script>
+		<script src="static/codemirror/mode/xml/xml.js"></script>
+		<script src="static/codemirror/lib/util/runmode.js"></script>
+		<script src="static/js/codemirror_httpheaders.js"></script>
+		<script src="static/js/explorpc.js"></script>
+		<script type="text/javascript">
+			$(function() {
+					$('input, textarea').placeholder();
+					$('#tryit').button().bind('click', function() {
+						$('.explorpc').explorpc();
+						});
 					$('.explorpc').explorpc();
-				});
-				$('.explorpc').explorpc();
-            });
+					});
 		</script>
-    </head>
+	</head>
 
-    <body>
-        <!--[if lt IE 7]>
-            <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
-        <![endif]-->
-        <h1>ExploRPC</h1>
+	<body>
+		<!--[if lt IE 7]>
+			<p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+		<![endif]-->
+		<h1>ExploRPC</h1>
 
 		<a href="#" id='tryit'>Try it with exploRPC</a>
 
-        <div class="explorpc">
+		<div class="explorpc">
 			<div class="explorpc-dialog" title="Request failed"></div>
 			<section class="explorpc-request ui-widget ui-widget-content ui-corner-left ui-resizable">
 				<header class="ui-widget-header">
@@ -108,7 +108,7 @@
 					<h4 class="ui-widget-header ui-corner-all">HTTP Body</h4>
 					<pre>No response body</pre>
 				</div>
-            </section>
-        </div>
-    </body>
+			</section>
+		</div>
+	</body>
 </html>
