@@ -260,7 +260,10 @@
 			statusLine = "<span class=\"explorpc-" + statusType + "\">" + statusLine + "</span>";
 			CodeMirror.runMode(headers, "message/http", tempDiv);
 			this.element.find('.explorpc-response-headers pre').html(statusLine + tempDiv.innerHTML);
-			this.element.find('.explorpc-response-body pre').text(body);
+
+			tempDiv.innerHTML = '';
+			CodeMirror.runMode(body, this.getMimeType(), tempDiv);
+			this.element.find('.explorpc-response-body pre').html(tempDiv.innerHTML);
 		},
 
 		_getTypeFromStatus: function(status) {
