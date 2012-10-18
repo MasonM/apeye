@@ -64,8 +64,11 @@
 
 			});
 			this._bodyEditor.setValueToPlaceholder = function(editor) {
-				var placeholder = editor.getTextArea().getAttribute('placeholder');
-				editor.setValue(placeholder);
+				var placeholder = editor.getTextArea().getAttribute('placeholder'),
+					wrapper = editor.getWrapperElement();
+				if (wrapper.className.indexOf('explorpc-empty') !== -1) {
+					editor.setValue(placeholder);
+				}
 			};
 			this._bodyEditor.getWrapperElement().className += ' explorpc-empty';
 
