@@ -40,13 +40,34 @@
 
 			this._bodyEditor = CodeMirror.fromTextArea(this.element.find('[name=body]')[0], {
 				lineNumbers: false,
+				lineWrapping: true,
 				matchBrackets: true,
 				indentUnit: 3,
+				// emulate HTML placeholders
+				onBlur: function(editor) {
+					if (editor.getValue().length === 0) {
+						editor.getWrapperElement().className += ' explorpc-empty';
+						editor.setValueToPlaceholder(editor);
+					}
+				},
+				onFocus: function(editor) {
+					var wrapper = editor.getWrapperElement();
+					if (wrapper.className.indexOf('explorpc-empty') !== -1) {
+						wrapper.className = wrapper.className.replace('explorpc-empty', '');
+						editor.setValue('');
+					}
+				},
 				onCursorActivity: function (editor) {
 					if (this.highlightedLine) editor.setLineClass(this.highlightedLine, null, null);
 					this.highlightedLine = editor.setLineClass(editor.getCursor().line, null, "activeline");
 				}, 
+
 			});
+			this._bodyEditor.setValueToPlaceholder = function(editor) {
+				var placeholder = editor.getTextArea().getAttribute('placeholder');
+				editor.setValue(placeholder);
+			};
+			this._bodyEditor.getWrapperElement().className += ' explorpc-empty';
 
 			this._httpMethodChanged();
 			this._authChanged();
@@ -116,13 +137,20 @@
 			}
 
 			this._bodyEditor.setOption('mode', this.getMimeType());
+			this._updatePlaceholders();
+			this._adjustDimensions();
+		}, 
+
+		_updatePlaceholders: function() {
+			var type = this.element.find('[name=type]').val();
 
 			$.each(this._placeHolders[type], $.proxy(function(selector, placeholderString) {
 				this.element.find(selector).attr('placeholder', placeholderString);
 			}, this));
 
-			this._adjustDimensions();
-		}, 
+			// set placeholder text
+			this._bodyEditor.setValueToPlaceholder(this._bodyEditor);
+		},
 
 		getMimeType: function() {
 			switch (this.element.find('[name=type]').val()) {
