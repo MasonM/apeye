@@ -22,6 +22,10 @@ div.explorpc {
 		}
 	}
 
+	.explorpc-body, .explorpc-send {
+		text-align: center;
+	}
+
 	.explorpc-body textarea {
 		height: 100%;
 	}
@@ -31,15 +35,16 @@ div.explorpc {
 		pre { height: 100px; }
 	}
 
+	h4 {
+		font-size: 14px;
+		margin: 0 0 6px 0;
+		font-weight: bold;
+		width: 10em;
+		display: inline-block;
+	}
+
 	.explorpc-response-headers, .explorpc-response-body {
 		text-align: center;
-		h4 {
-			font-size: 14px;
-			margin: 0 0 6px 0;
-			font-weight: bold;
-			width: 10em;
-			display: inline-block;
-		}
 		pre {
 			padding: 5px;
 			text-align: left;
@@ -146,6 +151,7 @@ div.explorpc {
 	}
 
 	.CodeMirror {
+		text-align: left;
 		&.explorpc-empty {
 			pre, pre span { color: #999 !important; }
 			.activeline { background: none !important; }

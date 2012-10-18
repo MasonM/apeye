@@ -4,18 +4,18 @@
 		_placeHolders: {
 			"json-rpc": {
 				"[name=method]": "Method name",
-				"[name=body]": "JSON params array, e.g. [\"Hello JSON-RPC\"]",
+				"[name=body]": "[\"Hello JSON-RPC\"]",
 			},
 			"soap": {
 				"[name=method]": "SOAPAction header",
-				"[name=body]": "SOAP body, e.g. <m:Search xmlns:m=\"http://google.com\"><term>foobar</term></m:Search>",
+				"[name=body]": "<m:Search xmlns:m=\"http://google.com\"><term>foobar</term></m:Search>",
 			},
 			"xml-rpc": {
 				"[name=method]": "Method name",
-				"[name=body]": "XML payload <params>, e.g. <params><param><value>foo</value></param></params>",
+				"[name=body]": "<params><param><value>foo</value></param></params>",
 			},
 			"raw": {
-				"[name=body]": "Request body",
+				"[name=body]": "",
 			}
 		},
 
@@ -142,7 +142,21 @@
 			this._bodyEditor.setOption('mode', this.getMimeType());
 			this._updatePlaceholders();
 			this._adjustDimensions();
-		}, 
+			this.element.find('.explorpc-body h4').text(this._getRequestBodyLabel());
+		},
+
+		_getRequestBodyLabel: function() {
+			switch (this.element.find('[name=type]').val()) {
+				case 'json-rpc':
+					return 'JSON Params';
+				case 'soap':
+					return 'SOAP Body';
+				case 'xml-rpc':
+					return 'XML Payload';
+				case 'raw':
+					return 'Request Body';
+			}
+		},
 
 		_updatePlaceholders: function() {
 			var type = this.element.find('[name=type]').val();

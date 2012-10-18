@@ -56,8 +56,8 @@
 				</div>
 				<div class="field">
 					<select name="type">
-						<option value="raw">Raw</option>
-						<option value="json-rpc" selected>JSON-RPC</option>
+						<option value="raw" selected>Raw</option>
+						<option value="json-rpc">JSON-RPC</option>
 						<option value="soap">SOAP</option>
 					</select>
 
@@ -88,9 +88,10 @@
 					</label>
 				</div>
 				<div class="field explorpc-body">
+					<h4 class="ui-widget-header ui-corner-all">Request body</h4>
 					<textarea name="body"></textarea>
 				</div>
-				<div class="field">
+				<div class="field explorpc-send">
 					<button name="request">Send</button>
 				</div>
 			</section>
