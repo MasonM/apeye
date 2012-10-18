@@ -1,6 +1,6 @@
 div.explorpc {
 	font-size: 0;
-	font-family: Droid Sans, Arial, sans-serif;
+	font-family: Droid Sans, Helvetica, sans-serif;
 	text-align: left;
 	width: 600px;
 	height: 440px;
@@ -76,7 +76,10 @@ div.explorpc {
 	.field {
 		margin: 12px 0;
 		padding: 0 12px;
-		label { margin-right: 4px; }
+		label {
+			margin-right: 4px;
+			font-weight: bold;
+		}
 		button { font-size: 14px; }
 	}
 
@@ -98,10 +101,6 @@ div.explorpc {
 		top: 0;
 		right: 0;
 		cursor: pointer;
-	}
-
-	/* TODO */
-	.explorpc-expand:hover {
 	}
 
 	.explorpc-auth {
@@ -132,6 +131,9 @@ div.explorpc {
 	}
 	select, input {
 		margin: 2px;
+	}
+	input[type="checkbox"] {
+		vertical-align: top;
 	}
 	textarea:-moz-placeholder, input:-moz-placeholder {
 		color: #999;
