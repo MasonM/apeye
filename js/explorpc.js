@@ -39,12 +39,11 @@
 
 		_create: function() {
 			var self = this;
-
-			this._initRequestBody();
-
 			$.each(['type', 'httpMethod', 'auth', 'url', 'method', 'body'], function(i, fieldName) {
 				self.element.find('[name=' + fieldName + ']').val(self.option(fieldName));
 			});
+
+			this._initRequestBody();
 
 			this.element
 				.resizable({ handles: 'se', })
@@ -99,7 +98,9 @@
 					editor.setValue(placeholder);
 				}
 			};
-			this._bodyEditor.getWrapperElement().className += ' explorpc-empty';
+			if (!this.option('body').length) {
+				this._bodyEditor.getWrapperElement().className += ' explorpc-empty';
+			}
 		},
 
 		_adjustDimensions: function() {
