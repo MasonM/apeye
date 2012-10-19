@@ -175,7 +175,8 @@
 				'title': 'Raw request and response',
 				'height': 'auto',
 				'position': { my: "center", at: "center", of: this.element },
-				'dialogClass': 'explorpc-dialog'
+				'dialogClass': 'explorpc-dialog',
+				'close': this._getCloseDialogCallback()
 			});
 		},
 
@@ -315,6 +316,7 @@
 				return this._requestDone(null, null, jqXHR);
 			}
 			var errorDesc = "Request failed. Error #" + jqXHR.status + ": " + jqXHR.statusText;
+
 			this.element
 				.find('.explorpc-response-headers pre').text('No response headers').end()
 				.find('.explorpc-response-body pre').text('No response body').end()
@@ -322,8 +324,19 @@
 					'title': 'Request failed',
 					'height': 'auto',
 					'position': { my: "center", at: "center", of: this.element },
-					'dialogClass': 'explorpc-dialog'
+					'dialogClass': 'explorpc-dialog',
+					'close': this._getCloseDialogCallback()
 				});
+		},
+
+		_getCloseDialogCallback: function() {
+			// workaround for jQuery bug: http://bugs.jqueryui.com/ticket/5762
+			var dialogElem = this.element.find('.explorpc-dialog'),
+				element = this.element;
+			return function () {
+				dialogElem.dialog('destroy');
+				dialogElem.appendTo(element);
+			};
 		},
 
 		_getLastStatusLine: function() {
