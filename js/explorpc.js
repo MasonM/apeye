@@ -1,6 +1,16 @@
 ;(function ($, window, document, undefined) {
 	"use strict";
 	$.widget("mm.explorpc", {
+		options: {
+			type: "json-rpc",
+			httpMethod: "post",
+			auth: "basic",
+			url: "",
+			method: "",
+			body: "",	
+			timeout: 5 * 1000,
+		},
+
 		_placeHolders: {
 			"json-rpc": {
 				"[name=method]": "Method name",
@@ -25,12 +35,17 @@
 
 		_lastRequestParams: null,
 
-		options: {
-			type: "json-rpc",
-			timeout: 5 * 1000,
-		},
+		_initialized: false,
 
 		_create: function() {
+			var self = this;
+
+			this._initRequestBody();
+
+			$.each(['type', 'httpMethod', 'auth', 'url', 'method', 'body'], function(i, fieldName) {
+				self.element.find('[name=' + fieldName + ']').val(self.option(fieldName));
+			});
+
 			this.element
 				.resizable({ handles: 'se', })
 				.resize($.proxy(this._adjustDimensions, this))
@@ -43,6 +58,15 @@
 				.find('.explorpc-expand, .explorpc-viewraw').hover(this._buttonHover).end()
 				.find('button').button();
 
+			this._httpMethodChanged();
+			this._authChanged();
+			this._typeChanged();
+
+			this._initialized = true;
+			this._adjustDimensions();
+		},
+
+		_initRequestBody: function() {
 			this._bodyEditor = CodeMirror.fromTextArea(this.element.find('[name=body]')[0], {
 				lineNumbers: false,
 				lineWrapping: true,
@@ -76,13 +100,13 @@
 				}
 			};
 			this._bodyEditor.getWrapperElement().className += ' explorpc-empty';
-
-			this._httpMethodChanged();
-			this._authChanged();
-			this._typeChanged();
 		},
 
 		_adjustDimensions: function() {
+			if (!this._initialized) {
+				// avoid unnecessary calls during initialization
+				return;
+			}
 			var totalWidth = this.element.width(),
 				// subtract 3 pixels for the borders
 				sectionWidth = (totalWidth / 2) - 3,
@@ -147,11 +171,11 @@
 				this._lastResponse.responseText;
 				
 			this.element.find('.explorpc-dialog').html(html).dialog({
-					'title': 'Raw request and response',
-					'height': 'auto',
-					'position': { my: "center", at: "center", of: this.element },
-					'dialogClass': 'explorpc-dialog'
-				});
+				'title': 'Raw request and response',
+				'height': 'auto',
+				'position': { my: "center", at: "center", of: this.element },
+				'dialogClass': 'explorpc-dialog'
+			});
 		},
 
 		_getLocation: function(href) {

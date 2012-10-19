@@ -29,10 +29,11 @@
 		<script type="text/javascript">
 			$(function() {
 				$('input, textarea').placeholder();
-				$('#tryit').button().bind('click', function() {
-					$('.explorpc').explorpc();
+				// $('#tryit').button().bind('click', function() { $('.explorpc').explorpc(); });
+				$('.explorpc').explorpc({
+					'url': '127.0.0.1:5000/jsonrpc',
+					'method': 'add'
 				});
-				$('.explorpc').explorpc();
 			});
 		</script>
 	</head>
@@ -43,7 +44,7 @@
 		<![endif]-->
 		<h1>ExploRPC</h1>
 
-		<a href="#" id='tryit'>Try it with exploRPC</a>
+		<!-- <a href="#" id='tryit'>Try it with exploRPC</a> -->
 
 		<div class="explorpc">
 			<div class="explorpc-dialog"></div>
@@ -56,13 +57,13 @@
 				</div>
 				<div class="field">
 					<select name="type">
-						<option value="raw" selected>Raw</option>
+						<option value="raw">Raw</option>
 						<option value="json-rpc">JSON-RPC</option>
 						<option value="soap">SOAP</option>
 					</select>
 
 					<select name="httpMethod">
-						<option value="post" selected>POST</option>
+						<option value="post">POST</option>
 						<option value="get">GET</option>
 						<option value="put">PUT</option>
 						<option value="delete">DELETE</option>
@@ -71,7 +72,7 @@
 					<div class="explorpc-auth">
 						<select name="auth">
 							<option value="">No auth</option>
-							<option value="basic" selected>Basic</option>
+							<option value="basic">Basic</option>
 						</select>
 
 						<input type="text" name="username" placeholder="Username"/>
