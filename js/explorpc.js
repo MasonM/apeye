@@ -21,6 +21,10 @@
 
 		_bodyEditor: null,
 
+		_lastResponse: null,
+
+		_lastRequestParams: null,
+
 		options: {
 			type: "json-rpc",
 			timeout: 5 * 1000,
@@ -35,7 +39,8 @@
 				.delegate('[name=auth]', 'change', $.proxy(this._authChanged, this))
 				.delegate('[name=request]', 'click', $.proxy(this._doRequest, this))
 				.delegate('.explorpc-expand', 'click', $.proxy(this.toggleExpand, this))
-				.find('.explorpc-expand').hover(this._expandHover).end()
+				.delegate('.explorpc-viewraw:not(.ui-state-disabled)', 'click', $.proxy(this.viewRaw, this))
+				.find('.explorpc-expand, .explorpc-viewraw').hover(this._buttonHover).end()
 				.find('button').button();
 
 			this._bodyEditor = CodeMirror.fromTextArea(this.element.find('[name=body]')[0], {
@@ -91,8 +96,8 @@
 				auth = this.element.find('[name=auth]').val(),
 
 				totalHeight = this.element.height(),
-				// totalHeight - header height - url field height - type/auth/http-method field height - button height - field margins
-				bodyHeight = totalHeight - 22 - 34 - 36 - 45 - 24,
+				// totalHeight - header height - url field height - type/auth/http-method field height - header height - button height - field margins
+				bodyHeight = totalHeight - 22 - 34 - 36 - 22 - 45 - 24,
 				responseHeadersHeight = this.element.find('.explorpc-response-headers').outerHeight(),
 				// totalHeight - header height - responseHeadersHeight - padding
 				responseBodyHeight = totalHeight - 22 - responseHeadersHeight - 24 - 24;
@@ -113,8 +118,8 @@
 			this._bodyEditor.setSize(inputWidth, bodyHeight);
 		},
 
-		_expandHover: function(event) {
-			$(this).toggleClass('ui-state-hover', (event.type === 'mouseenter'));
+		_buttonHover: function(event) {
+			$(this).toggleClass('ui-state-hover', (event.type === 'mouseenter' && !$(this).hasClass('ui-state-disabled')));
 		},
 
 		toggleExpand: function(event) {
@@ -123,6 +128,36 @@
 				.css('width', '')
 				.toggleClass('explorpc-expanded');
 			this._adjustDimensions();
+		},
+
+		viewRaw: function() {
+			var loc = this._getLocation(this._lastRequestParams.url),
+				html = "";
+			
+			html = "<h4 class='ui-widget-header ui-corner-all'>HTTP Request (incomplete)</h4>\n" +
+				"<pre>" +
+				this._lastRequestParams.type + " " + loc.pathname + " HTTP/1.1\n" +
+				"Host: " + loc.host + "\n\n" +
+				(this._lastRequestParams.data ? this._lastRequestParams.data : '') +
+				"</pre>\n" +
+				"<h4 class='ui-widget-header ui-corner-all'>HTTP Response</h1>\n" +
+				"<pre>" +
+				this._getLastStatusLine() +
+				this._lastResponse.getAllResponseHeaders() + "\n" +
+				this._lastResponse.responseText;
+				
+			this.element.find('.explorpc-dialog').html(html).dialog({
+					'title': 'Raw request and response',
+					'height': 'auto',
+					'position': { my: "center", at: "center", of: this.element },
+					'dialogClass': 'explorpc-dialog'
+				});
+		},
+
+		_getLocation: function(href) {
+			var l = document.createElement("a");
+			l.href = href;
+			return l;
 		},
 
 		_typeChanged: function(event) {
@@ -221,6 +256,8 @@
 					break;
 			}
 
+			this._lastRequestParams = params;
+
 			var req = $.ajax(params)
 				.fail($.proxy(this._requestError, this))
 				.done($.proxy(this._requestDone, this));
@@ -241,10 +278,10 @@
 
 		_getSoapRequestBody: function() {
 			var body = this._bodyEditor.getVal(), request = '';
-			request = '<?xml version="1.0" encoding="UTF-8"?>\
-				<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:enc="http://www.w3.org/2003/05/soap-encoding">\
-					<env:Body>' + body + '</env:Body>\
-				</env:Envelope>';
+			request = '<?xml version="1.0" encoding="UTF-8"?>' +
+				'<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:enc="http://www.w3.org/2003/05/soap-encoding">' +
+					'<env:Body>' + body + '</env:Body>' +
+				'</env:Envelope>';
 			return request;
 		},
 
@@ -253,25 +290,32 @@
 				return this._requestDone(null, null, jqXHR);
 			}
 			var errorDesc = "Request failed. Error #" + jqXHR.status + ": " + jqXHR.statusText;
-			this.element.find('.explorpc-dialog')
-				.text(errorDesc)
+			this.element
 				.find('.explorpc-response-headers pre').text('No response headers').end()
 				.find('.explorpc-response-body pre').text('No response body').end()
-				.dialog({
+				.find('.explorpc-dialog').text(errorDesc).dialog({
+					'title': 'Request failed',
 					'height': 'auto',
 					'position': { my: "center", at: "center", of: this.element },
 					'dialogClass': 'explorpc-dialog'
 				});
 		},
 
+		_getLastStatusLine: function() {
+			return "HTTP/1.1 " + this._lastResponse.status + " " + this._lastResponse.statusText + "\n";
+		},
+
 		_requestDone: function(data, success, jqXHR) {
 			var headers = jqXHR.getAllResponseHeaders(),
 				body = jqXHR.responseText,
 				tempDiv = document.createElement('div'),
-				statusLine = "HTTP/1.1 " + jqXHR.status + " " + jqXHR.statusText + "\n",
+				statusLine = '',
 				statusType = this._getTypeFromStatus(jqXHR.status);
+
+			this._lastResponse = jqXHR;
+			this.element.find('.explorpc-viewraw').removeClass('ui-state-disabled');
 			
-			statusLine = "<span class=\"explorpc-" + statusType + "\">" + statusLine + "</span>";
+			statusLine = "<span class=\"explorpc-" + statusType + "\">" + this._getLastStatusLine() + "</span>";
 			CodeMirror.runMode(headers, "message/http", tempDiv);
 			this.element.find('.explorpc-response-headers pre').html(statusLine + tempDiv.innerHTML);
 

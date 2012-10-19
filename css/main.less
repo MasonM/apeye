@@ -1,3 +1,21 @@
+.explorpc-subheader {
+	font-size: 14px;
+	margin: 0 0 6px 0;
+	font-weight: bold;
+	width: 10em;
+	display: inline-block;
+}
+
+.explorpc-pre {
+	padding: 5px;
+	text-align: left;
+	margin: 0;
+	width: 100%;
+	background-color: #ddd;
+	font-size: 12px;
+	overflow: auto;
+}
+
 div.explorpc {
 	font-size: 0;
 	font-family: Droid Sans, Helvetica, sans-serif;
@@ -36,24 +54,12 @@ div.explorpc {
 	}
 
 	h4 {
-		font-size: 14px;
-		margin: 0 0 6px 0;
-		font-weight: bold;
-		width: 10em;
-		display: inline-block;
+		.explorpc-subheader;
 	}
 
 	.explorpc-response-headers, .explorpc-response-body {
 		text-align: center;
-		pre {
-			padding: 5px;
-			text-align: left;
-			margin: 0;
-			width: 100%;
-			background-color: #ddd;
-			font-size: 12px;
-			overflow: auto;
-		}
+		pre { .explorpc-pre; }
 	}
 
 	.explorpc-response-headers .cm-field-name {
@@ -101,11 +107,17 @@ div.explorpc {
 		right: 3px;
 	}
 
-	.explorpc-expand {
+	.explorpc-expand, .explorpc-viewraw {
 		position: absolute;
 		top: 0;
 		right: 0;
 		cursor: pointer;
+	}
+	.explorpc-viewraw {
+		right: 20px;
+		&.ui-state-disabled {
+			cursor: default;
+		}
 	}
 
 	.explorpc-auth {
@@ -165,9 +177,19 @@ div.explorpc {
 		height: 100%;
 	}
 }
+
 .ui-dialog.explorpc-dialog {
 	padding: 0 !important;
 	font-size: 12px;
+	text-align: center;
+	pre { .explorpc-pre; }
+	h4:first-child {
+		width: 15em;
+	}
+	h4 {
+		.explorpc-subheader;
+		margin-top: 6px;
+	}
 	.ui-dialog-titlebar {
 		border-radius: 0;
 		text-align: center;
