@@ -284,6 +284,9 @@
 					params.headers = { "SOAPAction": this.element.find('[name=method]').val() };
 					params.data = this._getSoapRequestBody();
 					break;
+				case 'raw':
+					params.data = this._bodyEditor.getValue();
+					break;
 			}
 
 			this._lastRequestParams = params;
@@ -307,7 +310,7 @@
 		},
 
 		_getSoapRequestBody: function() {
-			var body = this._bodyEditor.getVal(), request = '';
+			var body = this._bodyEditor.getValue(), request = '';
 			request = '<?xml version="1.0" encoding="UTF-8"?>' +
 				'<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:enc="http://www.w3.org/2003/05/soap-encoding">' +
 					'<env:Body>' + body + '</env:Body>' +
