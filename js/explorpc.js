@@ -163,13 +163,13 @@
 				"<pre>" +
 				this._lastRequestParams.type + " " + loc.pathname + " HTTP/1.1\n" +
 				"Host: " + loc.host + "\n\n" +
-				(this._lastRequestParams.data ? this._lastRequestParams.data : '') +
+				this._escapeHTML(this._lastRequestParams.data ? this._lastRequestParams.data : '') +
 				"</pre>\n" +
 				"<h4 class='ui-widget-header ui-corner-all'>HTTP Response</h1>\n" +
 				"<pre>" +
 				this._getLastStatusLine() +
 				this._lastResponse.getAllResponseHeaders() + "\n" +
-				this._lastResponse.responseText;
+				this._escapeHTML(this._lastResponse.responseText);
 				
 			this.element.find('.explorpc-dialog').html(html).dialog({
 				'title': 'Raw request and response',
@@ -178,6 +178,10 @@
 				'dialogClass': 'explorpc-dialog',
 				'close': this._getCloseDialogCallback()
 			});
+		},
+
+		_escapeHTML: function(html) {
+			return html.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 		},
 
 		_getLocation: function(href) {
