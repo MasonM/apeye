@@ -200,6 +200,7 @@
 
 			if (type === 'json-rpc' || type === 'soap') {
 				httpMethodSelect.val('post').attr('disabled', true);
+				this._httpMethodChanged();
 			} else {
 				httpMethodSelect.removeAttr('disabled');
 			}
@@ -249,7 +250,7 @@
 		_httpMethodChanged: function(event) {
 			var httpMethod = this.element.find('[name=httpMethod]').val();
 			this.element
-				.removeClass('explorpc-method-post explorpc-method-get explorpc-method-delete explorpc-method-trace')
+				.removeClass('explorpc-method-post explorpc-method-put explorpc-method-get explorpc-method-delete explorpc-method-trace')
 				.addClass('explorpc-method-' + httpMethod);
 		},
 
