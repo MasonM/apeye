@@ -156,7 +156,10 @@
 		}
 	}
 
-	&.explorpc-json-rpc .explorpc-notification, &.explorpc-json-rpc .explorpc-method, &.explorpc-soap .explorpc-method {
+	&.explorpc-json-rpc .explorpc-notification, &.explorpc-json-rpc .explorpc-method {
+		display: block;
+	}
+	&.explorpc-soap11 .explorpc-method, &.explorpc-soap12 .explorpc-method {
 		display: block;
 	}
 	&.explorpc-auth-basic .explorpc-request .explorpc-auth input {
