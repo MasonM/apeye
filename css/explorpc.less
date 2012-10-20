@@ -1,96 +1,35 @@
-.explorpc-subheader {
-	font-size: 14px;
-	margin: 0 0 6px 0;
-	font-weight: bold;
-	width: 10em;
-	display: inline-block;
-}
-
-.explorpc-pre {
-	padding: 5px;
-	text-align: left;
-	margin: 0;
-	background-color: #ddd;
-	font-size: 12px;
-	overflow: auto;
-}
-
-div.explorpc {
+.explorpc {
 	font-size: 0;
 	font-family: Droid Sans, Helvetica, sans-serif;
 	text-align: left;
 	width: 600px;
 	height: 440px;
 
+	.explorpc-subheader {
+		font-size: 14px;
+		margin: 0 0 6px 0;
+		font-weight: bold;
+		width: 10em;
+		display: inline-block;
+	}
+
+	.explorpc-pre {
+		padding: 5px;
+		text-align: left;
+		margin: 0;
+		background-color: #ddd;
+		font-size: 12px;
+		overflow: auto;
+	}
+
 	&.explorpc-expanded {
 		height: 100%;
 		width: 100%;
 	}
 
-	.ui-widget-header {
-		text-align: center;
-		margin-top: 0;
-		font-size: 14px;
-		padding: 0 5px;
-		position: relative;
-		h1 {
-			margin: 0;
-			font-size: 14px;
-		}
-	}
-
-	.explorpc-body, .explorpc-send {
-		text-align: center;
-	}
-
-	.explorpc-body textarea {
-		height: 100%;
-	}
-
-	.explorpc-response-headers {
-		height: 140px;
-		pre { height: 100px; }
-	}
-
-	h4 {
-		.explorpc-subheader;
-	}
-
-	.explorpc-response-headers, .explorpc-response-body {
-		text-align: center;
-		pre { .explorpc-pre; }
-	}
-
-	.explorpc-response-headers .cm-field-name {
-		font-weight: bold;
-	}
-
-	.explorpc-success {
-		color: green;
-	}
-
-	.explorpc-redirect {
-		color: yellow;
-	}
-
-	.explorpc-client-error {
-		color: red;
-	}
-
-	.explorpc-server-error {
-		color: #8B0000;
-	}
-
-	.username, .password { width: 40px }
-	.placeholder { color: #aaa; }
-	.field {
-		margin: 12px 0;
-		padding: 0 12px;
-		label {
-			margin-right: 4px;
-			font-weight: bold;
-		}
-		button { font-size: 14px; }
+	.ui-resizable-se {
+		bottom: -1px;
+		right: 3px;
 	}
 
 	.explorpc-request, .explorpc-response {
@@ -99,81 +38,140 @@ div.explorpc {
 		position: relative;
 		display: inline-block;
 		vertical-align: top;
-	}
 
-	.ui-resizable-se {
-		bottom: -1px;
-		right: 3px;
-	}
+		h4 { .explorpc-subheader; }
 
-	.explorpc-expand, .explorpc-viewraw {
-		position: absolute;
-		top: 0;
-		right: 0;
-		cursor: pointer;
-	}
-	.explorpc-viewraw {
-		right: 20px;
-		&.ui-state-disabled {
-			cursor: default;
+		.ui-widget-header {
+			text-align: center;
+			margin-top: 0;
+			font-size: 14px;
+			padding: 0 5px;
+			position: relative;
+			h1 {
+				margin: 0;
+				font-size: 14px;
+			}
 		}
 	}
 
-	.explorpc-auth {
-		display: inline-block;
+	.explorpc-request {
+		.username, .password { width: 40px }
+		.placeholder { color: #aaa; }
+		.explorpc-auth {
+			display: inline-block;
+		}
+		.explorpc-body, .explorpc-send {
+			text-align: center;
+		}
+
+		.explorpc-body textarea {
+			height: 100%;
+		}
+
+		.CodeMirror {
+			text-align: left;
+			&.explorpc-empty {
+				pre, pre span { color: #999 !important; }
+				.activeline { background: none !important; }
+			}
+			.activeline {
+				background: #e8f2ff;
+			}
+			font-size: 12px;
+			background-color: white;
+			width: 100%;
+			height: 100%;
+		}
+	}
+	
+	.explorpc-response {
+		.explorpc-response-headers, .explorpc-response-body {
+			text-align: center;
+			pre { .explorpc-pre; }
+		}
+
+		.explorpc-response-headers {
+			height: 140px;
+			pre { height: 100px; }
+			.cm-field-name { font-weight: bold; }
+		}
+
+		.explorpc-success {
+			color: green;
+		}
+
+		.explorpc-redirect {
+			color: yellow;
+		}
+
+		.explorpc-client-error {
+			color: red;
+		}
+
+		.explorpc-server-error {
+			color: #8B0000;
+		}
+
+		.explorpc-expand, .explorpc-viewraw {
+			position: absolute;
+			top: 0;
+			right: 0;
+			cursor: pointer;
+		}
+		.explorpc-viewraw {
+			right: 20px;
+			&.ui-state-disabled {
+				cursor: default;
+			}
+		}
 	}
 
-	.explorpc-notification, .explorpc-method, .explorpc-auth input, *[name="body"] {
-		display: none;
+	.field {
+		margin: 12px 0;
+		padding: 0 12px;
+
+		label {
+			margin-right: 4px;
+			font-weight: bold;
+		}
+		button { font-size: 14px; }
+		select, input, textarea, label {
+			display: inline-block;
+			font-size: 12px;
+		}
+		select, input {
+			margin: 2px;
+		}
+		input[type="checkbox"] {
+			vertical-align: top;
+		}
+		textarea:-moz-placeholder, input:-moz-placeholder {
+			color: #999;
+		}
+		textarea:-ms-input-placeholder, input:-ms-input-placeholder {
+			color: #999;
+		}
+		textarea::-webkit-input-placeholder, input::-webkit-input-placeholder {
+			color: #999;
+		}
 	}
 
 	&.explorpc-json-rpc .explorpc-notification, &.explorpc-json-rpc .explorpc-method, &.explorpc-soap .explorpc-method {
 		display: block;
 	}
-	&.explorpc-auth-basic .explorpc-auth input {
+	&.explorpc-auth-basic .explorpc-request .explorpc-auth input {
 		display: inline-block;
 	}
 	&.explorpc-method-post, &.explorpc-method-put {
-		*[name="body"] { display: inline-block; }
+		.explorpc-body { display: block; }
+	}
+
+	.explorpc-notification, .explorpc-method, .explorpc-request .explorpc-auth input, .explorpc-body {
+		display: none;
 	}
 
 	input, .CodeMirror, .explorpc-response pre {
 		border: 1px solid #ccc;
-	}
-
-	select, input, textarea, label {
-		display: inline-block;
-		font-size: 12px;
-	}
-	select, input {
-		margin: 2px;
-	}
-	input[type="checkbox"] {
-		vertical-align: top;
-	}
-	textarea:-moz-placeholder, input:-moz-placeholder {
-		color: #999;
-	}
-	textarea:-ms-input-placeholder, input:-ms-input-placeholder {
-		color: #999;
-	}
-	textarea::-webkit-input-placeholder, input::-webkit-input-placeholder {
-		color: #999;
-	}
-
-	.CodeMirror {
-		text-align: left;
-		&.explorpc-empty {
-			pre, pre span { color: #999 !important; }
-			.activeline { background: none !important; }
-		}
-		.activeline {
-			background: #e8f2ff;
-		}
-		font-size: 12px;
-		background-color: white;
-		width: 100%;
-		height: 100%;
 	}
 }
 
@@ -181,12 +179,12 @@ div.explorpc {
 	padding: 0 !important;
 	font-size: 12px;
 	text-align: center;
-	pre { .explorpc-pre; }
+	pre { .explorpc > .explorpc-pre; }
 	h4:first-child {
 		width: 15em;
 	}
 	h4 {
-		.explorpc-subheader;
+		.explorpc > .explorpc-subheader;
 		margin-top: 6px;
 	}
 	.ui-dialog-titlebar {
