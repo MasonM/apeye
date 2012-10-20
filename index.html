@@ -31,8 +31,7 @@
 		<script src="static/js/explorpc.js"></script>
 		<script type="text/javascript">
 			$(function() {
-				$('input, textarea').placeholder();
-				// $('#tryit').button().bind('click', function() { $('.explorpc').explorpc(); });
+				$('input').placeholder();
 				$('.explorpc').explorpc({
 					'url': 'api.explorpc.org/jsonrpc',
 					'method': 'add',
@@ -43,18 +42,13 @@
 	</head>
 
 	<body>
-		<!--[if lt IE 7]>
-			<p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
-		<![endif]-->
 		<h1>ExploRPC</h1>
-
-		<!-- <a href="#" id='tryit'>Try it with exploRPC</a> -->
 
 		<div class="explorpc">
 			<div class="explorpc-dialog"></div>
 			<section class="explorpc-request ui-widget ui-widget-content ui-corner-left ui-resizable">
 				<header class="ui-widget-header">
-					<h4 class="ui-corner-right">Request</h4>
+					<h4>Request</h4>
 				</header>
 				<div class="field">
 					<input type="text" name="url" placeholder="URL"/>
@@ -102,7 +96,7 @@
 			</section>
 			<section class="explorpc-response ui-widget ui-widget-content ui-corner-right">
 				<header class="ui-widget-header">
-					<h4 class="ui-corner-right">Response</h4>
+					<h4>Response</h4>
 					<a class="explorpc-viewraw ui-state-disabled" title="View raw request and response">
 						<span class="ui-icon ui-icon-clipboard">View raw</span>
 					</a>
