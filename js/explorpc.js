@@ -18,11 +18,11 @@
 			},
 			"soap": {
 				"[name=method]": "SOAPAction header",
-				"[name=body]": "<m:Search xmlns:m=\"http://google.com\"><term>foobar</term></m:Search>",
+				"[name=body]": "<m:Search xmlns:m=\"http://google.com\">\n\t<term>foobar</term>\n</m:Search>",
 			},
 			"xml-rpc": {
 				"[name=method]": "Method name",
-				"[name=body]": "<params><param><value>foo</value></param></params>",
+				"[name=body]": "<params>\n\t<param><value>foo</value></param>\n\t</params>",
 			},
 			"raw": {
 				"[name=body]": "",
@@ -68,7 +68,6 @@
 		_initRequestBody: function() {
 			this._bodyEditor = CodeMirror.fromTextArea(this.element.find('[name=body]')[0], {
 				lineNumbers: false,
-				lineWrapping: true,
 				matchBrackets: true,
 				indentUnit: 3,
 				// emulate HTML placeholders
