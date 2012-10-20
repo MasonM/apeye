@@ -46,7 +46,7 @@
 			this._initRequestBody();
 
 			this.element
-				.resizable({ handles: 'se', })
+				.resizable({ handles: 'se', }).find('.ui-resizable-se').addClass('ui-icon-grip-diagonal-se').end()
 				.resize($.proxy(this._adjustDimensions, this))
 				.delegate('[name=type]', 'change', $.proxy(this._typeChanged, this))
 				.delegate('[name=httpMethod]', 'change', $.proxy(this._httpMethodChanged, this))
