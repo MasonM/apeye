@@ -122,25 +122,34 @@
 
 				totalHeight = this.element.height(),
 				// totalHeight - header height - url field height - type/auth/http-method field height - header height - button height - field margins
-				bodyHeight = totalHeight - 22 - 34 - 36 - 22 - 45 - 24,
-				responseHeadersHeight = this.element.find('.explorpc-response-headers').outerHeight(),
-				// totalHeight - header height - responseHeadersHeight - padding
-				responseBodyHeight = totalHeight - 22 - responseHeadersHeight - 24 - 24;
+				requestBodyHeight = totalHeight - 22 - 34 - 36 - 22 - 45 - 24,
+
+				// Give the headers 40% of the available height, and the body 60%
+				// ((totalHeight - header height) * percentage) - upper/lower field margins
+				responseHeadersHeight = ((totalHeight - 22) * 0.4) - 24,
+				// responseHeadersHeight - h4 height - border/padding
+				responseHeadersPreHeight = responseHeadersHeight - 28 - 12,
+				// ((totalHeight - header height) * percentage) - lower field margins
+				responseBodyHeight = ((totalHeight - 22) * 0.6) - 12,
+				// responseBodyHeight - h4 height - border/padding
+				responseBodyPreHeight = responseBodyHeight - 28 - 12;
 
 			if (type !== "raw") {
-				bodyHeight -= 34; // method field height
-				if (type === "json-rpc") bodyHeight -= 33; // notification field height
+				requestBodyHeight -= 34; // method field height
+				if (type === "json-rpc") requestBodyHeight -= 33; // notification field height
 			}
 			if (auth) {
-				bodyHeight -= 24; // username/password
+				requestBodyHeight -= 24; // username/password
 			}
 			this.element
 				.find('.explorpc-request, .explorpc-response').height(totalHeight).width(sectionWidth).end()
 				.find('[name=url], [name=method], .explorpc-response pre').width(inputWidth).end()
 				.find('.explorpc-response-body').height(responseBodyHeight)
-					.find('pre').height(responseBodyHeight - 22).end().end()
+					.find('pre').height(responseBodyPreHeight).end().end()
+				.find('.explorpc-response-headers').height(responseHeadersHeight)
+					.find('pre').height(responseHeadersPreHeight).end().end()
 				.find('[name=username], [name=password]').width(authInputsWidth);
-			this._bodyEditor.setSize(inputWidth, bodyHeight);
+			this._bodyEditor.setSize(inputWidth, requestBodyHeight);
 		},
 
 		_buttonHover: function(event) {
