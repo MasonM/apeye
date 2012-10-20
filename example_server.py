@@ -31,6 +31,10 @@ def add():
 def index():
 	return open('index.html').read()
 
+@app.route("/tunnel.html")
+def tunnel():
+	return open('tunnel.html').read()
+
 if __name__ == "__main__":
 	app.debug = True
-	app.run()
+	app.run(port=80)
