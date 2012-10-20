@@ -148,7 +148,13 @@
 			html = "<h4 class='ui-widget-header ui-corner-all'>HTTP Request (incomplete)</h4>\n" +
 				"<pre>" +
 				this._lastRequestParams.type + " " + loc.pathname + " HTTP/1.1\n" +
-				"Host: " + loc.host + "\n\n" +
+				"Host: " + loc.host + "\n";
+			if (this._lastRequestParams.headers) {
+				$.each(this._lastRequestParams.headers, function (name, value) {
+					html += name + ": " + value + "\n";
+				});
+			}
+			html += "\n" +
 				this._escapeHTML(this._lastRequestParams.data ? this._lastRequestParams.data : '') +
 				"</pre>\n" +
 				"<h4 class='ui-widget-header ui-corner-all'>HTTP Response</h1>\n" +
@@ -181,10 +187,10 @@
 				httpMethodSelect = this.element.find('[name=httpMethod]');
 
 			this.element
-				.removeClass('explorpc-json-rpc explorpc-soap explorpc-raw')
+				.removeClass('explorpc-json-rpc explorpc-soap11 explorpc-soap12 explorpc-raw')
 				.addClass('explorpc-' + type);
 
-			if (type === 'json-rpc' || type === 'soap') {
+			if (type === 'json-rpc' || type === 'soap11' || type === 'soap12') {
 				httpMethodSelect.val('post').attr('disabled', true);
 				this._httpMethodChanged();
 			} else {
@@ -212,7 +218,7 @@
 		},
 
 		_updatePlaceholders: function() {
-			var placeholders = {};
+			var placeholders = {"method": '', "body": ''};
 			switch (this.element.find('[name=type]').val()) {
 				case 'json-rpc':
 					placeholders['method'] = "Method name";
