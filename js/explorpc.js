@@ -10,31 +10,9 @@
 			body: "",	
 			timeout: 5 * 1000,
 		},
-
-		_placeHolders: {
-			"json-rpc": {
-				"[name=method]": "Method name",
-				"[name=body]": "[\"Hello JSON-RPC\"]",
-			},
-			"soap": {
-				"[name=method]": "SOAPAction header",
-				"[name=body]": "<m:Search xmlns:m=\"http://google.com\">\n\t<term>foobar</term>\n</m:Search>",
-			},
-			"xml-rpc": {
-				"[name=method]": "Method name",
-				"[name=body]": "<params>\n\t<param><value>foo</value></param>\n\t</params>",
-			},
-			"raw": {
-				"[name=body]": "",
-			}
-		},
-
 		_bodyEditor: null,
-
 		_lastResponse: null,
-
 		_lastRequestParams: null,
-
 		_initialized: false,
 
 		_create: function() {
@@ -223,7 +201,8 @@
 			switch (this.element.find('[name=type]').val()) {
 				case 'json-rpc':
 					return 'JSON Params';
-				case 'soap':
+				case 'soap11':
+				case 'soap12':
 					return 'SOAP Body';
 				case 'xml-rpc':
 					return 'XML Payload';
@@ -233,10 +212,26 @@
 		},
 
 		_updatePlaceholders: function() {
-			var type = this.element.find('[name=type]').val();
+			var placeholders = {};
+			switch (this.element.find('[name=type]').val()) {
+				case 'json-rpc':
+					placeholders['method'] = "Method name";
+					placeholders['body'] = "[\"Hello JSON-RPC\"]";
+					break;
+				case 'soap11':
+				case 'soap12':
+					placeholders['method'] = "SOAPAction header";
+					placeholders['body'] = "<m:alert xmlns:m=\"http://example.org/alert\">\n\t<m:msg>Pickup Mary</m:msg>\n</m:alert>";
+					break;
+				case 'xml-rpc':
+					placeholders['method'] = "Method name";
+					placeholders['body'] = "<params>\n\t<param><value>foo</value></param>\n\t</params>";
+				case 'raw':
+				default:
+			}
 
-			$.each(this._placeHolders[type], $.proxy(function(selector, placeholderString) {
-				this.element.find(selector).attr('placeholder', placeholderString);
+			$.each(placeholders, $.proxy(function(name, placeholderString) {
+				this.element.find('[name=' + name + ']').attr('placeholder', placeholderString);
 			}, this));
 
 			// set placeholder text
@@ -247,7 +242,9 @@
 			switch (this.element.find('[name=type]').val()) {
 				case 'json-rpc':
 					return 'application/json';
-				case 'soap':
+				case 'soap11':
+				case 'soap12':
+				case 'xml-rpc':
 					return 'text/xml';
 				case 'raw':
 				default:
@@ -289,7 +286,8 @@
 				case 'json-rpc':
 					params.data = this._getJsonRPCRequestBody();
 					break;
-				case 'soap':
+				case 'soap11':
+				case 'soap12':
 					params.headers = { "SOAPAction": this.element.find('[name=method]').val() };
 					params.data = this._getSoapRequestBody();
 					break;
@@ -319,11 +317,19 @@
 		},
 
 		_getSoapRequestBody: function() {
-			var body = this._bodyEditor.getValue(), request = '';
-			request = '<?xml version="1.0" encoding="UTF-8"?>' +
-				'<env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:enc="http://www.w3.org/2003/05/soap-encoding">' +
-					'<env:Body>' + body + '</env:Body>' +
-				'</env:Envelope>';
+			var body = this._bodyEditor.getValue(),
+				type = this.element.find('[name=type]').val(),
+				request = '<?xml version="1.0" encoding="UTF-8"?>';
+
+			if (type === 'soap11') {
+				request += '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"' +
+					' soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">';
+			} else {
+				request += '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope">';
+			}
+			request += '<soap:Header/>' +
+					'<soap:Body>' + body + '</soap:Body>' +
+				'</soap:Envelope>';
 			return request;
 		},
 
