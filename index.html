@@ -19,19 +19,22 @@
 		<script src="static/js/jquery-1.8.1.min.js"></script>
 		<script src="static/js/jquery-ui-1.8.23.custom.min.js"></script>
 		<script src="static/js/jquery.placeholder.min.js"></script>
+		<script src="static/js/subdomain.js"></script>
+
 		<script src="static/codemirror/lib/codemirror.js"></script>
 		<script src="static/codemirror/mode/javascript/javascript.js"></script>
 		<script src="static/codemirror/mode/xml/xml.js"></script>
 		<script src="static/codemirror/lib/util/formatting.js"></script>
 		<script src="static/codemirror/lib/util/runmode.js"></script>
 		<script src="static/js/codemirror_httpheaders.js"></script>
+
 		<script src="static/js/explorpc.js"></script>
 		<script type="text/javascript">
 			$(function() {
 				$('input, textarea').placeholder();
 				// $('#tryit').button().bind('click', function() { $('.explorpc').explorpc(); });
 				$('.explorpc').explorpc({
-					'url': '127.0.0.1:5000/jsonrpc',
+					'url': 'api.explorpc.org/jsonrpc',
 					'method': 'add',
 					'body': '[3, 5]'
 				});
