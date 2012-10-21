@@ -8,6 +8,8 @@
 			url: "",
 			method: "",
 			body: "",	
+			username: "",
+			password: "",
 			timeout: 5 * 1000,
 			subdomainTunneling: false
 		},
@@ -19,7 +21,7 @@
 
 		_create: function() {
 			var self = this;
-			$.each(['type', 'httpMethod', 'auth', 'url', 'method', 'body'], function(i, fieldName) {
+			$.each(['type', 'httpMethod', 'auth', 'url', 'method', 'body', 'username', 'password'], function(i, fieldName) {
 				self.element.find('[name=' + fieldName + ']').val(self.option(fieldName));
 			});
 
