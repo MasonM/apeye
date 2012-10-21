@@ -9,11 +9,13 @@
 			method: "",
 			body: "",	
 			timeout: 5 * 1000,
+			subdomainTunneling: false
 		},
 		_bodyEditor: null,
 		_lastResponse: null,
 		_lastRequestParams: null,
 		_initialized: false,
+		_subdomainAjax: {},
 
 		_create: function() {
 			var self = this;
@@ -277,16 +279,49 @@
 			var responseSection = this.element.find('.explorpc-response');
 			this.element.find('.explorpc-spinner').show().position({ of: responseSection });
 			responseSection.fadeTo(0, 0.5);
-			this._doRequest();
+
+			if (this.option('subdomainTunneling')) {
+				this._tunnelRequest();
+			} else {
+				this._doRequest($.ajax);
+			}
 		},
 
-		_doRequest: function() {
-			var params = {};
-			params.url = this.element.find('[name=url]').val();
-			if (!params.url.match(/^https?:\/\//)) {
-				params.url = 'http://' + params.url;
+		_tunnelRequest: function() {
+			var loc = this._getLocation(this.getFullUrl());
+
+			// only do subdomain tunneling if request URL has a different hostname but the
+			// same domain suffix as document.domain
+			if (loc.host !== window.location.host && loc.host.match(document.domain + "$")) {
+				if (!this._subdomainAjax[loc.host]) {
+					var self = this;
+					$('<iframe>')
+						.attr('src', loc.protocol + '//' + loc.host + '/tunnel.html')
+						.load(function() {
+							self._subdomainAjax[loc.host] = this.contentWindow.jQuery.ajax;
+							self._doRequest(self._subdomainAjax[loc.host]);
+						})
+						.appendTo('head');
+				} else {
+					this._doRequest(this._subdomainAjax[loc.host]);
+				}
+			} else {
+				this._doRequest($.ajax);
 			}
+		},
+
+		getFullUrl: function() {
+			var url = this.element.find('[name=url]').val();
+			if (!url.match(/^https?:\/\//)) {
+				url = 'http://' + url;
+			}
+			return url;
+		},
+
+		_doRequest: function(ajax) {
+			var params = {};
 			params.type = this.element.find('[name=httpMethod]').val().toUpperCase();
+			params.url = this.getFullUrl();
 			params.dataType = 'text';
 			params.timeout = this.option('timeout');
 			params.processData = false;
@@ -313,7 +348,7 @@
 
 			this._lastRequestParams = params;
 
-			var req = $.ajax(params)
+			var req = ajax(params)
 				.fail($.proxy(this._requestError, this))
 				.done($.proxy(this._requestSuccess, this))
 				.always($.proxy(this._requestDone, this));

@@ -19,7 +19,6 @@
 		<script src="static/js/jquery-1.8.1.min.js"></script>
 		<script src="static/js/jquery-ui-1.8.23.custom.min.js"></script>
 		<script src="static/js/jquery.placeholder.min.js"></script>
-		<script src="static/js/subdomain.js"></script>
 
 		<script src="static/codemirror/lib/codemirror.js"></script>
 		<script src="static/codemirror/mode/javascript/javascript.js"></script>
@@ -31,12 +30,14 @@
 		<script src="static/js/explorpc.js"></script>
 		<script type="text/javascript">
 			$(function() {
+				document.domain = "explorpc.org";
 				$('input').placeholder();
 				$('.explorpc').explorpc({
 					'url': 'api.explorpc.org/soap',
 					'method': 'add',
 					'type': 'soap11',
-					'body': '<Adder xmlns="http://api.explorpc.org/sample.wsdl"><a>1</a><b>2</b></Adder>'
+					'body': '<Adder xmlns="http://api.explorpc.org/sample.wsdl"><a>1</a><b>2</b></Adder>',
+					'subdomainTunneling': true
 				});
 			});
 		</script>
