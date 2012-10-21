@@ -62,6 +62,7 @@
 						editor.setValue('');
 					}
 				},
+				//highlight active line
 				onCursorActivity: function (editor) {
 					if (this.highlightedLine) editor.setLineClass(this.highlightedLine, null, null);
 					this.highlightedLine = editor.setLineClass(editor.getCursor().line, null, "activeline");
@@ -355,7 +356,6 @@
 			var errorDesc = "Request failed. Error #" + jqXHR.status + ": " + jqXHR.statusText;
 
 			this.element
-				.find('[name=request]').removeClass('ui-state-disabled').end()
 				.find('.explorpc-response-headers pre').text('No response headers').end()
 				.find('.explorpc-response-body pre').text('No response body').end()
 				.find('.explorpc-dialog').text(errorDesc).dialog({
@@ -389,7 +389,7 @@
 				statusType = this._getTypeFromStatus(jqXHR.status);
 
 			this._lastResponse = jqXHR;
-			this.element.find('[name=request], .explorpc-viewraw').removeClass('ui-state-disabled');
+			this.element.find('.explorpc-viewraw').removeClass('ui-state-disabled');
 			
 			statusLine = "<span class=\"explorpc-" + statusType + "\">" + this._getLastStatusLine() + "</span>";
 			CodeMirror.runMode(headers, "message/http", tempDiv);
