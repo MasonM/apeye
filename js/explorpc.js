@@ -29,7 +29,7 @@
 				.delegate('[name=type]', 'change', $.proxy(this._typeChanged, this))
 				.delegate('[name=httpMethod]', 'change', $.proxy(this._httpMethodChanged, this))
 				.delegate('[name=auth]', 'change', $.proxy(this._authChanged, this))
-				.delegate('[name=request]', 'click', $.proxy(this._doRequest, this))
+				.delegate('[name=request]:not(.ui-state-disabled)', 'click', $.proxy(this._requestClicked, this))
 				.delegate('.explorpc-expand', 'click', $.proxy(this.toggleExpand, this))
 				.delegate('.explorpc-viewraw:not(.ui-state-disabled)', 'click', $.proxy(this.viewRaw, this))
 				.find('.explorpc-expand, .explorpc-viewraw').hover(this._buttonHover).end()
@@ -271,7 +271,15 @@
 			this._adjustDimensions();
 		},
 
-		_doRequest: function(event) {
+		_requestClicked: function(event) {
+			$(event.target).addClass('ui-state-disabled');
+			var responseSection = this.element.find('.explorpc-response');
+			this.element.find('.explorpc-spinner').show().position({ of: responseSection });
+			responseSection.fadeTo(0, 0.5);
+			this._doRequest();
+		},
+
+		_doRequest: function() {
 			var params = {};
 			params.url = this.element.find('[name=url]').val();
 			if (!params.url.match(/^https?:\/\//)) {
@@ -306,7 +314,8 @@
 
 			var req = $.ajax(params)
 				.fail($.proxy(this._requestError, this))
-				.done($.proxy(this._requestDone, this));
+				.done($.proxy(this._requestSuccess, this))
+				.always($.proxy(this._requestDone, this));
 		},
 
 		_getJsonRPCRequestBody: function() {
@@ -341,11 +350,12 @@
 
 		_requestError: function(jqXHR) {
 			if (jqXHR.status >= 200) {
-				return this._requestDone(null, null, jqXHR);
+				return this._requestSuccess(null, null, jqXHR);
 			}
 			var errorDesc = "Request failed. Error #" + jqXHR.status + ": " + jqXHR.statusText;
 
 			this.element
+				.find('[name=request]').removeClass('ui-state-disabled').end()
 				.find('.explorpc-response-headers pre').text('No response headers').end()
 				.find('.explorpc-response-body pre').text('No response body').end()
 				.find('.explorpc-dialog').text(errorDesc).dialog({
@@ -371,7 +381,7 @@
 			return "HTTP/1.1 " + this._lastResponse.status + " " + this._lastResponse.statusText + "\n";
 		},
 
-		_requestDone: function(data, success, jqXHR) {
+		_requestSuccess: function(data, success, jqXHR) {
 			var headers = jqXHR.getAllResponseHeaders(),
 				body = jqXHR.responseText,
 				tempDiv = document.createElement('div'),
@@ -379,7 +389,7 @@
 				statusType = this._getTypeFromStatus(jqXHR.status);
 
 			this._lastResponse = jqXHR;
-			this.element.find('.explorpc-viewraw').removeClass('ui-state-disabled');
+			this.element.find('[name=request], .explorpc-viewraw').removeClass('ui-state-disabled');
 			
 			statusLine = "<span class=\"explorpc-" + statusType + "\">" + this._getLastStatusLine() + "</span>";
 			CodeMirror.runMode(headers, "message/http", tempDiv);
@@ -388,6 +398,13 @@
 			tempDiv.innerHTML = '';
 			CodeMirror.runMode(body, this.getMimeType(), tempDiv);
 			this.element.find('.explorpc-response-body pre').html(tempDiv.innerHTML);
+		},
+
+		_requestDone: function() {
+			this.element
+				.find('[name=request]').removeClass('ui-state-disabled').end()
+				.find('.explorpc-response').fadeTo(0, 1).end()
+				.find('.explorpc-spinner').hide();
 		},
 
 		_getTypeFromStatus: function(status) {
