@@ -1,6 +1,7 @@
 ;(function ($, window, document, undefined) {
 	"use strict";
 	$.widget("mm.explorpc", {
+		paramNames: ['type', 'httpMethod', 'auth', 'url', 'method', 'body', 'username', 'password'],
 		options: {
 			type: "json-rpc",
 			httpMethod: "post",
@@ -21,7 +22,7 @@
 
 		_create: function() {
 			var self = this;
-			$.each(['type', 'httpMethod', 'auth', 'url', 'method', 'body', 'username', 'password'], function(i, fieldName) {
+			$.each(this.paramNames, function(i, fieldName) {
 				self.element.find('[name=' + fieldName + ']').val(self.option(fieldName));
 			});
 
