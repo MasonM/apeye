@@ -33,9 +33,10 @@
 			$(function() {
 				$('input').placeholder();
 				$('.explorpc').explorpc({
-					'url': 'api.explorpc.org/jsonrpc',
+					'url': 'api.explorpc.org/soap',
 					'method': 'add',
-					'body': '[3, 5]'
+					'type': 'soap11',
+					'body': '<Adder xmlns="http://api.explorpc.org/sample.wsdl"><a>1</a><b>2</b></Adder>'
 				});
 			});
 		</script>
@@ -70,7 +71,7 @@
 					</select>
 					<div class="explorpc-auth">
 						<select name="auth">
-							<option value="">No auth</option>
+							<option value="none">No auth</option>
 							<option value="basic">Basic</option>
 						</select>
 
