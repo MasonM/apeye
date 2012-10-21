@@ -313,7 +313,7 @@
 		getFullUrl: function() {
 			var url = this.element.find('[name=url]').val();
 			if (!url.match(/^https?:\/\//)) {
-				url = 'http://' + url;
+				url = window.location.protocol + '//' + url;
 			}
 			return url;
 		},
