@@ -275,9 +275,10 @@
 		},
 
 		_requestClicked: function(event) {
-			$(event.target).addClass('ui-state-disabled');
 			var responseSection = this.element.find('.explorpc-response');
-			this.element.find('.explorpc-spinner').show().position({ of: responseSection });
+			this.element
+				.find('[name=request]').addClass('ui-state-disabled').end()
+				.find('.explorpc-spinner').show().position({ of: responseSection });
 			responseSection.fadeTo(0, 0.5);
 
 			if (this.option('subdomainTunneling')) {
