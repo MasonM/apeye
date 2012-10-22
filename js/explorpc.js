@@ -29,7 +29,7 @@
 			this._initRequestBody();
 
 			this.element
-				.resizable({ handles: 'se', }).find('.ui-resizable-se').addClass('ui-icon-grip-diagonal-se').end()
+				.resizable({ handles: 'se' }).find('.ui-resizable-se').addClass('ui-icon-grip-diagonal-se').end()
 				.resize($.proxy(this._adjustDimensions, this))
 				.delegate('[name=type]', 'change', $.proxy(this._typeChanged, this))
 				.delegate('[name=httpMethod]', 'change', $.proxy(this._httpMethodChanged, this))
@@ -71,8 +71,7 @@
 				onCursorActivity: function (editor) {
 					if (this.highlightedLine) editor.setLineClass(this.highlightedLine, null, null);
 					this.highlightedLine = editor.setLineClass(editor.getCursor().line, null, "activeline");
-				}, 
-
+				}
 			});
 			this._bodyEditor.setValueToPlaceholder = function(editor) {
 				var placeholder = editor.getTextArea().getAttribute('placeholder'),
@@ -227,19 +226,18 @@
 			var placeholders = {"method": '', "body": ''};
 			switch (this.element.find('[name=type]').val()) {
 				case 'json-rpc':
-					placeholders['method'] = "Method name";
-					placeholders['body'] = "[\"Hello JSON-RPC\"]";
+					placeholders.method = "Method name";
+					placeholders.body = "[\"Hello JSON-RPC\"]";
 					break;
 				case 'soap11':
 				case 'soap12':
-					placeholders['method'] = "SOAPAction header";
-					placeholders['body'] = "<m:alert xmlns:m=\"http://example.org/alert\">\n\t<m:msg>Pickup Mary</m:msg>\n</m:alert>";
+					placeholders.method = "SOAPAction header";
+					placeholders.body = "<m:alert xmlns:m=\"http://example.org/alert\">\n\t<m:msg>Pickup Mary</m:msg>\n</m:alert>";
 					break;
 				case 'xml-rpc':
-					placeholders['method'] = "Method name";
-					placeholders['body'] = "<params>\n\t<param><value>foo</value></param>\n\t</params>";
-				case 'raw':
-				default:
+					placeholders.method = "Method name";
+					placeholders.body = "<params>\n\t<param><value>foo</value></param>\n\t</params>";
+					break;
 			}
 
 			$.each(placeholders, $.proxy(function(name, placeholderString) {
@@ -258,7 +256,6 @@
 				case 'soap12':
 				case 'xml-rpc':
 					return 'text/xml';
-				case 'raw':
 				default:
 					return 'text/plain';
 			}
@@ -273,7 +270,7 @@
 
 		_authChanged: function(event) {
 			var auth = this.element.find('[name=auth]').val();
-			this.element.toggleClass('explorpc-auth-basic', auth === 'basic')
+			this.element.toggleClass('explorpc-auth-basic', auth === 'basic');
 			this._adjustDimensions();
 		},
 
@@ -334,7 +331,7 @@
 			if (this.element.find('[name=auth]').val() === 'basic') {
 				var username = this.element.find('[name=username]').val(),
 					password = this.element.find('[name=password]').val();
-				params.headers['Authorization'] = 'Basic ' + window.btoa(username + ":" + password);
+				params.headers.Authorization = 'Basic ' + window.btoa(username + ":" + password);
 			}
 
 			params.contentType = this.getMimeType();
@@ -344,7 +341,7 @@
 					break;
 				case 'soap11':
 				case 'soap12':
-					params.headers["SOAPAction"] = this.element.find('[name=method]').val();
+					params.headers.SOAPAction = this.element.find('[name=method]').val();
 					params.data = this._getSoapRequestBody();
 					break;
 				case 'raw':
@@ -366,7 +363,7 @@
 				request = '';
 			request = '{"jsonrpc":"2.0","method":"' + method + '","params":' + params;
 			if (!this.element.find('[name=notification]:checked').length) request += ',"id": ' + this._getRandomId();
-			return request += '}';
+			return request + '}';
 		},
 
 		_getRandomId: function() {
