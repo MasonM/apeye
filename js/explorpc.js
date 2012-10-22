@@ -27,7 +27,6 @@
 			});
 
 			this._initRequestBody();
-			this._polyFillBase64();
 
 			this.element
 				.resizable({ handles: 'se', }).find('.ui-resizable-se').addClass('ui-icon-grip-diagonal-se').end()
@@ -47,28 +46,6 @@
 
 			this._initialized = true;
 			this._adjustDimensions();
-		},
-
-		_polyFillBase64: function() {
-			// base64 encoder
-			// [https://gist.github.com/999166] by [https://github.com/nignag]
-			window.btoa || (window.btoa = function (input) {
-				for (
-					// initialize result and counter
-					var block, charCode, idx = 0, map = chars, output = '';
-					// if the next input index does not exist:
-					// change the mapping table to "="
-					// check if d has no fractional digits
-					input.charAt(idx | 0) || (map = '=', idx % 1);
-					// "8 - idx % 1 * 8" generates the sequence 2, 4, 6, 8
-					output += map.charAt(63 & block >> 8 - idx % 1 * 8)
-					) {
-						charCode = input.charCodeAt(idx += 3/4);
-						if (charCode > 0xFF) throw INVALID_CHARACTER_ERR;
-						block = block << 8 | charCode;
-					}
-				return output;
-			});
 		},
 
 		_initRequestBody: function() {
