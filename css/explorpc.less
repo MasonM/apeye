@@ -13,7 +13,8 @@
 		font-size: 14px;
 		margin: 0 0 6px 0;
 		font-weight: bold;
-		width: 10em;
+		width: auto;
+		padding: 0 10px;
 		display: inline-block;
 		color: white;
 	}
@@ -48,16 +49,9 @@
 
 		h4 { .explorpc-subheader; }
 
-		.ui-widget-header {
+		header {
 			text-align: center;
-			margin-top: 0;
-			font-size: 14px;
-			padding: 0 5px;
-			position: relative;
-			h4 {
-				margin: 0;
-				font-size: 14px;
-			}
+			h4 { margin: 0; }
 		}
 	}
 
@@ -191,16 +185,12 @@
 	font-size: 12px;
 	text-align: center;
 	pre { .explorpc > .explorpc-pre; }
-	h4:first-child {
-		width: 15em;
-	}
 	h4 {
 		.explorpc > .explorpc-subheader;
 		margin-top: 6px;
 	}
 	.ui-dialog-titlebar {
 		border-radius: 0;
-		text-align: center;
 		padding: 0 5px !important;
 		font-size: 14px !important;
 	}
