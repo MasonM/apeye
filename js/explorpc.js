@@ -166,7 +166,8 @@
 				"<pre>" +
 				this._getLastStatusLine() +
 				this._lastResponse.getAllResponseHeaders() + "\n" +
-				this._escapeHTML(this._lastResponse.responseText);
+				this._escapeHTML(this._lastResponse.responseText) + 
+				"</pre>";
 				
 			this.element.find('.explorpc-dialog').html(html).dialog({
 				'title': 'Raw request and response',
