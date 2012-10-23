@@ -103,8 +103,8 @@
 				auth = this.element.find('[name=auth]').val(),
 
 				totalHeight = this.element.height(),
-				// totalHeight - header height - url field height - type/auth/http-method field height - header height - button height - field margins
-				requestBodyHeight = totalHeight - 22 - 34 - 36 - 22 - 45 - 24,
+				// totalHeight - borders - bottom margin
+				requestBodyHeight = totalHeight - 2 - 12,
 
 				// Give the headers 40% of the available height, and the body 60%
 				// ((totalHeight - header height) * percentage) - upper/lower field margins
@@ -116,13 +116,6 @@
 				// responseBodyHeight - h4 height - border/padding
 				responseBodyPreHeight = responseBodyHeight - 28 - 12;
 
-			if (type !== "raw") {
-				requestBodyHeight -= 34; // method field height
-				if (type === "json-rpc") requestBodyHeight -= 33; // notification field height
-			}
-			if (auth) {
-				requestBodyHeight -= 24; // username/password
-			}
 			this.element
 				.find('.explorpc-request, .explorpc-response').height(totalHeight).width(sectionWidth).end()
 				.find('[name=url], [name=method], .explorpc-response pre').width(inputWidth).end()
@@ -131,6 +124,14 @@
 				.find('.explorpc-response-headers').height(responseHeadersHeight)
 					.find('pre').height(responseHeadersPreHeight).end().end()
 				.find('[name=username], [name=password]').width(authInputsWidth);
+
+			// compute request body height by subtracting height of each of its siblings (plus the bottom margin)
+			this.element.find('.explorpc-body').siblings(':visible').each(function(i, element) {
+				requestBodyHeight -= ($(element).outerHeight() + 12)
+			});
+			// also subtract height of the header next to the editor
+			requestBodyHeight -= this.element.find('.explorpc-body h4').outerHeight(true);
+
 			this._bodyEditor.setSize(inputWidth, requestBodyHeight);
 		},
 
