@@ -295,7 +295,7 @@
 
 			// only do subdomain tunneling if request URL has a different hostname but the
 			// same domain suffix as document.domain
-			if (loc.host !== window.location.host && loc.host.match(document.domain + "$")) {
+			if (loc.host !== window.location.host && loc.hostname.match(document.domain + "$")) {
 				if (!this._subdomainAjax[loc.host]) {
 					var self = this;
 					$('<iframe>')
