@@ -37,6 +37,7 @@
 				.delegate('[name=request]:not(.ui-state-disabled)', 'click', $.proxy(this._requestClicked, this))
 				.delegate('.explorpc-expand', 'click', $.proxy(this.toggleExpand, this))
 				.delegate('.explorpc-viewraw:not(.ui-state-disabled)', 'click', $.proxy(this.viewRaw, this))
+				.delegate('.explorpc-h-expand', 'click', $.proxy(this.toggleHorizontalExpand, this))
 				.find('.explorpc-expand, .explorpc-viewraw').hover(this._buttonHover).end()
 				.find('button').button();
 
@@ -91,8 +92,9 @@
 				return;
 			}
 			var totalWidth = this.element.width(),
+				hExpand = this.element.hasClass('explorpc-horizontal-expanded'),
 				// subtract 3 pixels for the borders
-				sectionWidth = (totalWidth / 2) - 3,
+				sectionWidth = hExpand ? (totalWidth - 3) : ((totalWidth / 2) - 3),
 				// sectionWidth - input margins - .field padding
 				inputWidth = sectionWidth - 8 - 24,
 				authTypeWidth = this.element.find('[name=auth]').outerWidth(true),
@@ -158,6 +160,20 @@
 				.css('height', '')
 				.css('width', '')
 				.toggleClass('explorpc-expanded');
+			this._adjustDimensions();
+		},
+
+		toggleHorizontalExpand: function(event) {
+			var element = this.element,
+				className = 'explorpc-horizontal-expanded';
+			element
+				.toggleClass(className)
+				.find('.explorpc-h-expand span')
+					.removeClass('ui-icon-triangle-1-e ui-icon-triangle-1-w')
+					.toggleClass(function() {
+						return 'ui-icon-triangle-1-' + (element.hasClass(className) ? 'w' : 'e');
+					});
+
 			this._adjustDimensions();
 		},
 
