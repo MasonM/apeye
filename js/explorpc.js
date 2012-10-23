@@ -94,7 +94,7 @@
 			var totalWidth = this.element.width(),
 				hExpand = this.element.hasClass('explorpc-horizontal-expanded'),
 				// subtract 3 pixels for the borders
-				sectionWidth = hExpand ? (totalWidth - 3) : ((totalWidth / 2) - 3),
+				sectionWidth = (hExpand ? totalWidth : (totalWidth / 2)) - 3,
 				// sectionWidth - input margins - .field padding
 				inputWidth = sectionWidth - 8 - 24,
 				authTypeWidth = this.element.find('[name=auth]').outerWidth(true),
@@ -105,22 +105,23 @@
 				auth = this.element.find('[name=auth]').val(),
 
 				totalHeight = this.element.height(),
-				// totalHeight - borders - bottom margin
-				requestBodyHeight = totalHeight - 2 - 12,
+				sectionHeight = (hExpand ? (totalHeight / 2) : totalHeight) - 3,
+				// sectionHeight - borders - bottom margin
+				requestBodyHeight = sectionHeight - 2 - 12,
 
 				// Give the headers 40% of the available height, and the body 60%
-				// ((totalHeight - header height) * percentage) - upper/lower field margins
-				responseHeadersHeight = ((totalHeight - 22) * 0.4) - 24,
+				// ((sectionHeight - header height) * percentage) - upper/lower field margins
+				responseHeadersHeight = ((sectionHeight - 22) * 0.4) - 24,
 				// responseHeadersHeight - h4 height - border/padding
 				responseHeadersPreHeight = responseHeadersHeight - 28 - 12,
-				// ((totalHeight - header height) * percentage) - lower field margins
-				responseBodyHeight = ((totalHeight - 22) * 0.6) - 12,
+				// ((sectionHeight - header height) * percentage) - lower field margins
+				responseBodyHeight = ((sectionHeight - 22) * 0.6) - 12,
 				// responseBodyHeight - h4 height - border/padding
 				responseBodyPreHeight = responseBodyHeight - 28 - 12;
 
 			this.element
 				.find('.explorpc-request, .explorpc-response')
-					.height(totalHeight)
+					.height(sectionHeight)
 					.width(sectionWidth)
 					.end()
 				.find('[name=url], [name=method], .explorpc-response pre')
@@ -142,7 +143,7 @@
 					.width(authInputsWidth);
 
 			// compute request body height by subtracting height of each of its siblings (plus the bottom margin)
-			this.element.find('.explorpc-body').siblings(':visible').each(function(i, element) {
+			this.element.find('.explorpc-body').siblings(':visible:not(.explorpc-h-expand)').each(function(i, element) {
 				requestBodyHeight -= ($(element).outerHeight() + 12)
 			});
 			// also subtract height of the header next to the editor
