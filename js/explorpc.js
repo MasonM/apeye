@@ -117,13 +117,27 @@
 				responseBodyPreHeight = responseBodyHeight - 28 - 12;
 
 			this.element
-				.find('.explorpc-request, .explorpc-response').height(totalHeight).width(sectionWidth).end()
-				.find('[name=url], [name=method], .explorpc-response pre').width(inputWidth).end()
-				.find('.explorpc-response-body').height(responseBodyHeight)
-					.find('pre').height(responseBodyPreHeight).end().end()
-				.find('.explorpc-response-headers').height(responseHeadersHeight)
-					.find('pre').height(responseHeadersPreHeight).end().end()
-				.find('[name=username], [name=password]').width(authInputsWidth);
+				.find('.explorpc-request, .explorpc-response')
+					.height(totalHeight)
+					.width(sectionWidth)
+					.end()
+				.find('[name=url], [name=method], .explorpc-response pre')
+					.width(inputWidth)
+					.end()
+				.find('.explorpc-response-body')
+					.height(responseBodyHeight)
+					.find('pre')
+						.height(responseBodyPreHeight)
+						.end()
+					.end()
+				.find('.explorpc-response-headers')
+					.height(responseHeadersHeight)
+					.find('pre')
+						.height(responseHeadersPreHeight)
+						.end()
+					.end()
+				.find('[name=username], [name=password]')
+					.width(authInputsWidth);
 
 			// compute request body height by subtracting height of each of its siblings (plus the bottom margin)
 			this.element.find('.explorpc-body').siblings(':visible').each(function(i, element) {
