@@ -45,6 +45,12 @@
 			this._authChanged();
 			this._typeChanged();
 
+			this._responseBodyEditor = CodeMirror.fromTextArea(this.element.find('[name=responseBody]')[0], {
+				lineNumbers: false,
+				indentUnit: 3,
+				readOnly: true
+			});
+
 			this._initialized = true;
 			this._adjustDimensions();
 		},
@@ -124,14 +130,11 @@
 					.height(sectionHeight)
 					.width(sectionWidth)
 					.end()
-				.find('[name=url], [name=method], .explorpc-response pre')
+				.find('[name=url], [name=method], .explorpc-response-headers pre')
 					.width(inputWidth)
 					.end()
 				.find('.explorpc-response-body')
 					.height(responseBodyHeight)
-					.find('pre')
-						.height(responseBodyPreHeight)
-						.end()
 					.end()
 				.find('.explorpc-response-headers')
 					.height(responseHeadersHeight)
@@ -149,6 +152,7 @@
 			// also subtract height of the header next to the editor
 			requestBodyHeight -= this.element.find('.explorpc-body h4').outerHeight(true);
 
+			this._responseBodyEditor.setSize(inputWidth, responseBodyPreHeight)
 			this._bodyEditor.setSize(inputWidth, requestBodyHeight);
 		},
 
@@ -171,7 +175,7 @@
 				.toggleClass(className)
 				.find('.explorpc-h-expand span')
 					.removeClass('ui-icon-triangle-1-e ui-icon-triangle-1-w')
-					.toggleClass(function() {
+					.addClass(function() {
 						return 'ui-icon-triangle-1-' + (element.hasClass(className) ? 'w' : 'e');
 					});
 
@@ -426,9 +430,9 @@
 			}
 			var errorDesc = "Request failed. Error #" + jqXHR.status + ": " + jqXHR.statusText;
 
+			this._responseBodyEditor.setValue('');
 			this.element
 				.find('.explorpc-response-headers pre').text('No response headers').end()
-				.find('.explorpc-response-body pre').text('No response body').end()
 				.find('.explorpc-dialog').text(errorDesc).dialog({
 					'title': 'Request failed',
 					'height': 'auto',
@@ -466,9 +470,8 @@
 			CodeMirror.runMode(headers, "message/http", tempDiv);
 			this.element.find('.explorpc-response-headers pre').html(statusLine + tempDiv.innerHTML);
 
-			tempDiv.innerHTML = '';
-			CodeMirror.runMode(body, this.getMimeType(), tempDiv);
-			this.element.find('.explorpc-response-body pre').html(tempDiv.innerHTML);
+			this._responseBodyEditor.setOption('mode', this.getMimeType());
+			this._responseBodyEditor.setValue(body);
 		},
 
 		_requestDone: function() {

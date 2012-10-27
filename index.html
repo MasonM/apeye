@@ -32,11 +32,20 @@
 			$(function() {
 				document.domain = "explorpc.org";
 				$('input').placeholder();
+				/*
+				$('.explorpc').explorpc({
+					'url': 'api.explorpc.org/jsonrpc',
+					'method': 'add',
+					'type': 'json-rpc',
+					'body': "[3,5]",
+					'subdomainTunneling': true
+				});
+				*/
 				$('.explorpc').explorpc({
 					'url': 'api.explorpc.org/soap',
 					'method': 'add',
 					'type': 'soap11',
-					'body': '<Adder xmlns="http://api.explorpc.org/sample.wsdl"><a>1</a><b>2</b></Adder>',
+					'body': "<Adder xmlns=\"http://api.explorpc.org/sample.wsdl\">\n<a>1</a><b>2</b>\n</Adder>",
 					'subdomainTunneling': true
 				});
 			});
@@ -129,7 +138,7 @@
 
 				<div class="field explorpc-response-body cm-s-default">
 					<h4 class="ui-widget-header ui-corner-all">HTTP Body</h4>
-					<pre>No response body</pre>
+					<textarea name="responseBody"></textarea>
 				</div>
 			</section>
 			<img class="explorpc-spinner" src="/static/images/spinner.gif" width="32" height="32"/>

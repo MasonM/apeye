@@ -18,8 +18,7 @@
 	}
 
 	.explorpc-pre {
-		white-space: pre-wrap;
-		word-wrap: break-word;
+		white-space: pre;
 		padding: 5px;
 		text-align: left;
 		margin: 0;
@@ -34,7 +33,7 @@
 	}
 
 	.ui-resizable-se {
-		bottom: -1px;
+		bottom: 1px;
 		right: 3px;
 		height: 14px;
 		width: 14px;
@@ -55,6 +54,25 @@
 		}
 	}
 
+	.CodeMirror {
+		text-align: left;
+		font-size: 12px;
+		margin: 0;
+
+		.activeline {
+			background: #e8f2ff;
+		}
+
+		&.explorpc-empty {
+			pre, pre span { color: #999 !important; }
+			.activeline { background: none !important; }
+		}
+
+		pre {
+			overflow: visible;
+		}
+	}
+
 	.explorpc-request {
 		border-right-width: 0;
 		.username, .password { width: 40px }
@@ -71,18 +89,6 @@
 		}
 
 		.CodeMirror {
-			text-align: left;
-			&.explorpc-empty {
-				pre, pre span { color: #999 !important; }
-				.activeline { background: none !important; }
-			}
-			.activeline {
-				background: #e8f2ff;
-			}
-			pre {
-				overflow: visible;
-			}
-			font-size: 12px;
 			background-color: white;
 			width: 100%;
 			height: 100%;
@@ -102,9 +108,16 @@
 	}
 	
 	.explorpc-response {
-		.explorpc-response-headers, .explorpc-response-body {
+		.explorpc-response-headers {
 			text-align: center;
 			pre { .explorpc-pre; }
+		}
+
+		.explorpc-response-body {
+			text-align: center;
+			.CodeMirror {
+				background-color: #ddd;
+			}
 		}
 
 		.explorpc-response-headers .cm-field-name {
@@ -188,7 +201,7 @@
 		display: none;
 	}
 
-	input, .CodeMirror, .explorpc-response pre {
+	input, .CodeMirror, .explorpc-response-headers pre {
 		border: 1px solid #ccc;
 	}
 }
