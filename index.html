@@ -26,6 +26,7 @@
 		<script src="static/codemirror/lib/util/formatting.js"></script>
 		<script src="static/codemirror/lib/util/runmode.js"></script>
 		<script src="static/js/codemirror_httpheaders.js"></script>
+		<script src="static/js/codemirror_jsonformatting.js"></script>
 
 		<script src="static/js/explorpc.js"></script>
 		<script type="text/javascript">
@@ -142,12 +143,17 @@
 					</div>
 				</header>
 
-				<h4 class="ui-widget-header ui-corner-all">HTTP Headers</h4>
+				<h4 class="ui-widget-header ui-corner-all explorpc-response-headers-header">HTTP Headers</h4>
 				<div class="field explorpc-response-headers cm-s-default">
 					<pre>No response headers</pre>
 				</div>
 
-				<h4 class="ui-widget-header ui-corner-all">HTTP Body</h4>
+				<h4 class="ui-widget-header ui-corner-all explorpc-response-body-header">
+					HTTP Body
+					<a class="explorpc-autoformat ui-state-disabled" title="Autoformat body">
+						<span class="ui-icon ui-icon-document">Autoformat</span>
+					</a>
+				</h4>
 				<div class="field explorpc-response-body cm-s-default">
 					<textarea name="responseBody"></textarea>
 				</div>

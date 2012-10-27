@@ -35,11 +35,7 @@
 
 			// initialize CodeMirror instances
 			this._initRequestBody();
-			this._responseBodyEditor = CodeMirror.fromTextArea(this.element.find('[name=responseBody]')[0], {
-				lineNumbers: false,
-				indentUnit: this.option('indent'),
-				readOnly: true
-			});
+			this._initResponseBody();
 			
 			// initialize elements
 			this.element
@@ -58,9 +54,10 @@
 				.delegate('[name=auth]', 'change', $.proxy(this._authChanged, this))
 				.delegate('[name=request]:not(.ui-state-disabled)', 'click', $.proxy(this._requestClicked, this))
 				.delegate('.explorpc-expand', 'click', $.proxy(this.toggleExpand, this))
-				.delegate('.explorpc-viewraw:not(.ui-state-disabled)', 'click', $.proxy(this.viewRaw, this))
 				.delegate('.explorpc-h-expand', 'click', $.proxy(this.toggleHorizontalExpand, this))
-				.delegate('.explorpc-expand, .explorpc-viewraw', 'hover', this._buttonHover);
+				.delegate('.explorpc-viewraw:not(.ui-state-disabled)', 'click', $.proxy(this.viewRaw, this))
+				.delegate('.explorpc-autoformat:not(.ui-state-disabled)', 'click', $.proxy(this.autoFormatBody, this))
+				.delegate('.explorpc-expand, .explorpc-viewraw, .explorpc-autoformat', 'hover', this._buttonHover);
 
 			this._httpMethodChanged();
 			this._authChanged();
@@ -106,6 +103,14 @@
 			if (!this.option('body').length) {
 				this._requestBodyEditor.getWrapperElement().className += ' explorpc-empty';
 			}
+		},
+
+		_initResponseBody: function() {
+			this._responseBodyEditor = CodeMirror.fromTextArea(this.element.find('[name=responseBody]')[0], {
+				lineNumbers: false,
+				indentUnit: this.option('indent'),
+				readOnly: true
+			});
 		},
 
 		_adjustDimensions: function() {
@@ -159,8 +164,8 @@
 					requestBodyHeight -= ($(element).outerHeight() + 12);
 				});
 
-			this._responseBodyEditor.setSize(inputWidth, responseBodyHeight);
 			this._requestBodyEditor.setSize(inputWidth, requestBodyHeight);
+			this._responseBodyEditor.setSize(inputWidth, responseBodyHeight);
 		},
 
 		_buttonHover: function(event) {
@@ -225,6 +230,16 @@
 					'dialogClass': 'explorpc-dialog',
 					'close': this._getCloseDialogCallback()
 				});
+		},
+		
+		autoFormatBody: function() {
+			var lastLineIndex = this._responseBodyEditor.lineCount() - 1,
+				lastLine = this._responseBodyEditor.getLine(lastLineIndex),
+				range = {
+					from: { line: 0, ch: 0 },
+					to: { line: lastLineIndex, ch: lastLine.length }
+				};
+			this._responseBodyEditor.autoFormatRange(range.from, range.to);
 		},
 
 		_escapeHTML: function(html) {
@@ -495,7 +510,7 @@
 
 			this._lastResponse = jqXHR;
 			this.element
-				.find('.explorpc-viewraw')
+				.find('.explorpc-viewraw, .explorpc-autoformat')
 				.removeClass('ui-state-disabled');
 			
 			statusLine = "<span class=\"explorpc-" + statusType + "\">" + this._getLastStatusLine() + "</span>";
