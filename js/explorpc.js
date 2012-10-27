@@ -1,8 +1,8 @@
 ;(function ($, window, document, undefined) {
 	"use strict";
 	$.widget("mm.explorpc", {
-		paramNames: ['type', 'httpMethod', 'auth', 'url', 'method', 'body', 'username', 'password'],
 		options: {
+			// field setters
 			type: "json-rpc",
 			httpMethod: "post",
 			auth: "basic",
@@ -11,19 +11,27 @@
 			body: "",	
 			username: "",
 			password: "",
+
+			// misc options
 			indent: 3,
 			timeout: 5 * 1000,
-			subdomainTunneling: false
+			subdomainTunneling: false,
+			tunnelFilepath: "/tunnel.html"
 		},
+		// field names
+		paramNames: ['type', 'httpMethod', 'auth', 'url', 'method', 'body', 'username', 'password'],
 		// codemirror instance for request body
 		_requestBodyEditor: null,
 		// codemirror instance for response body
 		_responseBodyEditor: null,
+		// last response/request data, used by "view raw request/response" dialog
 		_lastResponse: null,
 		_lastRequestParams: null,
+		// flag that indicates _create() has finished element initialization
 		_initialized: false,
-		// cache of each jQuery.ajax object for the subdomains we've connected to, so we
-		// don't have to keep requesting tunnel.html
+		// Cache of the jQuery.ajax objects provided by tunnel.html, as served by each of the
+		// subdomains we've connected to. This means we only have to fetch tunnel.html once
+		// for each subdomain request.
 		_subdomainAjax: {},
 
 		_create: function() {
@@ -374,7 +382,7 @@
 				if (!this._subdomainAjax[loc.host]) {
 					var self = this;
 					$('<iframe>')
-						.attr('src', loc.protocol + '//' + loc.host + '/tunnel.html')
+						.attr('src', loc.protocol + '//' + loc.host + this.option('tunnelFilepath'))
 						.load(function() {
 							self._subdomainAjax[loc.host] = this.contentWindow.jQuery.ajax;
 							self._doRequest(self._subdomainAjax[loc.host]);
