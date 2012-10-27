@@ -143,9 +143,9 @@
 
 				// Give the headers 40% of the available height, and the body 60%
 				// ((sectionHeight - header height) * percentage) - h4 height - .field margins
-				responseHeadersHeight = ((sectionHeight- 22) * 0.4) - 28 - 24,
+				responseHeadersHeight = ((sectionHeight- 22) * 0.4) - 32 - 24,
 				// ((sectionHeight - header height) * percentage) - h4 height - .field margins
-				responseBodyHeight = ((sectionHeight - 22) * 0.6) - 28 - 24;
+				responseBodyHeight = ((sectionHeight - 22) * 0.6) - 32 - 24;
 
 			this.element
 				.find('.explorpc-request, .explorpc-response')
