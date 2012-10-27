@@ -68,13 +68,16 @@
 
 		<div class="explorpc">
 			<div class="explorpc-dialog"></div>
+
 			<section class="explorpc-request ui-widget ui-widget-content ui-corner-left ui-resizable">
 				<header class="ui-widget-header">
 					<h4>Request</h4>
 				</header>
+
 				<div class="field">
 					<input type="text" name="url" placeholder="URL"/>
 				</div>
+
 				<div class="field">
 					<select name="type">
 						<option value="raw">Raw</option>
@@ -100,26 +103,32 @@
 						<input type="text" name="password" placeholder="Password"/>
 					</div>
 				</div>
+
 				<div class="field explorpc-method">
 					<input type="text" name="method" placeholder="Method"/>
 				</div>
+
 				<div class="field explorpc-notification">
 					<label>
 						Notification?
 						<input type="checkbox" name="notification"/>
 					</label>
 				</div>
+
+				<h4 class="ui-widget-header ui-corner-all">Request body</h4>
 				<div class="field explorpc-body">
-					<h4 class="ui-widget-header ui-corner-all">Request body</h4>
 					<textarea name="body"></textarea>
 				</div>
+
 				<div class="field explorpc-send">
 					<button name="request">Send</button>
 				</div>
+
 				<div class="ui-widget-content ui-corner-all explorpc-h-expand">
 					<span class="ui-icon ui-icon-triangle-1-e"></span>
 				</div>
 			</section>
+
 			<section class="explorpc-response ui-widget ui-widget-content ui-corner-right">
 				<header class="ui-widget-header">
 					<h4>Response</h4>
@@ -131,16 +140,17 @@
 					</a>
 				</header>
 
+				<h4 class="ui-widget-header ui-corner-all">HTTP Headers</h4>
 				<div class="field explorpc-response-headers cm-s-default">
-					<h4 class="ui-widget-header ui-corner-all">HTTP Headers</h4>
 					<pre>No response headers</pre>
 				</div>
 
+				<h4 class="ui-widget-header ui-corner-all">HTTP Body</h4>
 				<div class="field explorpc-response-body cm-s-default">
-					<h4 class="ui-widget-header ui-corner-all">HTTP Body</h4>
 					<textarea name="responseBody"></textarea>
 				</div>
 			</section>
+
 			<img class="explorpc-spinner" src="/static/images/spinner.gif" width="32" height="32"/>
 		</div>
 	</body>

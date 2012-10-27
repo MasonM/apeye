@@ -132,14 +132,10 @@
 				requestBodyHeight = sectionHeight - 2 - 12,
 
 				// Give the headers 40% of the available height, and the body 60%
-				// ((sectionHeight - header height) * percentage) - upper/lower field margins
-				responseHeadersHeight = ((sectionHeight - 22) * 0.4) - 24,
-				// responseHeadersHeight - h4 height - border/padding
-				responseHeadersPreHeight = responseHeadersHeight - 28 - 12,
-				// ((sectionHeight - header height) * percentage) - lower field margins
-				responseBodyHeight = ((sectionHeight - 22) * 0.6) - 12,
-				// responseBodyHeight - h4 height - border/padding
-				responseBodyPreHeight = responseBodyHeight - 28 - 12;
+				// ((sectionHeight - header height) * percentage) - h4 height - upper/lower field margins
+				responseHeadersHeight = ((sectionHeight- 22) * 0.4) - 28 - 24,
+				// ((sectionHeight - header height) * percentage) - border/field margins
+				responseBodyHeight = ((sectionHeight - 22) * 0.6) - 28 - 24;
 
 			this.element
 				.find('.explorpc-request, .explorpc-response')
@@ -154,9 +150,6 @@
 					.end()
 				.find('.explorpc-response-headers')
 					.height(responseHeadersHeight)
-					.find('pre')
-						.height(responseHeadersPreHeight)
-						.end()
 					.end()
 				.find('[name=username], [name=password]')
 					.width(authInputsWidth);
@@ -165,10 +158,8 @@
 			this.element.find('.explorpc-body').siblings(':visible:not(.explorpc-h-expand)').each(function(i, element) {
 				requestBodyHeight -= ($(element).outerHeight() + 12)
 			});
-			// also subtract height of the header next to the editor
-			requestBodyHeight -= this.element.find('.explorpc-body h4').outerHeight(true);
 
-			this._responseBodyEditor.setSize(inputWidth, responseBodyPreHeight)
+			this._responseBodyEditor.setSize(inputWidth, responseBodyHeight)
 			this._requestBodyEditor.setSize(inputWidth, requestBodyHeight);
 		},
 

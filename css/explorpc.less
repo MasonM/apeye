@@ -1,15 +1,16 @@
 .explorpc {
 	font-size: 0;
-	text-align: left;
+	text-align: center;
 
 	.explorpc-spinner {
 		display: none;
 	}
 
 	.explorpc-subheader {
+		text-align: left;
 		line-height: 16px;
 		font-size: 14px;
-		margin: 0 0 6px 0;
+		margin: 0;
 		font-weight: bold;
 		width: auto;
 		padding: 0 10px;
@@ -46,11 +47,8 @@
 		display: inline-block;
 		vertical-align: top;
 
-		h4 { .explorpc-subheader; }
-
-		header {
-			text-align: center;
-			h4 { margin: 0; }
+		h4 {
+			.explorpc-subheader;
 		}
 	}
 
@@ -108,20 +106,26 @@
 	}
 	
 	.explorpc-response {
-		.explorpc-response-headers {
-			text-align: center;
-			pre { .explorpc-pre; }
+		header h4 {
+			margin: 0;
+		}
+		h4 {
+			margin: 12px 0 0;
 		}
 
-		.explorpc-response-body {
-			text-align: center;
-			.CodeMirror {
-				background-color: #ddd;
+		.explorpc-response-headers {
+			pre { 
+				.explorpc-pre;
+	 			height: 100%;
+				width: 100%;
+			}
+			.cm-field-name {
+				font-weight: bold;
 			}
 		}
 
-		.explorpc-response-headers .cm-field-name {
-			font-weight: bold;
+		.explorpc-response-body .CodeMirror {
+			background-color: #ddd;
 		}
 
 		.explorpc-success {
@@ -146,6 +150,7 @@
 			right: 0;
 			cursor: pointer;
 		}
+
 		.explorpc-viewraw {
 			right: 20px;
 			&.ui-state-disabled {
@@ -157,6 +162,7 @@
 	.field {
 		margin: 12px 0;
 		padding: 0 12px;
+		text-align: left;
 
 		label {
 			margin-right: 4px;
@@ -210,10 +216,12 @@
 	padding: 0 !important;
 	font-size: 12px;
 	text-align: center;
-	pre { .explorpc > .explorpc-pre; }
+	pre {
+		.explorpc > .explorpc-pre;
+	}
 	h4 {
 		.explorpc > .explorpc-subheader;
-		margin-top: 6px;
+		margin: 12px 0;
 	}
 	.ui-dialog-titlebar {
 		border-radius: 0;
