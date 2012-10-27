@@ -15,22 +15,43 @@
 			timeout: 5 * 1000,
 			subdomainTunneling: false
 		},
-		_bodyEditor: null,
+		// codemirror instance for request body
+		_requestBodyEditor: null,
+		// codemirror instance for response body
+		_responseBodyEditor: null,
 		_lastResponse: null,
 		_lastRequestParams: null,
 		_initialized: false,
+		// cache of each jQuery.ajax object for the subdomains we've connected to, so we
+		// don't have to keep requesting tunnel.html
 		_subdomainAjax: {},
 
 		_create: function() {
+			// set field values
 			var self = this;
 			$.each(this.paramNames, function(i, fieldName) {
 				self.element.find('[name=' + fieldName + ']').val(self.option(fieldName));
 			});
 
+			// initialize CodeMirror instances
 			this._initRequestBody();
-
+			this._responseBodyEditor = CodeMirror.fromTextArea(this.element.find('[name=responseBody]')[0], {
+				lineNumbers: false,
+				indentUnit: this.option('indent'),
+				readOnly: true
+			});
+			
+			// initialize elements
 			this.element
-				.resizable({ handles: 'se' }).find('.ui-resizable-se').addClass('ui-icon-grip-diagonal-se').end()
+				.resizable({ handles: 'se' })
+				.find('.ui-resizable-se')
+					.addClass('ui-icon-grip-diagonal-se')
+					.end()
+				.find('button')
+					.button();
+
+			// register events
+			this.element
 				.resize($.proxy(this._adjustDimensions, this))
 				.delegate('[name=type]', 'change', $.proxy(this._typeChanged, this))
 				.delegate('[name=httpMethod]', 'change', $.proxy(this._httpMethodChanged, this))
@@ -39,40 +60,32 @@
 				.delegate('.explorpc-expand', 'click', $.proxy(this.toggleExpand, this))
 				.delegate('.explorpc-viewraw:not(.ui-state-disabled)', 'click', $.proxy(this.viewRaw, this))
 				.delegate('.explorpc-h-expand', 'click', $.proxy(this.toggleHorizontalExpand, this))
-				.find('.explorpc-expand, .explorpc-viewraw').hover(this._buttonHover).end()
-				.find('button').button();
+				.delegate('.explorpc-expand, .explorpc-viewraw', 'hover', this._buttonHover);
 
 			this._httpMethodChanged();
 			this._authChanged();
 			this._typeChanged();
-
-			this._responseBodyEditor = CodeMirror.fromTextArea(this.element.find('[name=responseBody]')[0], {
-				lineNumbers: false,
-				indentUnit: this.option('indent'),
-				readOnly: true
-			});
-
 			this._initialized = true;
 			this._adjustDimensions();
 		},
 
 		_initRequestBody: function() {
-			this._bodyEditor = CodeMirror.fromTextArea(this.element.find('[name=body]')[0], {
+			this._requestBodyEditor = CodeMirror.fromTextArea(this.element.find('[name=body]')[0], {
 				lineNumbers: false,
 				matchBrackets: true,
 				indentUnit: this.option('indent'),
 				// emulate HTML placeholders
-				onBlur: function(editor) {
-					if (editor.getValue().length === 0) {
-						editor.getWrapperElement().className += ' explorpc-empty';
-						editor.setValueToPlaceholder(editor);
-					}
-				},
 				onFocus: function(editor) {
 					var wrapper = editor.getWrapperElement();
 					if (wrapper.className.indexOf('explorpc-empty') !== -1) {
 						wrapper.className = wrapper.className.replace('explorpc-empty', '');
 						editor.setValue('');
+					}
+				},
+				onBlur: function(editor) {
+					if (editor.getValue().length === 0) {
+						editor.getWrapperElement().className += ' explorpc-empty';
+						editor.setValueToPlaceholder(editor);
 					}
 				},
 				//highlight active line
@@ -81,15 +94,17 @@
 					this.highlightedLine = editor.setLineClass(editor.getCursor().line, null, "activeline");
 				}
 			});
-			this._bodyEditor.setValueToPlaceholder = function(editor) {
+
+			this._requestBodyEditor.setValueToPlaceholder = function(editor) {
 				var placeholder = editor.getTextArea().getAttribute('placeholder'),
 					wrapper = editor.getWrapperElement();
 				if (wrapper.className.indexOf('explorpc-empty') !== -1) {
 					editor.setValue(placeholder);
 				}
 			};
+
 			if (!this.option('body').length) {
-				this._bodyEditor.getWrapperElement().className += ' explorpc-empty';
+				this._requestBodyEditor.getWrapperElement().className += ' explorpc-empty';
 			}
 		},
 
@@ -154,11 +169,12 @@
 			requestBodyHeight -= this.element.find('.explorpc-body h4').outerHeight(true);
 
 			this._responseBodyEditor.setSize(inputWidth, responseBodyPreHeight)
-			this._bodyEditor.setSize(inputWidth, requestBodyHeight);
+			this._requestBodyEditor.setSize(inputWidth, requestBodyHeight);
 		},
 
 		_buttonHover: function(event) {
-			$(this).toggleClass('ui-state-hover', (event.type === 'mouseenter' && !$(this).hasClass('ui-state-disabled')));
+			var isHovering = event.type === 'mouseenter' && !$(this).hasClass('ui-state-disabled');
+			$(this).toggleClass('ui-state-hover', isHovering);
 		},
 
 		toggleExpand: function(event) {
@@ -240,7 +256,7 @@
 				httpMethodSelect.removeAttr('disabled');
 			}
 
-			this._bodyEditor.setOption('mode', this.getMimeType());
+			this._requestBodyEditor.setOption('mode', this.getMimeType());
 			this._updatePlaceholders();
 			this._adjustDimensions();
 			this.element.find('.explorpc-body h4').text(this._getRequestBodyLabel());
@@ -283,7 +299,7 @@
 			}, this));
 
 			// set placeholder text
-			this._bodyEditor.setValueToPlaceholder(this._bodyEditor);
+			this._requestBodyEditor.setValueToPlaceholder(this._requestBodyEditor);
 		},
 
 		getMimeType: function() {
@@ -314,9 +330,15 @@
 
 		_requestClicked: function(event) {
 			var responseSection = this.element.find('.explorpc-response');
+
 			this.element
-				.find('[name=request]').addClass('ui-state-disabled').end()
-				.find('.explorpc-spinner').show().position({ of: responseSection });
+				.find('[name=request]')
+					.addClass('ui-state-disabled')
+					.end()
+				.find('.explorpc-spinner')
+					.show()
+					.position({ of: responseSection });
+
 			responseSection.fadeTo(0, 0.5);
 
 			if (this.option('subdomainTunneling')) {
@@ -383,7 +405,7 @@
 					params.data = this._getSoapRequestBody();
 					break;
 				case 'raw':
-					params.data = this._bodyEditor.getValue();
+					params.data = this._requestBodyEditor.getValue();
 					break;
 			}
 
@@ -397,7 +419,7 @@
 
 		_getJsonRPCRequestBody: function() {
 			var method = this.element.find('[name=method]').val(),
-				params = this._bodyEditor.getValue(),
+				params = this._requestBodyEditor.getValue(),
 				request = '';
 			request = '{"jsonrpc":"2.0","method":"' + method + '","params":' + params;
 			if (!this.element.find('[name=notification]:checked').length) request += ',"id": ' + this._getRandomId();
@@ -409,7 +431,7 @@
 		},
 
 		_getSoapRequestBody: function() {
-			var body = this._bodyEditor.getValue(),
+			var body = this._requestBodyEditor.getValue(),
 				type = this.element.find('[name=type]').val(),
 				request = '<?xml version="1.0" encoding="UTF-8"?>';
 
@@ -431,16 +453,21 @@
 			}
 			var errorDesc = "Request failed. Error #" + jqXHR.status + ": " + jqXHR.statusText;
 
-			this._responseBodyEditor.setValue('');
 			this.element
-				.find('.explorpc-response-headers pre').text('No response headers').end()
-				.find('.explorpc-dialog').text(errorDesc).dialog({
-					'title': 'Request failed',
-					'height': 'auto',
-					'position': { my: "center", at: "center", of: this.element },
-					'dialogClass': 'explorpc-dialog',
-					'close': this._getCloseDialogCallback()
-				});
+				.find('.explorpc-response-headers pre')
+					.text('No response headers')
+					.end()
+				.find('.explorpc-dialog')
+					.text(errorDesc)
+					.dialog({
+						'title': 'Request failed',
+						'height': 'auto',
+						'position': { my: "center", at: "center", of: this.element },
+						'dialogClass': 'explorpc-dialog',
+						'close': this._getCloseDialogCallback()
+					});
+
+			this._responseBodyEditor.setValue('');
 		},
 
 		_getCloseDialogCallback: function() {
@@ -465,11 +492,15 @@
 				statusType = this._getTypeFromStatus(jqXHR.status);
 
 			this._lastResponse = jqXHR;
-			this.element.find('.explorpc-viewraw').removeClass('ui-state-disabled');
+			this.element
+				.find('.explorpc-viewraw')
+				.removeClass('ui-state-disabled');
 			
 			statusLine = "<span class=\"explorpc-" + statusType + "\">" + this._getLastStatusLine() + "</span>";
 			CodeMirror.runMode(headers, "message/http", tempDiv);
-			this.element.find('.explorpc-response-headers pre').html(statusLine + tempDiv.innerHTML);
+			this.element
+				.find('.explorpc-response-headers pre')
+				.html(statusLine + tempDiv.innerHTML);
 
 			this._responseBodyEditor.setOption('mode', this.getMimeType());
 			this._responseBodyEditor.setValue(body);
@@ -477,9 +508,14 @@
 
 		_requestDone: function() {
 			this.element
-				.find('[name=request]').removeClass('ui-state-disabled').end()
-				.find('.explorpc-response').fadeTo(0, 1).end()
-				.find('.explorpc-spinner').hide();
+				.find('[name=request]')
+					.removeClass('ui-state-disabled')
+					.end()
+				.find('.explorpc-response')
+					.fadeTo(0, 1)
+					.end()
+				.find('.explorpc-spinner')
+					.hide();
 		},
 
 		_getTypeFromStatus: function(status) {
