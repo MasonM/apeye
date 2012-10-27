@@ -11,6 +11,7 @@
 			body: "",	
 			username: "",
 			password: "",
+			indent: 3,
 			timeout: 5 * 1000,
 			subdomainTunneling: false
 		},
@@ -47,7 +48,7 @@
 
 			this._responseBodyEditor = CodeMirror.fromTextArea(this.element.find('[name=responseBody]')[0], {
 				lineNumbers: false,
-				indentUnit: 3,
+				indentUnit: this.option('indent'),
 				readOnly: true
 			});
 
@@ -59,7 +60,7 @@
 			this._bodyEditor = CodeMirror.fromTextArea(this.element.find('[name=body]')[0], {
 				lineNumbers: false,
 				matchBrackets: true,
-				indentUnit: 3,
+				indentUnit: this.option('indent'),
 				// emulate HTML placeholders
 				onBlur: function(editor) {
 					if (editor.getValue().length === 0) {
