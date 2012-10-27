@@ -188,6 +188,7 @@
 		toggleHorizontalExpand: function(event) {
 			var element = this.element,
 				className = 'explorpc-horizontal-expanded';
+
 			element
 				.toggleClass(className)
 				.find('.explorpc-h-expand span')
@@ -232,7 +233,10 @@
 		},
 
 		_escapeHTML: function(html) {
-			return html.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+			return html
+				.replace(/&/g,'&amp;')
+				.replace(/</g,'&lt;')
+				.replace(/>/g,'&gt;');
 		},
 
 		_getLocation: function(href) {
@@ -259,7 +263,10 @@
 			this._requestBodyEditor.setOption('mode', this.getMimeType());
 			this._updatePlaceholders();
 			this._adjustDimensions();
-			this.element.find('.explorpc-body h4').text(this._getRequestBodyLabel());
+
+			this.element
+				.find('.explorpc-body h4')
+				.text(this._getRequestBodyLabel());
 		},
 
 		_getRequestBodyLabel: function() {
