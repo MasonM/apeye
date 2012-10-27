@@ -106,29 +106,33 @@
 	}
 	
 	.explorpc-response {
+		.explorpc-viewraw, .explorpc-expand, .explorpc-autoformat {
+			display: inline-block;
+			vertical-align: top;
+			text-align: left;
+			margin: 1px 2px;
+			cursor: pointer;
+
+			&:hover { margin: 0 1px; }
+			&.ui-state-disabled:hover { margin: 1px 2px; }
+			&.ui-state-disabled { cursor: default; }
+		}
+
 		header  {
 			.icons {
 				position: absolute;
 				top: 0;
 				right: 0;
-
-				a {
-					display: inline-block;
-					vertical-align: top;
-					text-align: right;
-					margin: 0 2px;
-					cursor: pointer;
-
-					&:hover { margin: 0 1px; }
-					&.ui-state-disabled:hover { margin: 0 2px; }
-					&.ui-state-disabled { cursor: default; }
-				}
 			}
 			h4 { margin: 0; }
 		}
 
-		h4 {
+		.explorpc-response-body-header, .explorpc-response-headers-header {
 			margin: 12px 0 0;
+		}
+
+		.explorpc-response-body-header {
+			padding-right: 0;
 		}
 
 		.explorpc-response-headers {
@@ -220,6 +224,7 @@
 	padding: 0 !important;
 	font-size: 12px;
 	text-align: center;
+
 	pre {
 		.explorpc > .explorpc-pre;
 	}
