@@ -550,8 +550,10 @@
 				return "redirect";
 			} else if (status >= 400 && status < 500) {
 				return "client-error";
-			} else {
+			} else if (status >= 500 && status < 600) {
 				return "server-error";
+			} else {
+				return "unknown";
 			}
 		},
 
