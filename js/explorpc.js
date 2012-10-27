@@ -117,14 +117,11 @@
 				hExpand = this.element.hasClass('explorpc-horizontal-expanded'),
 				// subtract 3 pixels for the borders
 				sectionWidth = (hExpand ? totalWidth : (totalWidth / 2)) - 3,
-				// sectionWidth - input margins - .field padding
+				// sectionWidth - input margins - .field top/bottom margins
 				inputWidth = sectionWidth - 8 - 24,
 				authTypeWidth = this.element.find('[name=auth]').outerWidth(true),
 				// the auth type select and the inputs should be on the same line
 				authInputsWidth = ((inputWidth - authTypeWidth) / 2) - 4,
-
-				type = this.element.find('[name=type]').val(),
-				auth = this.element.find('[name=auth]').val(),
 
 				totalHeight = this.element.height(),
 				sectionHeight = (hExpand ? (totalHeight / 2) : totalHeight) - 3,
@@ -132,9 +129,9 @@
 				requestBodyHeight = sectionHeight - 2 - 12,
 
 				// Give the headers 40% of the available height, and the body 60%
-				// ((sectionHeight - header height) * percentage) - h4 height - upper/lower field margins
+				// ((sectionHeight - header height) * percentage) - h4 height - .field margins
 				responseHeadersHeight = ((sectionHeight- 22) * 0.4) - 28 - 24,
-				// ((sectionHeight - header height) * percentage) - border/field margins
+				// ((sectionHeight - header height) * percentage) - h4 height - .field margins
 				responseBodyHeight = ((sectionHeight - 22) * 0.6) - 28 - 24;
 
 			this.element
@@ -155,11 +152,14 @@
 					.width(authInputsWidth);
 
 			// compute request body height by subtracting height of each of its siblings (plus the bottom margin)
-			this.element.find('.explorpc-body').siblings(':visible:not(.explorpc-h-expand)').each(function(i, element) {
-				requestBodyHeight -= ($(element).outerHeight() + 12)
-			});
+			this.element
+				.find('.explorpc-body')
+				.siblings(':visible:not(.explorpc-h-expand)')
+				.each(function(i, element) {
+					requestBodyHeight -= ($(element).outerHeight() + 12);
+				});
 
-			this._responseBodyEditor.setSize(inputWidth, responseBodyHeight)
+			this._responseBodyEditor.setSize(inputWidth, responseBodyHeight);
 			this._requestBodyEditor.setSize(inputWidth, requestBodyHeight);
 		},
 
@@ -173,6 +173,7 @@
 				.css('height', '')
 				.css('width', '')
 				.toggleClass('explorpc-expanded');
+
 			this._adjustDimensions();
 		},
 
@@ -214,20 +215,23 @@
 				this._escapeHTML(this._lastResponse.responseText) + 
 				"</pre>";
 				
-			this.element.find('.explorpc-dialog').html(html).dialog({
-				'title': 'Raw request and response',
-				'height': 'auto',
-				'position': { my: "center", at: "center", of: this.element },
-				'dialogClass': 'explorpc-dialog',
-				'close': this._getCloseDialogCallback()
-			});
+			this.element
+				.find('.explorpc-dialog')
+				.html(html)
+				.dialog({
+					'title': 'Raw request and response',
+					'height': 'auto',
+					'position': { my: "center", at: "center", of: this.element },
+					'dialogClass': 'explorpc-dialog',
+					'close': this._getCloseDialogCallback()
+				});
 		},
 
 		_escapeHTML: function(html) {
 			return html
-				.replace(/&/g,'&amp;')
-				.replace(/</g,'&lt;')
-				.replace(/>/g,'&gt;');
+				.replace(/&/g, '&amp;')
+				.replace(/</g, '&lt;')
+				.replace(/>/g, '&gt;');
 		},
 
 		_getLocation: function(href) {
