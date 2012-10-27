@@ -106,9 +106,27 @@
 	}
 	
 	.explorpc-response {
-		header h4 {
-			margin: 0;
+		header  {
+			.icons {
+				position: absolute;
+				top: 0;
+				right: 0;
+
+				a {
+					display: inline-block;
+					vertical-align: top;
+					text-align: right;
+					margin: 0 2px;
+					cursor: pointer;
+
+					&:hover { margin: 0 1px; }
+					&.ui-state-disabled:hover { margin: 0 2px; }
+					&.ui-state-disabled { cursor: default; }
+				}
+			}
+			h4 { margin: 0; }
 		}
+
 		h4 {
 			margin: 12px 0 0;
 		}
@@ -142,20 +160,6 @@
 
 		.explorpc-server-error {
 			color: #8B0000;
-		}
-
-		.explorpc-expand, .explorpc-viewraw {
-			position: absolute;
-			top: 0;
-			right: 0;
-			cursor: pointer;
-		}
-
-		.explorpc-viewraw {
-			right: 20px;
-			&.ui-state-disabled {
-				cursor: default;
-			}
 		}
 	}
 
