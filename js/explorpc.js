@@ -35,17 +35,12 @@
 		_subdomainAjax: {},
 
 		_create: function() {
-			// set field values
-			var self = this;
-			$.each(this.paramNames, function(i, fieldName) {
-				self.element.find('[name=' + fieldName + ']').val(self.option(fieldName));
-			});
-
 			// initialize CodeMirror instances
 			this._initRequestBody();
 			this._initResponseBody();
 			
 			// initialize elements
+			this.setFieldValues();
 			this.element
 				.resizable({ handles: 'se' })
 				.find('.ui-resizable-se')
@@ -118,6 +113,18 @@
 				lineNumbers: false,
 				indentUnit: this.option('indent'),
 				readOnly: true
+			});
+		},
+
+		setFieldValues: function() {
+			var self = this;
+			$.each(this.paramNames, function(i, fieldName) {
+				var value = self.option(fieldName);
+				if (fieldName === 'body') {
+					self._requestBodyEditor.setValue(value);
+				} else {
+					self.element.find('[name=' + fieldName + ']').val(value);
+				}
 			});
 		},
 
