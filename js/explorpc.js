@@ -133,10 +133,14 @@
 				var value = self.option(fieldName);
 				if (fieldName === 'body') {
 					self._requestBodyEditor.setValue(value);
+					if (self._requestBodyEditor.hasEmptyFlag()) self._requestBodyEditor.toggleEmptyFlag();
 				} else {
 					self.element.find('[name=' + fieldName + ']').val(value);
 				}
 			});
+			this._httpMethodChanged();
+			this._authChanged();
+			this._typeChanged();
 		},
 
 		_adjustDimensions: function() {
