@@ -52,15 +52,15 @@
 			// register events
 			this.element
 				.resize($.proxy(this._adjustDimensions, this))
-				.delegate('[name=type]', 'change', $.proxy(this._typeChanged, this))
-				.delegate('[name=httpMethod]', 'change', $.proxy(this._httpMethodChanged, this))
-				.delegate('[name=auth]', 'change', $.proxy(this._authChanged, this))
-				.delegate('[name=request]:not(.ui-state-disabled)', 'click', $.proxy(this._requestClicked, this))
-				.delegate('.explorpc-expand', 'click', $.proxy(this.toggleExpand, this))
-				.delegate('.explorpc-h-expand', 'click', $.proxy(this.toggleHorizontalExpand, this))
-				.delegate('.explorpc-viewraw:not(.ui-state-disabled)', 'click', $.proxy(this.viewRaw, this))
-				.delegate('.explorpc-autoformat:not(.ui-state-disabled)', 'click', $.proxy(this.autoFormatBody, this))
-				.delegate('.explorpc-expand, .explorpc-viewraw, .explorpc-autoformat', 'hover', this._buttonHover);
+				.on('change', '[name=type]', $.proxy(this._typeChanged, this))
+				.on('change', '[name=httpMethod]', $.proxy(this._httpMethodChanged, this))
+				.on('change', '[name=auth]', $.proxy(this._authChanged, this))
+				.on('click', '[name=request]:not(.ui-state-disabled)', $.proxy(this._requestClicked, this))
+				.on('click', '.explorpc-expand', $.proxy(this.toggleExpand, this))
+				.on('click', '.explorpc-h-expand', $.proxy(this.toggleHorizontalExpand, this))
+				.on('click', '.explorpc-viewraw:not(.ui-state-disabled)', $.proxy(this.viewRaw, this))
+				.on('click', '.explorpc-autoformat:not(.ui-state-disabled)', $.proxy(this.autoFormatBody, this))
+				.on('hover', '.explorpc-expand, .explorpc-viewraw, .explorpc-autoformat', this._buttonHover);
 
 			this._httpMethodChanged();
 			this._authChanged();
