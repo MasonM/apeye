@@ -76,15 +76,14 @@
 				indentUnit: this.option('indent'),
 				// emulate HTML placeholders
 				onFocus: function(editor) {
-					var wrapper = editor.getWrapperElement();
-					if (wrapper.className.indexOf('explorpc-empty') !== -1) {
-						wrapper.className = wrapper.className.replace('explorpc-empty', '');
+					if (editor.hasEmptyFlag()) {
+						editor.toggleEmptyFlag();
 						editor.setValue('');
 					}
 				},
 				onBlur: function(editor) {
 					if (editor.getValue().length === 0) {
-						editor.getWrapperElement().className += ' explorpc-empty';
+						editor.toggleEmptyFlag();
 						editor.setValueToPlaceholder(editor);
 					}
 				},
@@ -95,16 +94,28 @@
 				}
 			});
 
-			this._requestBodyEditor.setValueToPlaceholder = function(editor) {
-				var placeholder = editor.getTextArea().getAttribute('placeholder'),
-					wrapper = editor.getWrapperElement();
-				if (wrapper.className.indexOf('explorpc-empty') !== -1) {
-					editor.setValue(placeholder);
+			this._requestBodyEditor.toggleEmptyFlag = function() {
+				var wrapper = this.getWrapperElement();
+				if (this.hasEmptyFlag()) {
+					wrapper.className = wrapper.className.replace('explorpc-empty', '');
+				} else {
+					wrapper.className += ' explorpc-empty';	
+				}
+			};
+
+			this._requestBodyEditor.hasEmptyFlag = function() {
+				return this.getWrapperElement().className.indexOf('explorpc-empty') !== -1;
+			};
+
+			this._requestBodyEditor.setValueToPlaceholder = function() {
+				var placeholder = this.getTextArea().getAttribute('placeholder');
+				if (this.hasEmptyFlag()) {
+					this.setValue(placeholder);
 				}
 			};
 
 			if (!this.option('body').length) {
-				this._requestBodyEditor.getWrapperElement().className += ' explorpc-empty';
+				this._requestBodyEditor.toggleEmptyFlag();	
 			}
 		},
 
@@ -331,7 +342,7 @@
 			}, this));
 
 			// set placeholder text
-			this._requestBodyEditor.setValueToPlaceholder(this._requestBodyEditor);
+			this._requestBodyEditor.setValueToPlaceholder();
 		},
 
 		getMimeType: function() {
