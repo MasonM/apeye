@@ -5,8 +5,8 @@ Modified lines are marked with //MODIFIED
 (function() {
   function jsNonBreakableBlocks(text) {
     var nonBreakableRegexes = [/for\s*?\((.*?)\)/,
-                               /\"(.*?)(\"|$)/,
-                               /\'(.*?)(\'|$)/,
+                               /\"([^"]*)(\"|$)/, //MODIFIED
+                               /\'([^']*)(\'|$)/, //MODIFIED
                                /\/\*(.*?)(\*\/|$)/,
                                /\/\/.*/];
     var nonBreakableBlocks = [];
@@ -40,13 +40,14 @@ Modified lines are marked with //MODIFIED
 
     autoFormatLineBreaks: function (text) {
       var curPos = 0;
-      var reLinesSplitter = /([;,\{\}\[\]])([^\r\n;])/g; //MODIFIED
+      var reLinesSplitter = /([;,\{\}\[\]])([^\r\n;]|$)/g; //MODIFIED
+      var reLinesClosingBraceSplitter = /([^\}]|^)(\})/g; //MODIFIED
       var nonBreakableBlocks = jsNonBreakableBlocks(text);
       if (nonBreakableBlocks != null) {
         var res = "";
         for (var i = 0; i < nonBreakableBlocks.length; i++) {
           if (nonBreakableBlocks[i].start > curPos) { // Break lines till the block
-            res += text.substring(curPos, nonBreakableBlocks[i].start).replace(reLinesSplitter, "$1\n$2");
+            res += text.substring(curPos, nonBreakableBlocks[i].start).replace(reLinesSplitter, "$1\n$2").replace(reLinesClosingBraceSplitter, "$1\n$2"); //MODIFIED
             curPos = nonBreakableBlocks[i].start;
           }
           if (nonBreakableBlocks[i].start <= curPos
@@ -56,10 +57,10 @@ Modified lines are marked with //MODIFIED
           }
         }
         if (curPos < text.length)
-          res += text.substr(curPos).replace(reLinesSplitter, "$1\n$2");
+          res += text.substr(curPos).replace(reLinesSplitter, "$1\n$2").replace(reLinesClosingBraceSplitter, "$1\n$2"); //MODIFIED
         return res;
       } else {
-        return text.replace(reLinesSplitter, "$1\n$2");
+        return text.replace(reLinesSplitter, "$1\n$2").replace(reLinesClosingBraceSplitter, "$1\n$2"); //MODIFIED
       }
     }
   });
