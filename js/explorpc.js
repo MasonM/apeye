@@ -16,6 +16,7 @@
 			indent: 3,
 			timeout: 5 * 1000,
 			subdomainTunneling: false,
+			autoFormatResponse: false,
 			tunnelFilepath: "/tunnel.html"
 		},
 		// field names
@@ -551,6 +552,10 @@
 
 			this._responseBodyEditor.setOption('mode', this.getMimeType());
 			this._responseBodyEditor.setValue(body);
+
+			if (this.option('autoFormatResponse')) {
+				this.autoFormatBody();
+			}
 		},
 
 		_requestDone: function() {
