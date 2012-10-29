@@ -66,6 +66,7 @@
 			this._httpMethodChanged();
 			this._authChanged();
 			this._typeChanged();
+			this._horizontalExpandChanged();
 			this._initialized = true;
 			this._adjustDimensions();
 		},
@@ -214,17 +215,17 @@
 		},
 
 		toggleHorizontalExpand: function(event) {
-			var element = this.element,
-				className = 'explorpc-horizontal-expanded';
+			this.element.toggleClass('explorpc-horizontal-expanded');
+			this._horizontalExpandChanged();
+		},
 
-			element
-				.toggleClass(className)
-				.find('.explorpc-h-expand span')
+		_horizontalExpandChanged: function() {
+			var isExpanded = this.element.hasClass('explorpc-horizontal-expanded');
+			this.element.find('.explorpc-h-expand span')
 					.removeClass('ui-icon-triangle-1-e ui-icon-triangle-1-w')
 					.addClass(function() {
-						return 'ui-icon-triangle-1-' + (element.hasClass(className) ? 'w' : 'e');
+						return 'ui-icon-triangle-1-' + (isExpanded ? 'w' : 'e');
 					});
-
 			this._adjustDimensions();
 		},
 
