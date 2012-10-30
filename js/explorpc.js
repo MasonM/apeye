@@ -162,14 +162,14 @@
 
 				totalHeight = this.element.height(),
 				sectionHeight = (hExpand ? (totalHeight / 2) : totalHeight) - 3,
-				// sectionHeight - borders - bottom margin
-				requestBodyHeight = sectionHeight - 2 - 12,
+				// sectionHeight - borders - top margin of request body
+				requestBodyHeight = sectionHeight - 2 - 6,
 
 				// Give the headers 40% of the available height, and the body 60%
 				// ((sectionHeight - header height) * percentage) - h4 height - .field margins
-				responseHeadersHeight = ((sectionHeight- 22) * 0.4) - 32 - 24,
+				responseHeadersHeight = ((sectionHeight- 22) * 0.4) - 30 - 18,
 				// ((sectionHeight - header height) * percentage) - h4 height - .field margins
-				responseBodyHeight = ((sectionHeight - 22) * 0.6) - 32 - 24;
+				responseBodyHeight = ((sectionHeight - 22) * 0.6) - 30 - 18;
 
 			this.element
 				.find('.explorpc-request, .explorpc-response')
@@ -233,7 +233,7 @@
 			var loc = this._getLocation(this._lastRequestParams.url),
 				html = "";
 			
-			html = "<h4 class='ui-widget-header ui-corner-all'>HTTP Request (incomplete)</h4>\n" +
+			html = "<h4>HTTP Request (incomplete)</h4>\n" +
 				"<pre>" +
 				this._lastRequestParams.type + " " + loc.pathname + " HTTP/1.1\n" +
 				"Host: " + loc.host + "\n";
@@ -245,7 +245,7 @@
 			html += "\n" +
 				this._escapeHTML(this._lastRequestParams.data ? this._lastRequestParams.data : '') +
 				"</pre>\n" +
-				"<h4 class='ui-widget-header ui-corner-all'>HTTP Response</h1>\n" +
+				"<h4>HTTP Response</h1>\n" +
 				"<pre>" +
 				this._getLastStatusLine() +
 				this._lastResponse.getAllResponseHeaders() + "\n" +
