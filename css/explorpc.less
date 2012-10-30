@@ -6,16 +6,23 @@
 		display: none;
 	}
 
-	.explorpc-subheader {
-		text-align: left;
-		line-height: 18px;
-		font-size: 14px;
+	.explorpc-header, .explorpc-subheader {
+		text-align: center;
 		margin: 0;
 		font-weight: bold;
-		width: auto;
 		padding: 0 10px;
-		display: inline-block;
+	}
+
+	.explorpc-header {
+		line-height: 18px;
+		font-size: 16px;
 		color: white;
+	}
+
+	.explorpc-subheader {
+		line-height: 1;
+		font-size: 14px;
+		display: inline-block;
 	}
 
 	.explorpc-pre {
@@ -51,14 +58,12 @@
 		display: inline-block;
 		vertical-align: top;
 
+		.explorpc-response-headers, .explorpc-response-body, .explorpc-body {
+			margin-top: 6px;
+		}
 		header {
 			line-height: 1;
-			h4 {
-				font-size: 16px;
-			}
-		}
-		h4 {
-			.explorpc-subheader;
+			h4 { .explorpc-header; }
 		}
 	}
 
@@ -83,15 +88,18 @@
 
 	.explorpc-request {
 		border-right-width: 0;
-		.username, .password { width: 40px }
-		.placeholder { color: #aaa; }
+		.username, .password {
+			width: 40px;
+		}
+		.placeholder {
+			color: #aaa;
+		}
 		.explorpc-auth {
 			display: inline-block;
 		}
 		.explorpc-body, .explorpc-send {
 			text-align: center;
 		}
-
 		.explorpc-body textarea {
 			height: 100%;
 		}
@@ -118,7 +126,7 @@
 	.explorpc-response {
 		.explorpc-viewraw, .explorpc-expand, .explorpc-autoformat {
 			display: inline-block;
-			vertical-align: top;
+			vertical-align: middle;
 			text-align: left;
 			margin: 1px 2px;
 			cursor: pointer;
@@ -135,7 +143,7 @@
 		}
 
 		.explorpc-response-body-header, .explorpc-response-headers-header {
-			margin: 12px 0 0;
+			margin: 12px 0 0 0;
 		}
 
 		.explorpc-response-body-header {
@@ -237,9 +245,10 @@
 	}
 	h4 {
 		.explorpc > .explorpc-subheader;
-		margin: 12px 0;
+		margin: 12px 0 6px 0;
 	}
 	.ui-dialog-titlebar {
+		.explorpc > .explorpc-header;
 		border-radius: 0;
 		padding: 0 5px !important;
 		font-size: 14px !important;
