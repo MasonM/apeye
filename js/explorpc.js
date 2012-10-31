@@ -167,11 +167,13 @@
 				// sectionHeight - borders - top margin of request body
 				requestBodyHeight = sectionHeight - 2 - 6,
 
+				responseHeadersHeaderHeight = this.element.find('.explorpc-response-headers-header').outerHeight(true),
+				responseBodyHeaderHeight = this.element.find('.explorpc-response-body-header').outerHeight(true),
 				// Give the headers 40% of the available height, and the body 60%
 				// ((sectionHeight - header height) * percentage) - h4 height - .field margins
-				responseHeadersHeight = ((sectionHeight- 22) * 0.4) - 30 - 18,
+				responseHeadersHeight = ((sectionHeight- 22) * 0.4) - responseHeadersHeaderHeight- 18,
 				// ((sectionHeight - header height) * percentage) - h4 height - .field margins
-				responseBodyHeight = ((sectionHeight - 22) * 0.6) - 30 - 18;
+				responseBodyHeight = ((sectionHeight - 22) * 0.6) - responseBodyHeaderHeight - 18;
 
 			this.element
 				.find('.explorpc-request, .explorpc-response')
