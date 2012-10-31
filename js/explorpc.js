@@ -311,7 +311,7 @@
 			this._adjustDimensions();
 
 			this.element
-				.find('.explorpc-body h4')
+				.find('.explorpc-request-body-header')
 				.text(this._getRequestBodyLabel());
 		},
 
