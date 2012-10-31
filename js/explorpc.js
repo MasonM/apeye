@@ -135,7 +135,9 @@
 				var value = self.option(fieldName);
 				if (fieldName === 'body') {
 					self._requestBodyEditor.setValue(value);
-					if (self._requestBodyEditor.hasEmptyFlag()) self._requestBodyEditor.toggleEmptyFlag();
+					if (value.length > 0 && self._requestBodyEditor.hasEmptyFlag()) {
+						self._requestBodyEditor.toggleEmptyFlag();
+					}
 				} else {
 					self.element.find('[name=' + fieldName + ']').val(value);
 				}
