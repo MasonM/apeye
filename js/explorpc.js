@@ -204,8 +204,8 @@
 					requestBodyHeight -= ($(element).outerHeight() + 12);
 				});
 
-			this._requestBodyEditor.setSize(inputWidth, requestBodyHeight);
-			this._responseBodyEditor.setSize(inputWidth, responseBodyHeight);
+			this._requestBodyEditor.setSize(inputWidth + "px", requestBodyHeight + "px");
+			this._responseBodyEditor.setSize(inputWidth + "px", responseBodyHeight + "px");
 		},
 
 		_buttonHover: function(event) {
