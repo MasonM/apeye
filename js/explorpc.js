@@ -86,7 +86,7 @@
 				onBlur: function(editor) {
 					if (editor.getValue().length === 0) {
 						editor.toggleEmptyFlag();
-						editor.setValueToPlaceholder(editor);
+						editor.setValueToPlaceholder();
 					}
 				},
 				//highlight active line
@@ -114,6 +114,10 @@
 				if (this.hasEmptyFlag()) {
 					this.setValue(placeholder);
 				}
+			};
+
+			this._requestBodyEditor.getActualValue = function() {
+				return this.hasEmptyFlag() ? "" : this.getValue();
 			};
 
 			if (!this.option('body').length) {
@@ -458,7 +462,7 @@
 					params.data = this._getSoapRequestBody();
 					break;
 				case 'raw':
-					params.data = this._requestBodyEditor.getValue();
+					params.data = this._requestBodyEditor.getActualValue();
 					break;
 			}
 
@@ -472,8 +476,10 @@
 
 		_getJsonRPCRequestBody: function() {
 			var method = this.element.find('[name=method]').val(),
-				params = this._requestBodyEditor.getValue(),
+				params = this._requestBodyEditor.getActualValue(),
 				request = '';
+
+			if (!params) params = '[]';
 			request = '{"jsonrpc":"2.0","method":"' + method + '","params":' + params;
 			if (!this.element.find('[name=notification]:checked').length) request += ',"id": ' + this._getRandomId();
 			return request + '}';
@@ -484,7 +490,7 @@
 		},
 
 		_getSoapRequestBody: function() {
-			var body = this._requestBodyEditor.getValue(),
+			var body = this._requestBodyEditor.getActualValue(),
 				type = this.element.find('[name=type]').val(),
 				request = '<?xml version="1.0" encoding="UTF-8"?>';
 
