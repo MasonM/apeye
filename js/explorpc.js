@@ -16,7 +16,7 @@
 			indent: 3,
 			timeout: 5 * 1000,
 			subdomainTunneling: false,
-			autoFormatResponse: false,
+			autoPrettyPrint: false,
 			tunnelFilepath: "/tunnel.html"
 		},
 		// field names
@@ -60,8 +60,8 @@
 				.on('click', '.explorpc-expand', $.proxy(this.toggleExpand, this))
 				.on('click', '.explorpc-h-expand', $.proxy(this.toggleHorizontalExpand, this))
 				.on('click', '.explorpc-viewraw:not(.ui-state-disabled)', $.proxy(this.viewRaw, this))
-				.on('click', '.explorpc-autoformat:not(.ui-state-disabled)', $.proxy(this.autoFormatBody, this))
-				.on('hover', '.explorpc-expand, .explorpc-viewraw, .explorpc-autoformat', this._buttonHover);
+				.on('click', '.explorpc-prettyprint:not(.ui-state-disabled)', $.proxy(this.prettyPrintResponse, this))
+				.on('hover', '.explorpc-expand, .explorpc-viewraw, .explorpc-prettyprint', this._buttonHover);
 
 			this._httpMethodChanged();
 			this._authChanged();
@@ -272,7 +272,7 @@
 				});
 		},
 		
-		autoFormatBody: function() {
+		prettyPrintResponse: function() {
 			var lastLineIndex = this._responseBodyEditor.lineCount() - 1,
 				lastLine = this._responseBodyEditor.getLine(lastLineIndex),
 				range = {
@@ -552,7 +552,7 @@
 
 			this._lastResponse = jqXHR;
 			this.element
-				.find('.explorpc-viewraw, .explorpc-autoformat')
+				.find('.explorpc-viewraw, .explorpc-prettyprint')
 				.removeClass('ui-state-disabled');
 			
 			statusLine = "<span class=\"explorpc-" + statusType + "\">" + this._getLastStatusLine() + "</span>";
@@ -564,8 +564,8 @@
 			this._responseBodyEditor.setOption('mode', this.getMimeType());
 			this._responseBodyEditor.setValue(body);
 
-			if (this.option('autoFormatResponse')) {
-				this.autoFormatBody();
+			if (this.option('autoPrettyPrint')) {
+				this.prettyPrintResponse();
 			}
 		},
 
