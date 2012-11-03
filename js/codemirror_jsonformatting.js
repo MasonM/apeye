@@ -1,67 +1,83 @@
 /*
-This is a copy-and-paste of codemirror/lib/util/formatting.js, with some changes so it can autoformat JSON nicely
-Modified lines are marked with //MODIFIED
+ * CodeMirror's built-in pretty-print code is buggy and only adds line breaks, so this
+ * overrides autoFormatLineBreaks to use Chris Dary's simpler and more thorough jsl.format.js:
+ * https://github.com/umbrae/jsonlintdotcom/blob/c6284778ffa198c83ea4caca9fda791c6a0eb68b/c/js/jsl.format.js
+ * 
 */
 (function() {
-  function jsNonBreakableBlocks(text) {
-    var nonBreakableRegexes = [/for\s*?\((.*?)\)/,
-                               /\"([^"]*)(\"|$)/, //MODIFIED
-                               /\'([^']*)(\'|$)/, //MODIFIED
-                               /\/\*(.*?)(\*\/|$)/,
-                               /\/\/.*/];
-    var nonBreakableBlocks = [];
-    for (var i = 0; i < nonBreakableRegexes.length; i++) {
-      var curPos = 0;
-      while (curPos < text.length) {
-        var m = text.substr(curPos).match(nonBreakableRegexes[i]);
-        if (m != null) {
-          nonBreakableBlocks.push({
-            start: curPos + m.index,
-            end: curPos + m.index + m[0].length
-          });
-          curPos += m.index + Math.max(1, m[0].length);
-        }
-        else { // No more matches
-          break;
-        }
-      }
-    }
-    nonBreakableBlocks.sort(function (a, b) {
-      return a.start - b.start;
-    });
-
-    return nonBreakableBlocks;
-  }
-
   CodeMirror.extendMode("javascript", {
-    commentStart: "/*",
-    commentEnd: "*/",
-    wordWrapChars: [";", ",", "[", "]", "\\{", "\\}"], //MODIFIED
-
     autoFormatLineBreaks: function (text) {
-      var curPos = 0;
-      var reLinesSplitter = /([;,\{\}\[\]])([^\r\n;]|$)/g; //MODIFIED
-      var reLinesClosingBraceSplitter = /([^\}]|^)(\})/g; //MODIFIED
-      var nonBreakableBlocks = jsNonBreakableBlocks(text);
-      if (nonBreakableBlocks != null) {
-        var res = "";
-        for (var i = 0; i < nonBreakableBlocks.length; i++) {
-          if (nonBreakableBlocks[i].start > curPos) { // Break lines till the block
-            res += text.substring(curPos, nonBreakableBlocks[i].start).replace(reLinesSplitter, "$1\n$2").replace(reLinesClosingBraceSplitter, "$1\n$2"); //MODIFIED
-            curPos = nonBreakableBlocks[i].start;
-          }
-          if (nonBreakableBlocks[i].start <= curPos
-              && nonBreakableBlocks[i].end >= curPos) { // Skip non-breakable block
-            res += text.substring(curPos, nonBreakableBlocks[i].end);
-            curPos = nonBreakableBlocks[i].end;
-          }
-        }
-        if (curPos < text.length)
-          res += text.substr(curPos).replace(reLinesSplitter, "$1\n$2").replace(reLinesClosingBraceSplitter, "$1\n$2"); //MODIFIED
-        return res;
-      } else {
-        return text.replace(reLinesSplitter, "$1\n$2").replace(reLinesClosingBraceSplitter, "$1\n$2"); //MODIFIED
+      function repeat(s, count) {
+        return new Array(count + 1).join(s);
       }
+
+      function formatJson(json) {
+           var i           = 0,
+               il          = 0,
+               tab         = "    ",
+               newJson     = "",
+               indentLevel = 0,
+               inString    = false,
+               currentChar = null;
+
+           for (i = 0, il = json.length; i < il; i += 1) { 
+               currentChar = json.charAt(i);
+
+               switch (currentChar) {
+               case '{': 
+               case '[': 
+                   if (!inString) { 
+                       newJson += currentChar + "\n" + repeat(tab, indentLevel + 1);
+                       indentLevel += 1; 
+                   } else { 
+                       newJson += currentChar; 
+                   }
+                   break; 
+               case '}': 
+               case ']': 
+                   if (!inString) { 
+                       indentLevel -= 1; 
+                       newJson += "\n" + repeat(tab, indentLevel) + currentChar; 
+                   } else { 
+                       newJson += currentChar; 
+                   } 
+                   break; 
+               case ',': 
+                   if (!inString) { 
+                       newJson += ",\n" + repeat(tab, indentLevel); 
+                   } else { 
+                       newJson += currentChar; 
+                   } 
+                   break; 
+               case ':': 
+                   if (!inString) { 
+                       newJson += ": "; 
+                   } else { 
+                       newJson += currentChar; 
+                   } 
+                   break; 
+               case ' ':
+               case "\n":
+               case "\t":
+                   if (inString) {
+                       newJson += currentChar;
+                   }
+                   break;
+               case '"': 
+                   if (i > 0 && json.charAt(i - 1) !== '\\') {
+                       inString = !inString; 
+                   }
+                   newJson += currentChar; 
+                   break;
+               default: 
+                   newJson += currentChar; 
+                   break;                    
+               } 
+           } 
+
+           return newJson; 
+       }
+       return formatJson(text);
     }
   });
 })();
