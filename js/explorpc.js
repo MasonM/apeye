@@ -156,21 +156,11 @@
 				// avoid unnecessary calls during initialization
 				return;
 			}
-			var totalWidth = this.element.width(),
-				hExpand = this.element.hasClass('explorpc-horizontal-expanded'),
-				// subtract 3 pixels for the borders
-				sectionWidth = (hExpand ? totalWidth : (totalWidth / 2)) - 3,
-				// sectionWidth - input margins - .field top/bottom margins
-				inputWidth = sectionWidth - 8 - 24,
-				authTypeWidth = this.element.find('[name=auth]').outerWidth(true),
-				// the auth type select and the inputs should be on the same line
-				authInputsWidth = ((inputWidth - authTypeWidth) / 2) - 4,
-
+			var hExpand = this.element.hasClass('explorpc-horizontal-expanded'),
 				totalHeight = this.element.height(),
 				sectionHeight = (hExpand ? (totalHeight / 2) : totalHeight) - 3,
-				// sectionHeight - borders - top margin of request body
+				// requestBodyHeight = sectionHeight - borders - top margin of request body
 				requestBodyHeight = sectionHeight - 2 - 6,
-
 				responseHeadersHeaderHeight = this.element.find('.explorpc-response-headers-header').outerHeight(true),
 				responseBodyHeaderHeight = this.element.find('.explorpc-response-body-header').outerHeight(true),
 				// Give the headers 40% of the available height, and the body 60%
@@ -178,23 +168,6 @@
 				responseHeadersHeight = ((sectionHeight- 22) * 0.4) - responseHeadersHeaderHeight- 18,
 				// ((sectionHeight - header height) * percentage) - h4 height - .field margins
 				responseBodyHeight = ((sectionHeight - 22) * 0.6) - responseBodyHeaderHeight - 18;
-
-			this.element
-				.find('.explorpc-request, .explorpc-response')
-					.height(sectionHeight)
-					.width(sectionWidth)
-					.end()
-				.find('[name=url], [name=method], .explorpc-response-headers pre')
-					.width(inputWidth)
-					.end()
-				.find('.explorpc-response-body')
-					.height(responseBodyHeight)
-					.end()
-				.find('.explorpc-response-headers')
-					.height(responseHeadersHeight)
-					.end()
-				.find('[name=username], [name=password]')
-					.width(authInputsWidth);
 
 			// compute request body height by subtracting height of each of its siblings (plus the bottom margin)
 			this.element
@@ -204,8 +177,9 @@
 					requestBodyHeight -= ($(element).outerHeight() + 12);
 				});
 
-			this._requestBodyEditor.setSize(inputWidth + "px", requestBodyHeight + "px");
-			this._responseBodyEditor.setSize(inputWidth + "px", responseBodyHeight + "px");
+			this.element.find('.explorpc-response-headers').height(responseHeadersHeight);
+			this._requestBodyEditor.setSize(null, requestBodyHeight + "px");
+			this._responseBodyEditor.setSize(null, responseBodyHeight + "px");
 		},
 
 		_buttonHover: function(event) {

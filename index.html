@@ -75,7 +75,7 @@
 					<h4>Request</h4>
 				</header>
 
-				<div class="field">
+				<div class="field explorpc-url">
 					<input type="text" name="url" placeholder="URL"/>
 				</div>
 
@@ -94,12 +94,13 @@
 						<option value="delete">DELETE</option>
 						<option value="trace">TRACE</option>
 					</select>
-					<div class="explorpc-auth">
-						<select name="auth">
-							<option value="none">No auth</option>
-							<option value="basic">Basic</option>
-						</select>
 
+					<select name="auth">
+						<option value="none">No auth</option>
+						<option value="basic">Basic</option>
+					</select>
+
+					<div class="explorpc-auth">
 						<input type="text" name="username" placeholder="Username"/>
 						<input type="text" name="password" placeholder="Password"/>
 					</div>
