@@ -75,13 +75,6 @@
 					<h4>Request</h4>
 				</header>
 
-				<div class="field explorpc-url">
-					<label>
-						<span>URL</span>
-						<input type="text" name="url" placeholder="URL"/>
-					</label>
-				</div>
-
 				<div class="field">
 					<select name="type">
 						<option value="raw">Raw</option>
@@ -100,13 +93,23 @@
 
 					<select name="auth">
 						<option value="none">No auth</option>
-						<option value="basic">Basic auth</option>
+						<option value="basic">Basic</option>
 					</select>
 				</div>
 
+				<div class="field explorpc-url">
+					<label>
+						<span>URL</span>
+						<input type="text" name="url" placeholder="URL"/>
+					</label>
+				</div>
+
 				<div class="field explorpc-auth">
-					<input type="text" name="username" placeholder="Username"/>
-					<input type="text" name="password" placeholder="Password"/>
+					<label>
+						<span>Auth</span>
+						<input type="text" name="username" placeholder="Username"/>
+						<input type="text" name="password" placeholder="Password"/>
+					</label>
 				</div>
 
 				<div class="field explorpc-method">
