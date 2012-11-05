@@ -121,11 +121,12 @@
 			width: 100%;
 		}
 
-		.explorpc-options {
-			select { margin-right: 2px; }
-			select[name=type] { width: 90px; }
-			select[name=httpMethod] { width: 60px; }
-			select[name=auth] { width: 55px; }
+		.explorpc-options select {
+			margin-right: 2px;
+			&:last-child { margin-right: 0 }
+			&[name=type] { max-width: 90px; }
+			&[name=httpMethod] { max-width: 60px; }
+			&[name=auth] { max-width: 55px; }
 		}
 
 		.explorpc-h-expand {
