@@ -285,15 +285,33 @@
 			}
 
 			this._requestBodyEditor.setOption('mode', this.getMimeType());
-			this._updatePlaceholders();
 			this._adjustDimensions();
 
 			this.element
 				.find('.explorpc-request-body-header')
-				.text(this._getRequestBodyLabel());
+					.text(this._getRequestBodyHeader())
+					.end()
+				.find('.explorpc-method span')
+					.text(this._getMethodLabel())
+					.end()
+				.find('[name=body]')
+					.attr('placeholder', this._getRequestBodyPlaceholder());
+
+			// set placeholder text
+			this._requestBodyEditor.setValueToPlaceholder();
 		},
 
-		_getRequestBodyLabel: function() {
+		_getMethodLabel: function() {
+			switch (this.element.find('[name=type]').val()) {
+				case 'soap11':
+				case 'soap12':
+					return 'SOAPAction';
+				default:
+					return 'Method';
+			}
+		},
+
+		_getRequestBodyHeader: function() {
 			switch (this.element.find('[name=type]').val()) {
 				case 'json-rpc':
 					return 'JSON Params';
@@ -307,30 +325,16 @@
 			}
 		},
 
-		_updatePlaceholders: function() {
-			var placeholders = {"method": '', "body": ''};
+		_getRequestBodyPlaceholder: function() {
 			switch (this.element.find('[name=type]').val()) {
 				case 'json-rpc':
-					placeholders.method = "Method name";
-					placeholders.body = "[\"Hello JSON-RPC\"]";
-					break;
+					return "[\"Hello JSON-RPC\"]";
 				case 'soap11':
 				case 'soap12':
-					placeholders.method = "SOAPAction header";
-					placeholders.body = "<m:alert xmlns:m=\"http://example.org/alert\">\n\t<m:msg>Pickup Mary</m:msg>\n</m:alert>";
-					break;
+					return "<m:alert xmlns:m=\"http://example.org/alert\">\n\t<m:msg>Pickup Mary</m:msg>\n</m:alert>";
 				case 'xml-rpc':
-					placeholders.method = "Method name";
-					placeholders.body = "<params>\n\t<param><value>foo</value></param>\n\t</params>";
-					break;
+					return "<params>\n\t<param><value>foo</value></param>\n\t</params>";
 			}
-
-			$.each(placeholders, $.proxy(function(name, placeholderString) {
-				this.element.find('[name=' + name + ']').attr('placeholder', placeholderString);
-			}, this));
-
-			// set placeholder text
-			this._requestBodyEditor.setValueToPlaceholder();
 		},
 
 		getMimeType: function() {
