@@ -117,9 +117,11 @@
 		.explorpc-body textarea {
 			height: 100%;
 		}
-		.explorpc-url input, .explorpc-method input {
+		.explorpc-url label, .explorpc-method label {
+			display: table;
 			width: 100%;
-			.border-box;
+			input, span { display: table-cell; }
+			input { width: 100%; }
 		}
 
 		.explorpc-h-expand {
