@@ -98,9 +98,6 @@
 		border-right-width: 0;
 		position: relative;
 
-		select {
-			margin-right: 4px;
-		}
 		.placeholder {
 			color: #aaa;
 		}
@@ -114,7 +111,7 @@
 		.explorpc-body textarea {
 			height: 100%;
 		}
-		.explorpc-url label, .explorpc-auth label, .explorpc-method label {
+		.explorpc-options label, .explorpc-url label, .explorpc-auth label, .explorpc-method label {
 			display: table;
 			width: 100%;
 			input, span { display: table-cell; }
@@ -122,6 +119,13 @@
 		}
 		.explorpc-url input, .explorpc-method input { 
 			width: 100%;
+		}
+
+		.explorpc-options {
+			select { margin-right: 2px; }
+			select[name=type] { width: 90px; }
+			select[name=httpMethod] { width: 60px; }
+			select[name=auth] { width: 55px; }
 		}
 
 		.explorpc-h-expand {
@@ -221,8 +225,10 @@
 		display: block;
 	}
 	&.explorpc-soap11, &.explorpc-soap12 {
-		.explorpc-method { display: block; }
-		.field label span { width: 6.5em }
+		.explorpc-method {
+			display: block;
+			label span { width: 6.5em; }
+		}
 	}
 	&.explorpc-auth-basic .explorpc-request .explorpc-auth {
 		display: block;

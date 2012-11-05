@@ -75,26 +75,29 @@
 					<h4>Request</h4>
 				</header>
 
-				<div class="field">
-					<select name="type">
-						<option value="raw">Raw</option>
-						<option value="json-rpc">JSON-RPC 2.0</option>
-						<option value="soap11">SOAP 1.1</option>
-						<option value="soap12">SOAP 1.2</option>
-					</select>
+				<div class="field explorpc-options">
+					<label>
+						<span>Options</span>
+						<select name="type">
+							<option value="raw">Raw</option>
+							<option value="json-rpc">JSON-RPC 2.0</option>
+							<option value="soap11">SOAP 1.1</option>
+							<option value="soap12">SOAP 1.2</option>
+						</select>
 
-					<select name="httpMethod">
-						<option value="post">POST</option>
-						<option value="get">GET</option>
-						<option value="put">PUT</option>
-						<option value="delete">DELETE</option>
-						<option value="trace">TRACE</option>
-					</select>
+						<select name="httpMethod">
+							<option value="post">POST</option>
+							<option value="get">GET</option>
+							<option value="put">PUT</option>
+							<option value="delete">DELETE</option>
+							<option value="trace">TRACE</option>
+						</select>
 
-					<select name="auth">
-						<option value="none">No auth</option>
-						<option value="basic">Basic</option>
-					</select>
+						<select name="auth">
+							<option value="none">No auth</option>
+							<option value="basic">Basic</option>
+						</select>
+					</label>
 				</div>
 
 				<div class="field explorpc-url">
