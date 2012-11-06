@@ -274,10 +274,10 @@
 				httpMethodSelect = this.element.find('[name=httpMethod]');
 
 			this.element
-				.removeClass('explorpc-json-rpc explorpc-soap11 explorpc-soap12 explorpc-raw')
+				.removeClass('explorpc-json-rpc explorpc-soap11 explorpc-soap12 explorpc-xml-rpc explorpc-raw')
 				.addClass('explorpc-' + type);
 
-			if (type === 'json-rpc' || type === 'soap11' || type === 'soap12') {
+			if (type === 'json-rpc' || type === 'soap11' || type === 'soap12' || type === 'xml-rpc') {
 				httpMethodSelect.val('post').attr('disabled', true);
 				this._httpMethodChanged();
 			} else {
@@ -319,7 +319,7 @@
 				case 'soap12':
 					return 'SOAP Body';
 				case 'xml-rpc':
-					return 'XML Payload';
+					return 'XML <params>';
 				case 'raw':
 					return 'Request Body';
 			}
@@ -434,6 +434,9 @@
 				case 'json-rpc':
 					params.data = this._getJsonRPCRequestBody();
 					break;
+				case 'xml-rpc':
+					params.data = this._getXMLRPCRequestBody();
+					break;
 				case 'soap11':
 				case 'soap12':
 					params.headers.SOAPAction = this.element.find('[name=method]').val();
@@ -481,6 +484,14 @@
 			request += '<soap:Header/>' +
 					'<soap:Body>' + body + '</soap:Body>' +
 				'</soap:Envelope>';
+			return request;
+		},
+
+		_getXMLRPCRequestBody: function() {
+			var body = this._requestBodyEditor.getActualValue(),
+				method = this.element.find('[name=method]').val(),
+				request = '<?xml version="1.0" encoding="UTF-8"?>';
+			request += '<methodCall><methodName>' + method + '</methodName>' + body + '</methodCall>';
 			return request;
 		},
 

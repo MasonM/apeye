@@ -3,6 +3,7 @@ A simple Flask app that includes a JSON-RPC and SOAP server that both expose
 an "add" method.
 """
 from flask import Flask, request, make_response
+from flaskext.xmlrpc import XMLRPCHandler, Fault
 import simplejsonrpc
 from pysimplesoap.server import SoapDispatcher
 
@@ -33,7 +34,6 @@ def jsonrpc():
 	resp = make_response(result, 200)
 	return add_cors_headers(resp)
 
-
 dispatcher = SoapDispatcher(
 	'explorpc_dispatcher',
 	location = "http://api.explorpc.org/soap",
@@ -57,6 +57,10 @@ def soap():
 
 	resp = make_response(result, 200)
 	return add_cors_headers(resp)
+
+xmlrpc_handler = XMLRPCHandler('xml-rpc')
+xmlrpc_handler.connect(app, '/xml-rpc')
+xmlrpc_handler.register(add)
 
 @app.route("/")
 def index():
