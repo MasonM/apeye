@@ -33,21 +33,19 @@
 			$(function() {
 				document.domain = "explorpc.org";
 				$('input').placeholder();
-				/*
 				$('.explorpc').explorpc({
-					'url': 'api.explorpc.org/jsonrpc',
-					'method': 'add',
-					'type': 'json-rpc',
-					'body': "[3,5]",
+					'autoPrettyPrint': true,
 					'subdomainTunneling': true
 				});
-				*/
-				$('.explorpc').explorpc({
-					'url': 'api.explorpc.org/soap',
-					'method': 'add',
-					'type': 'soap11',
-					'body': "<Adder xmlns=\"http://api.explorpc.org/sample.wsdl\">\n<a>1</a><b>2</b>\n</Adder>",
-					'subdomainTunneling': true
+				$('.examples').on('click', 'a', function(event) {
+					event.preventDefault();
+					var explorpc = $('.explorpc').data('explorpc');
+					$.each($.mm.explorpc.prototype.paramNames, $.proxy(function(i, paramName) {
+						if ($(this).attr('data-' + paramName)) {
+							explorpc.option(paramName, $(this).attr('data-' + paramName));
+						}
+					}, this));
+					explorpc.setFieldValues();
 				});
 			});
 		</script>
@@ -66,6 +64,32 @@
 
 	<body>
 		<h1>ExploRPC</h1>
+
+		<h3>Examples</h3>
+		<ul class="examples">
+			<li><a href="#"
+				data-url="api.explorpc.org/soap"
+				data-body='<Adder xlmns="http://api.explorpc.org/soap">
+	<a>10</a>
+	<b>20</b>
+</Adder>'
+				data-method="add"
+				data-type="soap11">Add 10 and 20 with SOAP 1.1</a></li>
+			<li><a href="#"
+				data-url="api.explorpc.org/jsonrpc"
+				data-body='[10,20]'
+				data-method="add"
+				data-type="json-rpc">Add 10 and 20 with JSON-RPC</a></li>
+			<li><a href="#"
+				data-url="api.explorpc.org/xml-rpc"
+				data-body='<params>
+	<param><value><int>1</int></value></param>
+	<param><value><int>4</int></value></param>
+</params>'
+				data-method="add"
+				data-type="xml-rpc">Add 10 and 20 with XML-RPC</a></li>
+		</ul>
+
 
 		<div class="explorpc">
 			<div class="explorpc-dialog"></div>
