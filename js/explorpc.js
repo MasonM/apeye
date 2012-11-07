@@ -64,10 +64,6 @@
 				.on('click', '.explorpc-prettyprint:not(.ui-state-disabled)', $.proxy(this.prettyPrintResponse, this))
 				.on('hover', '.explorpc-expand, .explorpc-viewraw, .explorpc-prettyprint', this._buttonHover);
 
-			this._httpMethodChanged();
-			this._authChanged();
-			this._typeChanged();
-			this._urlChanged();
 			this._horizontalExpandChanged();
 			this._initialized = true;
 			this._adjustDimensions();
