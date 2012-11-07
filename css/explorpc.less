@@ -4,6 +4,11 @@
 	box-sizing: border-box;         /* Opera/IE 8+ */
 }
 
+@explorpc-pre-bgcolor: #ddd;
+@explorpc-field-bordercolor: #ccc;
+@explorpc-placeholder-color: #999;
+@explorpc-activeline-bgcolor: #e8f2ff;
+
 .explorpc {
 	font-size: 0;
 	text-align: center;
@@ -35,7 +40,7 @@
 		padding: 5px;
 		text-align: left;
 		margin: 0;
-		background-color: #ddd;
+		background-color: @explorpc-pre-bgcolor;
 		font-size: 12px;
 		overflow: auto;
 	}
@@ -81,11 +86,11 @@
 		margin: 0;
 
 		.activeline {
-			background: #e8f2ff;
+			background: @explorpc-activeline-bgcolor;
 		}
 
 		&.explorpc-empty {
-			pre, pre span { color: #999 !important; }
+			pre, pre span { color: @explorpc-placeholder-color !important; }
 			.activeline { background: none !important; }
 		}
 
@@ -119,7 +124,10 @@
 			.border-box;
 
 			label { display: table-row; }
-			select, input, span { display: table-cell; }
+			select, input, span {
+				display: table-cell;
+				.border-box;
+			}
 			span {
 				width: 4.5em; 
 				vertical-align: top;
@@ -192,7 +200,7 @@
 		}
 
 		.explorpc-response-body .CodeMirror {
-			background-color: #ddd;
+			background-color: @explorpc-pre-bgcolor;
 		}
 
 		.explorpc-success {
@@ -224,13 +232,13 @@
 			vertical-align: top;
 		}
 		textarea:-moz-placeholder, input:-moz-placeholder {
-			color: #999;
+			color: @explorpc-placeholder-color;
 		}
 		textarea:-ms-input-placeholder, input:-ms-input-placeholder {
-			color: #999;
+			color: @explorpc-placeholder-color;
 		}
 		textarea::-webkit-input-placeholder, input::-webkit-input-placeholder {
-			color: #999;
+			color: @explorpc-placeholder-color;
 		}
 	}
 
@@ -269,7 +277,7 @@
 	}
 
 	input, .CodeMirror, .explorpc-pre {
-		border: 1px solid #ccc;
+		border: 1px solid @explorpc-field-bordercolor;
 	}
 }
 
