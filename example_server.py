@@ -28,7 +28,7 @@ xmlrpc_handler.register(add)
 class ExploRPCHandler(simplejsonrpc.JsonrpcHandler):
 	def dispatch(self, method_name):
 		return add if (method_name == "add") else None
-@app.route("/jsonrpc",  methods=['GET', 'POST', 'OPTIONS'])
+@app.route("/json-rpc",  methods=['GET', 'POST', 'OPTIONS'])
 def jsonrpc():
 	result = ''
 	if request.headers["CONTENT_LENGTH"]:

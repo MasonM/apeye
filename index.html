@@ -37,16 +37,19 @@
 					'autoPrettyPrint': true,
 					'subdomainTunneling': true
 				});
-				$('.examples').on('click', 'a', function(event) {
-					event.preventDefault();
-					var explorpc = $('.explorpc').data('explorpc');
-					$.each($.mm.explorpc.prototype.paramNames, $.proxy(function(i, paramName) {
-						if ($(this).attr('data-' + paramName)) {
-							explorpc.option(paramName, $(this).attr('data-' + paramName));
-						}
-					}, this));
+
+				$(window).on('hashchange', function() {
+					// set field values from URL hash string, if present
+					var explorpc = $('.explorpc').data('explorpc'), 
+						hashString = window.location.hash.substring(1),
+						nameValueArray;
+					if (!hashString) return;
+					$.each(hashString.split('&'), function() {
+						nameValueArray = this.split('=');
+						explorpc.option(nameValueArray[0], decodeURIComponent(nameValueArray[1]));
+					});
 					explorpc.setFieldValues();
-				});
+				}).trigger('hashchange');
 			});
 		</script>
 		<style type="text/css">
@@ -67,27 +70,9 @@
 
 		<h3>Examples</h3>
 		<ul class="examples">
-			<li><a href="#"
-				data-url="api.explorpc.org/soap"
-				data-body='<Adder xlmns="http://api.explorpc.org/soap">
-	<a>10</a>
-	<b>20</b>
-</Adder>'
-				data-method="add"
-				data-type="soap11">Add 10 and 20 with SOAP 1.1</a></li>
-			<li><a href="#"
-				data-url="api.explorpc.org/jsonrpc"
-				data-body='[10,20]'
-				data-method="add"
-				data-type="json-rpc">Add 10 and 20 with JSON-RPC</a></li>
-			<li><a href="#"
-				data-url="api.explorpc.org/xml-rpc"
-				data-body='<params>
-	<param><value><int>1</int></value></param>
-	<param><value><int>4</int></value></param>
-</params>'
-				data-method="add"
-				data-type="xml-rpc">Add 10 and 20 with XML-RPC</a></li>
+			<li><a href='#method=add&type=soap11&url=api.explorpc.org%2Fsoap&body=%3CAdder%20xlmns%3D%22http%3A%2F%2Fapi.explorpc.org%2Fsoap%22%3E%0A%20%20%20%3Ca%3E10%3C%2Fa%3E%0A%20%20%20%3Cb%3E20%3C%2Fb%3E%0A%3C%2FAdder%3E'>Add 10 and 20 with SOAP 1.1</a></li>
+			<li><a href='#method=add&type=json-rpc&url=api.explorpc.org%2Fjson-rpc&body=%5B10%2C20%5D'>Add 10 and 20 with JSON-RPC</a></li>
+			<li><a href='#method=add&type=xml-rpc&url=api.explorpc.org%2Fxml-rpc&body=%3Cparams%3E%0A%20%20%20%3Cparam%3E%3Cvalue%3E%3Cint%3E1%3C%2Fint%3E%3C%2Fvalue%3E%3C%2Fparam%3E%0A%20%20%20%3Cparam%3E%3Cvalue%3E%3Cint%3E4%3C%2Fint%3E%3C%2Fvalue%3E%3C%2Fparam%3E%0A%3C%2Fparams%3E'>Add 10 and 20 with XML-RPC</a></li>
 		</ul>
 
 
