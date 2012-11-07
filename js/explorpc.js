@@ -41,14 +41,14 @@
 			this._initResponseBody();
 			
 			// initialize elements
-			this.setFieldValues();
 			this.element
 				.resizable({ handles: 'se' })
 				.find('.ui-resizable-se')
 					.addClass('ui-icon-grip-diagonal-se')
 					.end()
 				.find('button')
-					.button();
+					.button({ disabled: true });
+			this.setFieldValues();
 
 			// register events
 			this.element
@@ -56,6 +56,7 @@
 				.on('change', '[name=type]', $.proxy(this._typeChanged, this))
 				.on('change', '[name=httpMethod]', $.proxy(this._httpMethodChanged, this))
 				.on('change', '[name=auth]', $.proxy(this._authChanged, this))
+				.on('change', '[name=url]', $.proxy(this._urlChanged, this))
 				.on('click', '[name=request]:not(.ui-state-disabled)', $.proxy(this._requestClicked, this))
 				.on('click', '.explorpc-expand', $.proxy(this.toggleExpand, this))
 				.on('click', '.explorpc-h-expand', $.proxy(this.toggleHorizontalExpand, this))
@@ -66,6 +67,7 @@
 			this._httpMethodChanged();
 			this._authChanged();
 			this._typeChanged();
+			this._urlChanged();
 			this._horizontalExpandChanged();
 			this._initialized = true;
 			this._adjustDimensions();
@@ -149,6 +151,7 @@
 			this._httpMethodChanged();
 			this._authChanged();
 			this._typeChanged();
+			this._urlChanged();
 		},
 
 		_adjustDimensions: function() {
@@ -361,6 +364,14 @@
 			var auth = this.element.find('[name=auth]').val();
 			this.element.toggleClass('explorpc-auth-basic', auth === 'basic');
 			this._adjustDimensions();
+		},
+
+		_urlChanged: function(event) {
+			var url = this.element.find('[name=url]').val();
+			this.element
+				.find('[name=request]')
+				.data('button')
+				.option('disabled', url.length === 0);
 		},
 
 		_requestClicked: function(event) {
