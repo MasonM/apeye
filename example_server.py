@@ -4,8 +4,12 @@ an "add" method.
 """
 from flask import Flask, request, make_response
 from flaskext.xmlrpc import XMLRPCHandler, Fault
+from werkzeug.wsgi import DispatcherMiddleware
 import simplejsonrpc
-from pysimplesoap.server import SoapDispatcher
+import soaplib
+from soaplib.core.service import rpc, soap, DefinitionBase
+from soaplib.core.model.primitive import Integer
+from soaplib.core.server import wsgi
 
 app = Flask(__name__)
 
@@ -28,7 +32,7 @@ xmlrpc_handler.register(add)
 class ExploRPCHandler(simplejsonrpc.JsonrpcHandler):
 	def dispatch(self, method_name):
 		return add if (method_name == "add") else None
-@app.route("/json-rpc",  methods=['GET', 'POST', 'OPTIONS'])
+@app.route("/json-rpc", methods=['GET', 'POST', 'OPTIONS'])
 def jsonrpc():
 	result = ''
 	if request.headers["CONTENT_LENGTH"]:
@@ -40,25 +44,14 @@ def jsonrpc():
 	return add_cors_headers(resp)
 
 
-dispatcher = SoapDispatcher(
-	'explorpc_dispatcher',
-	location = "http://api.explorpc.org/soap",
-	action = 'http://api.explorpc.org/', # SOAPAction
-	namespace = "http://api.explorpc.org/sample.wsdl", prefix="ns0",
-	trace = True,
-	ns = True)
-dispatcher.register_function('Adder', add,
-	returns={'AddResult': int},
-	args={'a': int, 'b': int})
-@app.route("/soap",  methods=['GET', 'POST', 'OPTIONS'])
-def soap():
-	result = ''
-	if request.headers["CONTENT_LENGTH"]:
-		data = request.data
-		result = dispatcher.dispatch(data, request.headers["SOAPAction"])
-		#app.logger.debug("FOO |%s| |%s|" % (data, result))
-	resp = make_response(result, 200)
-	return add_cors_headers(resp)
+class AddService(DefinitionBase):
+	@rpc(Integer,Integer,_returns=Integer)
+	def add(self,a,b):
+		 return a + b
+soap_application = soaplib.core.Application([AddService], 'tns')
+app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {
+	'/soap': wsgi.Application(soap_application),
+})
 
 
 @app.route("/")
