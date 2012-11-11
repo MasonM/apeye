@@ -140,11 +140,20 @@
 		},
 
 		_initAutocomplete: function() {
-			var source = this.option('autocompleteSource');
+			var source = this.option('autocompleteSource'),
+				method = this.element.find('[name=method]');
 			if (!source) return;
 
+			method.autocomplete({
+				appendTo: this.element,
+				minLength: 0
+			}).focus(function() {
+				// show list when input is focused
+				if (this.value === "") $(this).trigger('keydown.autocomplete');
+			});
 			if (typeof source === "string") {
 				// treat as WSDL file that must be requested and parsed
+				method.autocomplete('disable');
 				if (this.option('subdomainTunneling')) {
 					this._tunnelRequest(this._getLocation(source), this._initAutocompleteWsdl);
 				} else {
@@ -158,8 +167,7 @@
 						source(self.element.find('[name=url]').val(), request, response);
 					};
 				}
-				this.element.find('[name=method]')
-					.autocomplete({ source: source, appendTo: this.element });
+				method.autocomplete('option', 'source', source);
 			}
 		},
 
@@ -174,8 +182,10 @@
 				var methodNames = $(data).find('operation').map(function() {
 					return this.getAttribute('name');
 				}).toArray();
-				self.element.find('[name=method]')
-					.autocomplete({ source: $.unique(methodNames), appendTo: self.element });
+				self.element
+					.find('[name=method]')
+					.autocomplete('option', 'source', $.unique(methodNames))
+					.autocomplete('enable');
 			});
 		},
 
