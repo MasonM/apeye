@@ -34,7 +34,8 @@
 				document.domain = "explorpc.org";
 				$('.explorpc').explorpc({
 					'autoPrettyPrint': true,
-					'subdomainTunneling': true
+					'subdomainTunneling': true,
+					'autocompleteSource': 'http://api.explorpc.org/soap?wsdl'
 				});
 
 				$(window).on('hashchange', function() {
