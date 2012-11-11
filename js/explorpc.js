@@ -40,17 +40,6 @@
 			// initialize CodeMirror instances
 			this._initRequestBody();
 			this._initResponseBody();
-			
-			// initialize elements
-			this.element
-				.resizable({ handles: 'se' })
-				.find('.ui-resizable-se')
-					.addClass('ui-icon-grip-diagonal-se')
-					.end()
-				.find('button')
-					.button({ disabled: true });
-			this._initAutocomplete();
-			this.setFieldValues();
 
 			// register events
 			this.element
@@ -65,6 +54,17 @@
 				.on('click', '.explorpc-viewraw:not(.ui-state-disabled)', $.proxy(this.viewRaw, this))
 				.on('click', '.explorpc-prettyprint:not(.ui-state-disabled)', $.proxy(this.prettyPrintResponse, this))
 				.on('hover', '.explorpc-expand, .explorpc-viewraw, .explorpc-prettyprint', this._buttonHover);
+			
+			// initialize elements
+			this.element
+				.resizable({ handles: 'se' })
+				.find('.ui-resizable-se')
+					.addClass('ui-icon-grip-diagonal-se')
+					.end()
+				.find('button')
+					.button({ disabled: true });
+			this._initAutocomplete();
+			this._initFields();
 
 			this._horizontalExpandChanged();
 			this._initialized = true;
@@ -133,22 +133,10 @@
 			});
 		},
 
-		setFieldValues: function() {
+		_initFields: function() {
 			$.each(this.paramNames, $.proxy(function(i, fieldName) {
-				var value = this.option(fieldName);
-				if (fieldName === 'body') {
-					this._requestBodyEditor.setValue(value);
-					if (value.length > 0 && this._requestBodyEditor.hasEmptyFlag()) {
-						this._requestBodyEditor.toggleEmptyFlag();
-					}
-				} else {
-					this.element.find('[name=' + fieldName + ']').val(value);
-				}
+				this._setField(fieldName, this.option(fieldName));
 			}, this));
-			this._httpMethodChanged();
-			this._authChanged();
-			this._typeChanged();
-			this._urlChanged();
 		},
 
 		_initAutocomplete: function() {
@@ -189,6 +177,27 @@
 				self.element.find('[name=method]')
 					.autocomplete({ source: $.unique(methodNames), appendTo: self.element });
 			});
+		},
+
+		_setOption: function(key, value) {
+			$.Widget.prototype._setOption.apply(this, arguments);
+			if ($.inArray(key, this.paramNames) !== -1) {
+				this._setField(key, value);
+			}
+		},
+
+		_setField: function(key, value) {
+			if (key === 'body') {
+				this._requestBodyEditor.setValue(value);
+				if (value.length > 0 && this._requestBodyEditor.hasEmptyFlag()) {
+					this._requestBodyEditor.toggleEmptyFlag();
+				}
+			} else {
+				this.element
+					.find('[name=' + key + ']')
+					.val(value)
+					.trigger('change');
+			}
 		},
 
 		_adjustDimensions: function() {
