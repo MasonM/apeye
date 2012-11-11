@@ -134,18 +134,17 @@
 		},
 
 		setFieldValues: function() {
-			var self = this;
-			$.each(this.paramNames, function(i, fieldName) {
-				var value = self.option(fieldName);
+			$.each(this.paramNames, $.proxy(function(i, fieldName) {
+				var value = this.option(fieldName);
 				if (fieldName === 'body') {
-					self._requestBodyEditor.setValue(value);
-					if (value.length > 0 && self._requestBodyEditor.hasEmptyFlag()) {
-						self._requestBodyEditor.toggleEmptyFlag();
+					this._requestBodyEditor.setValue(value);
+					if (value.length > 0 && this._requestBodyEditor.hasEmptyFlag()) {
+						this._requestBodyEditor.toggleEmptyFlag();
 					}
 				} else {
-					self.element.find('[name=' + fieldName + ']').val(value);
+					this.element.find('[name=' + fieldName + ']').val(value);
 				}
-			});
+			}, this));
 			this._httpMethodChanged();
 			this._authChanged();
 			this._typeChanged();
