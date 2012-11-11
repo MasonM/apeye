@@ -2,17 +2,18 @@
 	"use strict";
 	$.widget("mm.explorpc", {
 		options: {
-			// field setters
+			// FIELD SETTERS
 			type: "json-rpc",
 			httpMethod: "post",
 			auth: "basic",
 			url: "",
 			method: "",
-			body: "",	
+			body: "",
 			username: "",
 			password: "",
 
-			// misc options
+			// MISC OPTIONS
+			autocompleteSource: null,
 			indent: 3,
 			timeout: 5 * 1000,
 			subdomainTunneling: false,
@@ -48,6 +49,7 @@
 					.end()
 				.find('button')
 					.button({ disabled: true });
+			this._initAutocomplete();
 			this.setFieldValues();
 
 			// register events
@@ -148,6 +150,46 @@
 			this._authChanged();
 			this._typeChanged();
 			this._urlChanged();
+		},
+
+		_initAutocomplete: function() {
+			var source = this.option('autocompleteSource');
+			if (!source) return;
+
+			if (typeof source === "string") {
+				// treat as WSDL file that must be requested and parsed
+				if (this.option('subdomainTunneling')) {
+					this._tunnelRequest(this._getLocation(source), this._initAutocompleteWsdl);
+				} else {
+					this._initAutocompleteWsdl($.ajax);
+				}
+			} else {
+				if (!$.isArray(source)) {
+					// treat as function
+					var self = this;
+					source = function(request, response) {
+						source(self.element.find('[name=url]').val(), request, response);
+					};
+				}
+				this.element.find('[name=method]')
+					.autocomplete({ source: source, appendTo: this.element });
+			}
+		},
+
+		_initAutocompleteWsdl: function(ajax) {
+			var self = this;
+			ajax({
+				url: this.option('autocompleteSource'),
+				method: "GET",
+				dataType: "xml"
+			})
+			.done(function(data) {
+				var methodNames = $(data).find('operation').map(function() {
+					return this.getAttribute('name');
+				}).toArray();
+				self.element.find('[name=method]')
+					.autocomplete({ source: $.unique(methodNames), appendTo: self.element });
+			});
 		},
 
 		_adjustDimensions: function() {
@@ -384,15 +426,13 @@
 			responseSection.fadeTo(0, 0.5);
 
 			if (this.option('subdomainTunneling')) {
-				this._tunnelRequest();
+				this._tunnelRequest(this._getLocation(this.getFullUrl()), this._doRequest);
 			} else {
 				this._doRequest($.ajax);
 			}
 		},
 
-		_tunnelRequest: function() {
-			var loc = this._getLocation(this.getFullUrl());
-
+		_tunnelRequest: function(loc, onSuccess) {
 			// only do subdomain tunneling if request URL has a different hostname but the
 			// same domain suffix as document.domain
 			if (loc.host !== window.location.host && loc.hostname.match(document.domain + "$")) {
@@ -402,7 +442,7 @@
 						.attr('src', loc.protocol + '//' + loc.host + this.option('tunnelFilepath'))
 						.load(function() {
 							self._subdomainAjax[loc.host] = this.contentWindow.jQuery.ajax;
-							self._doRequest(self._subdomainAjax[loc.host]);
+							onSuccess.call(self, self._subdomainAjax[loc.host]);
 						})
 						.appendTo('head');
 				} else {
@@ -488,6 +528,7 @@
 			} else {
 				request += '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope">';
 			}
+			// @todo Add support for setting SOAP headers
 			request += '<soap:Header/>' +
 					'<soap:Body>' + body + '</soap:Body>' +
 				'</soap:Envelope>';
