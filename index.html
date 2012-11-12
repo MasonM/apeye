@@ -39,14 +39,16 @@
 				});
 
 				$(window).on('hashchange', function() {
-					// set field values from URL hash string, if present
+					// Set field values from URL hash string, if present
 					var explorpc = $('.explorpc').data('explorpc'), 
 						hashString = window.location.hash.substring(1),
-						nameValueArray;
+						i;
 					if (!hashString) return;
 					$.each(hashString.split('&'), function() {
-						nameValueArray = this.split('=');
-						explorpc.option(nameValueArray[0], decodeURIComponent(nameValueArray[1]));
+						//I'm not using "this.split('=')" here because the body may have multiple "="s.
+						//This is a little cleaner than splitting and rejoining.
+						i = this.indexOf('=');
+						explorpc.option(this.slice(0, i), decodeURIComponent(this.slice(i + 1)));
 					});
 				}).trigger('hashchange');
 			});
