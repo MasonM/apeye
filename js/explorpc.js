@@ -176,15 +176,28 @@
 			ajax({
 				url: this.option('autocompleteSource'),
 				method: "GET",
-				dataType: "xml"
+				dataType: "text"
 			})
 			.done(function(data) {
-				var methodNames = $(data).find('operation').map(function() {
-					return this.getAttribute('name');
-				}).toArray();
+				// Ideally I'd let jQuery automatically parse the XML and use $(data).find('operation'),
+				// but unfortunately that doesn't work in IE and FF due to jQuery's broken handling of XML
+				// namespaces. See http://bugs.jquery.com/ticket/155
+				//
+				// Instead, I'll parse it manually with DOMParser. This won't work in IE8, since IE8
+				// doesn't support DOMParser or getElementsByTagNameNS. Working around it would be too
+				// much work, so I'm just going to not support IE8.
+				var parser = new DOMParser(),
+					xmlDoc = parser.parseFromString(data, "text/xml"),
+					portType = xmlDoc.getElementsByTagNameNS('*', 'portType')[0],
+					methodNames = [];
+				if (!portType) return;
+				$.each(portType.getElementsByTagNameNS('*', 'operation'), function() {
+					var name = this.getAttribute('name');
+					if (name) methodNames.push(name);
+				});
 				self.element
 					.find('[name=method]')
-					.autocomplete('option', 'source', $.unique(methodNames))
+					.autocomplete('option', 'source', methodNames)
 					.autocomplete('enable');
 			});
 		},
