@@ -57,6 +57,7 @@
 			
 			// initialize elements
 			this.element
+				.toggleClass('explorpc-autoprettyprint', this.option('autoPrettyPrint'))
 				.resizable({ handles: 'se' })
 				.find('.ui-resizable-se')
 					.addClass('ui-icon-grip-diagonal-se')
@@ -206,6 +207,8 @@
 			$.Widget.prototype._setOption.apply(this, arguments);
 			if ($.inArray(key, this.paramNames) !== -1) {
 				this._setField(key, value);
+			} else if (key === 'autoPrettyPrint') {
+				this.element.toggleClass('explorpc-autoprettyprint', value);
 			}
 		},
 
