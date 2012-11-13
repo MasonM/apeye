@@ -165,7 +165,7 @@
 					// treat as function
 					var self = this;
 					source = function(request, response) {
-						source(self.element.find('[name=url]').val(), request, response);
+						source(self.getFieldValue('url'), request, response);
 					};
 				}
 				method.autocomplete('option', 'source', source);
@@ -224,6 +224,10 @@
 					.val(value)
 					.trigger('change');
 			}
+		},
+
+		getFieldValue: function(fieldName) {
+			return this.element.find('[name=' + fieldName + ']').val();
 		},
 
 		_adjustDimensions: function() {
@@ -345,7 +349,7 @@
 		},
 
 		_typeChanged: function(event) {
-			var type = this.element.find('[name=type]').val(),
+			var type = this.getFieldValue('type'),
 				httpMethodSelect = this.element.find('[name=httpMethod]');
 
 			this.element
@@ -377,7 +381,7 @@
 		},
 
 		_getMethodLabel: function() {
-			switch (this.element.find('[name=type]').val()) {
+			switch (this.getFieldValue('type')) {
 				case 'soap11':
 				case 'soap12':
 					return 'SOAPAction';
@@ -387,7 +391,7 @@
 		},
 
 		_getRequestBodyHeader: function() {
-			switch (this.element.find('[name=type]').val()) {
+			switch (this.getFieldValue('type')) {
 				case 'json-rpc':
 					return 'JSON Params';
 				case 'soap11':
@@ -401,7 +405,7 @@
 		},
 
 		_getRequestBodyPlaceholder: function() {
-			switch (this.element.find('[name=type]').val()) {
+			switch (this.getFieldValue('type')) {
 				case 'json-rpc':
 					return "[\"Hello JSON-RPC\"]";
 				case 'soap11':
@@ -413,7 +417,7 @@
 		},
 
 		getMimeType: function() {
-			switch (this.element.find('[name=type]').val()) {
+			switch (this.getFieldValue('type')) {
 				case 'json-rpc':
 					return 'application/json';
 				case 'soap11':
@@ -426,20 +430,20 @@
 		},
 
 		_httpMethodChanged: function(event) {
-			var httpMethod = this.element.find('[name=httpMethod]').val();
+			var httpMethod = this.getFieldValue('httpMethod');
 			this.element
 				.removeClass('explorpc-method-post explorpc-method-put explorpc-method-get explorpc-method-delete explorpc-method-trace')
 				.addClass('explorpc-method-' + httpMethod);
 		},
 
 		_authChanged: function(event) {
-			var auth = this.element.find('[name=auth]').val();
+			var auth = this.getFieldValue('auth');
 			this.element.toggleClass('explorpc-auth-basic', auth === 'basic');
 			this._adjustDimensions();
 		},
 
 		_urlChanged: function(event) {
-			var url = this.element.find('[name=url]').val();
+			var url = this.getFieldValue('url');
 			this.element
 				.find('[name=request]')
 				.data('button')
@@ -488,7 +492,7 @@
 		},
 
 		getFullUrl: function() {
-			var url = this.element.find('[name=url]').val();
+			var url = this.getFieldValue('url');
 			if (!url.match(/^https?:\/\//)) {
 				url = window.location.protocol + '//' + url;
 			}
@@ -497,21 +501,21 @@
 
 		_doRequest: function(ajax) {
 			var params = {};
-			params.type = this.element.find('[name=httpMethod]').val().toUpperCase();
+			params.type = this.getFieldValue('httpMethod').toUpperCase();
 			params.url = this.getFullUrl();
 			params.dataType = 'text';
 			params.timeout = this.option('timeout');
 			params.processData = false;
 			params.headers = {};
 
-			if (this.element.find('[name=auth]').val() === 'basic') {
-				var username = this.element.find('[name=username]').val(),
-					password = this.element.find('[name=password]').val();
+			if (this.getFieldValue('auth') === 'basic') {
+				var username = this.getFieldValue('username'),
+					password = this.getFieldValue('password');
 				params.headers.Authorization = 'Basic ' + window.btoa(username + ":" + password);
 			}
 
 			params.contentType = this.getMimeType();
-			switch (this.element.find('[name=type]').val()) {
+			switch (this.getFieldValue('type')) {
 				case 'json-rpc':
 					params.data = this._getJsonRPCRequestBody();
 					break;
@@ -520,7 +524,7 @@
 					break;
 				case 'soap11':
 				case 'soap12':
-					params.headers.SOAPAction = this.element.find('[name=method]').val();
+					params.headers.SOAPAction = this.getFieldValue('method');
 					params.data = this._getSoapRequestBody();
 					break;
 				case 'raw':
@@ -537,7 +541,7 @@
 		},
 
 		_getJsonRPCRequestBody: function() {
-			var method = this.element.find('[name=method]').val(),
+			var method = this.getFieldValue('method'),
 				params = this._requestBodyEditor.getActualValue(),
 				request = '';
 
@@ -553,7 +557,7 @@
 
 		_getSoapRequestBody: function() {
 			var body = this._requestBodyEditor.getActualValue(),
-				type = this.element.find('[name=type]').val(),
+				type = this.getFieldValue('type'),
 				request = '<?xml version="1.0" encoding="UTF-8"?>';
 
 			if (type === 'soap11') {
@@ -571,7 +575,7 @@
 
 		_getXMLRPCRequestBody: function() {
 			var body = this._requestBodyEditor.getActualValue(),
-				method = this.element.find('[name=method]').val(),
+				method = this.getFieldValue('method'),
 				request = '<?xml version="1.0" encoding="UTF-8"?>';
 			request += '<methodCall><methodName>' + method + '</methodName>' + body + '</methodCall>';
 			return request;
