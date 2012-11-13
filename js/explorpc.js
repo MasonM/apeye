@@ -223,6 +223,17 @@
 			}
 		},
 
+		setFieldsFromString: function(str) {
+			if (!str) return;
+			var self = this, i;
+			$.each(str.split('&'), function() {
+				//I'm not using "this.split('=')" here because the body may have multiple "="s.
+				//This is a little cleaner than splitting and rejoining.
+				i = this.indexOf('=');
+				self.option(this.slice(0, i), decodeURIComponent(this.slice(i + 1)));
+			});
+		},
+
 		getFieldValue: function(fieldName) {
 			return this.element.find('[name=' + fieldName + ']').val();
 		},
