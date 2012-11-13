@@ -29,8 +29,6 @@
 		// last response/request data, used by "view raw request/response" dialog
 		_lastResponse: null,
 		_lastRequestParams: null,
-		// flag that indicates _create() has finished element initialization
-		_initialized: false,
 		// Cache of the jQuery.ajax objects provided by tunnel.html, as served by each of the
 		// subdomains we've connected to. This means we only have to fetch tunnel.html once
 		// for each subdomain request.
@@ -68,7 +66,6 @@
 			this._initFields();
 
 			this._horizontalExpandChanged();
-			this._initialized = true;
 			this._adjustDimensions();
 		},
 
@@ -231,10 +228,6 @@
 		},
 
 		_adjustDimensions: function() {
-			if (!this._initialized) {
-				// avoid unnecessary calls during initialization
-				return;
-			}
 			var hExpand = this.element.hasClass('explorpc-horizontal-expanded'),
 				totalHeight = this.element.height(),
 				sectionHeight = (hExpand ? (totalHeight / 2) : totalHeight) - 3,
