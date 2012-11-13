@@ -58,6 +58,9 @@
 		}
 		.explorpc-request {
 			border-right-width: 1px;
+			.explorpc-options select[name] {
+				max-width: none;
+			}
 		}
 	}
 
@@ -139,12 +142,13 @@
 
 		.explorpc-options {
 			white-space: nowrap;
+			table-layout: auto;
 			select {
 				margin-right: 2px;
 				&:last-child { margin-right: 0 }
-				&[name=type] { max-width: 40%; }
-				&[name=httpMethod] { max-width: 30%; }
-				&[name=auth] { max-width: 30%; }
+				&[name=type] { max-width: 8em; }
+				&[name=httpMethod] { max-width: 5em; }
+				&[name=auth] { max-width: 5em; }
 			}
 		}
 
@@ -163,9 +167,8 @@
 	
 	.explorpc-response {
 		.explorpc-viewraw, .explorpc-expand, .explorpc-prettyprint {
+			vertical-align: text-top;
 			display: inline-block;
-			vertical-align: middle;
-			text-align: left;
 			margin: 1px 2px;
 			cursor: pointer;
 
@@ -176,7 +179,7 @@
 
 		header .icons {
 			position: absolute;
-			top: 0;
+			top: 2px;
 			right: 0;
 		}
 
