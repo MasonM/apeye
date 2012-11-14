@@ -17,7 +17,8 @@
 		display: none;
 	}
 
-	.explorpc-header, .explorpc-subheader {
+	.explorpc-header,
+	.explorpc-subheader {
 		text-align: center;
 		margin: 0;
 		font-weight: bold;
@@ -51,7 +52,8 @@
 	}
 
 	&.explorpc-horizontal-expanded {
-		.explorpc-request, .explorpc-response {
+		.explorpc-request,
+		.explorpc-response {
 			display: block;
 			height: auto;
 			width: 100%;
@@ -69,7 +71,8 @@
 		width: 14px;
 	}
 
-	.explorpc-request, .explorpc-response {
+	.explorpc-request,
+	.explorpc-response {
 		margin: 0;
 		height: 100%;
 		width: 50%;
@@ -114,29 +117,36 @@
 			&[name=username] { float: left; }
 			&[name=password] { float: right; }
 		}
-		.explorpc-body, .explorpc-send {
+		.explorpc-body,
+		.explorpc-send {
 			text-align: center;
 		}
 		.explorpc-body textarea {
 			height: 100%;
 		}
-		.explorpc-options, .explorpc-url, .explorpc-auth, .explorpc-method {
+		.explorpc-options,
+		.explorpc-url,
+		.explorpc-auth,
+		.explorpc-method {
 			display: table;
 			table-layout: fixed;
 			width: 100%;
 			.border-box;
 
 			.row { display: table-row; }
-			select, input, span {
-				display: table-cell;
-				.border-box;
-			}
 			span {
 				width: 4.5em; 
 				vertical-align: top;
 			}
+			select,
+			input,
+			span {
+				display: table-cell;
+				.border-box;
+			}
 		}
-		.explorpc-url input, .explorpc-method input { 
+		.explorpc-url input,
+		.explorpc-method input { 
 			width: 100%;
 		}
 
@@ -166,7 +176,7 @@
 	}
 	
 	.explorpc-response {
-		.explorpc-viewraw, .explorpc-expand, .explorpc-prettyprint {
+		.explorpc-icon {
 			vertical-align: text-top;
 			display: inline-block;
 			margin: 1px 2px;
@@ -183,7 +193,8 @@
 			right: 0;
 		}
 
-		.explorpc-response-body-header, .explorpc-response-headers-header {
+		.explorpc-response-body-header,
+		.explorpc-response-headers-header {
 			padding-top: 12px;
 		}
 
@@ -234,13 +245,16 @@
 		input[type="checkbox"] {
 			vertical-align: top;
 		}
-		textarea:-moz-placeholder, input:-moz-placeholder {
+		textarea:-moz-placeholder,
+		input:-moz-placeholder {
 			color: @explorpc-placeholder-color;
 		}
-		textarea:-ms-input-placeholder, input:-ms-input-placeholder {
+		textarea:-ms-input-placeholder,
+		input:-ms-input-placeholder {
 			color: @explorpc-placeholder-color;
 		}
-		textarea::-webkit-input-placeholder, input::-webkit-input-placeholder {
+		textarea::-webkit-input-placeholder,
+		input::-webkit-input-placeholder {
 			color: @explorpc-placeholder-color;
 		}
 	}
@@ -251,7 +265,8 @@
 	&.explorpc-json-rpc .explorpc-method {
 		display: table;
 	}
-	&.explorpc-soap11, &.explorpc-soap12 {
+	&.explorpc-soap11,
+	&.explorpc-soap12 {
 		.explorpc-method {
 			display: table;
 			label span { width: 6.5em; }
@@ -260,18 +275,25 @@
 	&.explorpc-auth-basic .explorpc-request .explorpc-auth {
 		display: block;
 	}
-	&.explorpc-method-post, &.explorpc-method-put {
+	&.explorpc-method-post,
+	&.explorpc-method-put {
 		.explorpc-request-body-header, .explorpc-body { display: block; }
 	}
 	&.explorpc-autoprettyprint .explorpc-prettyprint {
 		display: none;
 	}
 
-	.explorpc-notification, .explorpc-method, .explorpc-request .explorpc-auth, .explorpc-body, .explorpc-request-body-header {
+	.explorpc-notification,
+	.explorpc-method,
+	.explorpc-request .explorpc-auth,
+	.explorpc-body,
+	.explorpc-request-body-header {
 		display: none;
 	}
 
-	.explorpc-response-headers, .explorpc-response-body, .explorpc-body {
+	.explorpc-response-headers,
+	.explorpc-response-body,
+	.explorpc-body {
 		margin-top: 6px;
 	}
 
@@ -292,7 +314,9 @@
 		.ui-menu-item { line-height: 1; }
 	}
 
-	input, .CodeMirror, .explorpc-pre {
+	input,
+	.CodeMirror,
+	.explorpc-pre {
 		border: 1px solid @explorpc-field-bordercolor;
 	}
 }
