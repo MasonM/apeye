@@ -56,9 +56,9 @@
 			// initialize elements
 			this.element
 				.toggleClass('explorpc-autoprettyprint', this.option('autoPrettyPrint'))
-				.resizable({ handles: 'se' })
+				.resizable({ handles: 'se' }) // not sure how useful this is. Keep?
 				.find('.ui-resizable-se')
-					.addClass('ui-icon-grip-diagonal-se')
+					.addClass('ui-icon-grip-diagonal-se') // I want the bigger grip icon (default is too small)
 					.end()
 				.find('button')
 					.button({ disabled: true });
@@ -312,9 +312,9 @@
 				"</pre>\n" +
 				"<h4>HTTP Response</h1>\n" +
 				"<pre>" +
-				this._getLastStatusLine() +
-				this._lastResponse.getAllResponseHeaders() + "\n" +
-				this._escapeHTML(this._lastResponse.responseText) + 
+				this._getStatusLine(this._lastResponse) +
+				this._lastResponse.headers + "\n" +
+				this._escapeHTML(this._lastResponse.body) + 
 				"</pre>";
 				
 			this.element
@@ -618,30 +618,37 @@
 			};
 		},
 
-		_getLastStatusLine: function() {
-			return "HTTP/1.1 " + this._lastResponse.status + " " + this._lastResponse.statusText + "\n";
+		_getStatusLine: function(response) {
+			return "HTTP/1.1 " + response.status + " " + response.statusText + "\n";
 		},
 
 		_requestSuccess: function(data, success, jqXHR) {
-			var headers = jqXHR.getAllResponseHeaders(),
-				body = jqXHR.responseText,
-				tempDiv = document.createElement('div'),
-				statusLine = '',
-				statusType = this._getTypeFromStatus(jqXHR.status);
+			this._lastResponse = {
+				headers: jqXHR.getAllResponseHeaders(),
+				body: jqXHR.responseText,
+				status: jqXHR.status,
+				statusText: jqXHR.statusText
+			}
+			this._showResponse(this._lastResponse);
+		},
 
-			this._lastResponse = jqXHR;
+		_showResponse: function(response) {
+			var tempDiv = document.createElement('div'),
+				statusLine = '',
+				statusType = this._getTypeFromStatus(response.status);
+
 			this.element
 				.find('.explorpc-viewraw, .explorpc-prettyprint')
 				.removeClass('ui-state-disabled');
 			
-			statusLine = "<span class=\"explorpc-" + statusType + "\">" + this._getLastStatusLine() + "</span>";
-			CodeMirror.runMode(headers, "message/http", tempDiv);
+			statusLine = "<span class=\"explorpc-" + statusType + "\">" + this._getStatusLine(response) + "</span>";
+			CodeMirror.runMode(response.headers, "message/http", tempDiv);
 			this.element
 				.find('.explorpc-response-headers pre')
 				.html(statusLine + tempDiv.innerHTML);
 
 			this._responseBodyEditor.setOption('mode', this.getMimeType());
-			this._responseBodyEditor.setValue(body);
+			this._responseBodyEditor.setValue(response.body);
 
 			if (this.option('autoPrettyPrint')) {
 				this.prettyPrintResponse();
