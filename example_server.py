@@ -31,7 +31,6 @@ xmlrpc_handler.connect(app, '/xml-rpc')
 for name, func in functions.iteritems():
 	xmlrpc_handler.register(func, name)
 
-
 class JSONRPCHandler(simplejsonrpc.JsonrpcHandler):
 	def dispatch(self, method_name):
 		return functions.get(method_name, None);
@@ -39,16 +38,14 @@ class JSONRPCHandler(simplejsonrpc.JsonrpcHandler):
 def jsonrpc():
 	result = ''
 	if request.headers["CONTENT_LENGTH"]:
-		h = JSONRPCHandler()
-		data = request.data
-		result = h.handle(data)
+		handler = JSONRPCHandler()
+		result = handler.handle(request.data)
 	response = make_response(result, 200)
 	# add CORS headers
 	response.headers['Access-Control-Allow-Origin'] = '*'
 	response.headers['Access-Control-Allow-Headers'] = "Content-Type, X-Requested-With, Authentication"
 	response.headers['Access-Control-Allow-Method'] = "POST, GET, OPTIONS, PUT, DELETE, TRACE"
 	return response
-
 
 class SoapService(DefinitionBase):
 	@rpc(Decimal, Decimal, _returns=Decimal)
@@ -71,17 +68,6 @@ soap_application = soaplib.core.Application([SoapService], 'tns')
 app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {
 	'/soap': wsgi.Application(soap_application),
 })
-
-
-@app.route("/")
-def index():
-	return open('index.html').read()
-
-
-@app.route("/tunnel.html")
-def tunnel():
-	return open('tunnel.html').read()
-
 
 if __name__ == "__main__":
 	app.debug = True
