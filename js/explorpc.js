@@ -27,7 +27,7 @@
 		_requestBodyEditor: null,
 		// codemirror instance for response body
 		_responseBodyEditor: null,
-		// last response/request data, used by "view raw request/response" dialog
+		// last response/request data, used by "view raw request/response" dialog and generate permalink functionality
 		_lastResponse: null,
 		_lastRequestParams: null,
 		// Cache of the jQuery.ajax objects provided by tunnel.html, as served by each of the
@@ -97,6 +97,8 @@
 				}
 			});
 
+			// lotta monkey patching for the HTML5 placeholder-emulation functionality
+			// @todo generalize this and file a pull request with CodeMirror
 			this._requestBodyEditor.toggleEmptyFlag = function() {
 				var wrapper = this.getWrapperElement();
 				if (this.hasEmptyFlag()) {
@@ -149,25 +151,25 @@
 				appendTo: this.element,
 				minLength: 0
 			}).focus(function() {
-				// show list when input is focused
+				// show autocomplete list when input is focused
 				if (this.value === "") $(this).trigger('keydown.autocomplete');
 			});
 			if (typeof source === "string") {
-				// treat as WSDL file that must be requested and parsed
+				// treat the source as WSDL file that must be requested and parsed
 				method.autocomplete('disable');
 				if (this.option('subdomainTunneling')) {
-					this._tunnelRequest(this._getLocation(source), this._initAutocompleteWsdl);
+					this.tunnelRequest(source, this._initAutocompleteWsdl);
 				} else {
 					this._initAutocompleteWsdl($.ajax);
 				}
 			} else {
 				if (!$.isArray(source)) {
-					// treat as function
+					// treat the source as function (jquery UI will handle calling the function)
 					var self = this;
 					source = function(request, response) {
 						source(self.getFieldValue('url'), request, response);
 					};
-				}
+				} // else treat source as an array (handled automatically by jQuery UI)
 				method.autocomplete('option', 'source', source);
 			}
 		},
@@ -231,7 +233,7 @@
 			var self = this, i, fieldName, fieldValue;
 			$.each(str.split('&'), function() {
 				//I'm not using "this.split('=')" here because the body may have multiple "="s.
-				//This is a little cleaner than splitting and rejoining.
+				//I could do a split() and then rejoin all but the first element, but this is a little cleaner
 				i = this.indexOf('=');
 				fieldName = this.slice(0, i);
 				fieldValue = decodeURIComponent(this.slice(i + 1));
@@ -243,6 +245,7 @@
 			});
 		},
 
+		// Serializes the request and response as a string so it can be sent to a server when generating a permalink
 		_serialize: function() {
 			var serialized = {
 				response: this._lastResponse,
@@ -257,6 +260,7 @@
 			return JSON.stringify(serialized);
 		},
 
+		// Takes in a string returned by _serialize() and restores exploRPC to the state represented by the string
 		_unserialize: function(jsonString) {
 			var json = JSON.parse(jsonString);
 
@@ -321,10 +325,10 @@
 		_horizontalExpandChanged: function() {
 			var isExpanded = this.element.hasClass('explorpc-horizontal-expanded');
 			this.element.find('.explorpc-h-expand span')
-					.removeClass('ui-icon-triangle-1-e ui-icon-triangle-1-w')
-					.addClass(function() {
-						return 'ui-icon-triangle-1-' + (isExpanded ? 'w' : 'e');
-					});
+				.removeClass('ui-icon-triangle-1-e ui-icon-triangle-1-w')
+				.addClass(function() {
+					return 'ui-icon-triangle-1-' + (isExpanded ? 'w' : 'e');
+				});
 			this._adjustDimensions();
 		},
 
@@ -393,6 +397,7 @@
 
 			spinner.show().position({ of: dialog });
 
+			// @todo add an errorCallback
 			this.option('permalinkHandler')(true, this._serialize(), successCallback);
 		},
 
@@ -403,6 +408,7 @@
 				.replace(/>/g, '&gt;');
 		},
 
+		// clever little trick to turn a URL into a Location object
 		_getLocation: function(href) {
 			var l = document.createElement("a");
 			l.href = href;
@@ -525,13 +531,14 @@
 			responseSection.fadeTo(0, 0.5);
 
 			if (this.option('subdomainTunneling')) {
-				this._tunnelRequest(this._getLocation(this.getFullUrl()), this._doRequest);
+				this.tunnelRequest(this.getFullUrl(), this._doRequest);
 			} else {
 				this._doRequest($.ajax);
 			}
 		},
 
-		_tunnelRequest: function(loc, onSuccess) {
+		tunnelRequest: function(url, onSuccess) {
+			var loc = this._getLocation(url);
 			// only do subdomain tunneling if request URL has a different hostname but the
 			// same domain suffix as document.domain
 			if (loc.host !== window.location.host && loc.hostname.match(document.domain + "$")) {
@@ -611,7 +618,14 @@
 
 			if (!params) params = '[]';
 			request = '{"jsonrpc":"2.0","method":"' + method + '","params":' + params;
-			if (!this.element.find('[name=notification]:checked').length) request += ',"id": ' + this._getRandomId();
+			if (!this.element.find('[name=notification]:checked').length) {
+				// generate a random ID for this request, because using NULL for the ID is discouraged in the spec:
+				// "[1] The use of Null as a value for the id member in a Request object is discouraged,
+				// because this specification uses a value of Null for Responses with an unknown id.
+				// Also, because JSON-RPC 1.0 uses an id value of Null for Notifications this could
+				// cause confusion in handling."
+				request += ',"id": ' + this._getRandomId();
+			}
 			return request + '}';
 		},
 
@@ -625,9 +639,11 @@
 				request = '<?xml version="1.0" encoding="UTF-8"?>';
 
 			if (type === 'soap11') {
+				//based off http://www.w3.org/TR/2000/NOTE-SOAP-20000508/#_Toc478383490
 				request += '<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"' +
 					' soap:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">';
 			} else {
+				// based off http://www.w3.org/TR/soap12-part0/#Example
 				request += '<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope">';
 			}
 			// @todo Add support for setting SOAP headers
