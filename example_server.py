@@ -80,7 +80,6 @@ def pastebin():
 		result = insert_entry(db.cursor(), request.data)
 		db.commit()
 	elif request.method == "GET":
-		print request.args['id']
 		result = get_entry(db.cursor(), request.args['id'])
 	return make_response(unicode(result), 200)
 def get_entry(cursor, entry_id):
