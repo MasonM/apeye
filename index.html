@@ -35,7 +35,28 @@
 				$('.explorpc').explorpc({
 					'autoPrettyPrint': true,
 					'subdomainTunneling': true,
-					'autocompleteSource': 'http://api.explorpc.org/soap?wsdl'
+					'autocompleteSource': 'http://api.explorpc.org/soap?wsdl',
+					'permalinkHandler': function(sending, dataOrId, successCallback) {
+						if (sending) {
+							$.ajax({
+								url: "/pastebin",
+								type: "POST",
+								contentType: "application/json",
+								data: dataOrId
+							}).done(function(hash) {
+								var link = 'http://explorpc.org/#id=' + hash;
+								successCallback(link, link);
+							});
+						} else {
+							$.ajax({
+								url: "/pastebin",
+								type: "GET",
+								data: { id: dataOrId }
+							}).done(function(data) {
+								successCallback(data);
+							});
+						}
+					}
 				});
 
 				$(window).on('hashchange', function() {
@@ -148,6 +169,9 @@
 				<header class="ui-widget-header">
 					<h4>Response</h4>
 					<div class="icons">
+						<a class="explorpc-icon explorpc-permalink ui-state-disabled" title="Create permanent link">
+							<span class="ui-icon ui-icon-link">Permanent link</span>
+						</a>
 						<a class="explorpc-icon explorpc-viewraw ui-state-disabled" title="View raw request and response">
 							<span class="ui-icon ui-icon-clipboard">View raw</span>
 						</a>

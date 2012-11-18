@@ -15,6 +15,7 @@
 
 	.explorpc-spinner {
 		display: none;
+		z-index: 1005;
 	}
 
 	.explorpc-header,
@@ -282,7 +283,11 @@
 	&.explorpc-autoprettyprint .explorpc-prettyprint {
 		display: none;
 	}
+	&.explorpc-canpermalink .explorpc-response .explorpc-permalink {
+		display: inline-block;
+	}
 
+	.explorpc-response .explorpc-permalink,
 	.explorpc-notification,
 	.explorpc-method,
 	.explorpc-request .explorpc-auth,

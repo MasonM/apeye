@@ -14,6 +14,7 @@
 
 			// MISC OPTIONS
 			autocompleteSource: null,
+			permalinkHandler: null,
 			indent: 3,
 			timeout: 5 * 1000,
 			subdomainTunneling: false,
@@ -51,11 +52,13 @@
 				.on('click', '.explorpc-h-expand', $.proxy(this.toggleHorizontalExpand, this))
 				.on('click', '.explorpc-viewraw:not(.ui-state-disabled)', $.proxy(this.viewRaw, this))
 				.on('click', '.explorpc-prettyprint:not(.ui-state-disabled)', $.proxy(this.prettyPrintResponse, this))
+				.on('click', '.explorpc-permalink:not(.ui-state-disabled)', $.proxy(this.generatePermanentLink, this))
 				.on('hover', '.explorpc-expand, .explorpc-viewraw, .explorpc-prettyprint', this._buttonHover);
 			
 			// initialize elements
 			this.element
 				.toggleClass('explorpc-autoprettyprint', this.option('autoPrettyPrint'))
+				.toggleClass('explorpc-canpermalink', this.option('permalinkHandler') !== null)
 				.resizable({ handles: 'se' }) // not sure how useful this is. Keep?
 				.find('.ui-resizable-se')
 					.addClass('ui-icon-grip-diagonal-se') // I want the bigger grip icon (default is too small)
@@ -173,7 +176,7 @@
 			var self = this;
 			ajax({
 				url: this.option('autocompleteSource'),
-				method: "GET",
+				type: "GET",
 				dataType: "text"
 			})
 			.done(function(data) {
@@ -225,13 +228,45 @@
 
 		setFieldsFromString: function(str) {
 			if (!str) return;
-			var self = this, i;
+			var self = this, i, fieldName, fieldValue;
 			$.each(str.split('&'), function() {
 				//I'm not using "this.split('=')" here because the body may have multiple "="s.
 				//This is a little cleaner than splitting and rejoining.
 				i = this.indexOf('=');
-				self.option(this.slice(0, i), decodeURIComponent(this.slice(i + 1)));
+				fieldName = this.slice(0, i);
+				fieldValue = decodeURIComponent(this.slice(i + 1));
+				if (fieldName === 'id' && self.option('permalinkHandler') !== null) {
+					self.option('permalinkHandler')(false, fieldValue, $.proxy(self._unserialize, self));
+				} else {
+					self.option(fieldName, fieldValue);
+				}
 			});
+		},
+
+		_serialize: function() {
+			var serialized = {
+				response: this._lastResponse,
+				request: {}
+			};
+
+			serialized.request.body = this._requestBodyEditor.getActualValue();
+			$.each(this.paramNames, $.proxy(function(i, fieldName) {
+				serialized.request[fieldName] = this.getFieldValue(fieldName);
+			}, this));
+
+			return JSON.stringify(serialized);
+		},
+
+		_unserialize: function(jsonString) {
+			var json = JSON.parse(jsonString);
+
+			$.each(json.request, $.proxy(function(fieldName, fieldValue) {
+				this.option(fieldName, fieldValue);
+			}, this));
+			this._lastRequestParams = this._getRequestParams();
+
+			this._lastResponse = json.response;
+			this._showResponse(this._lastResponse);
 		},
 
 		getFieldValue: function(fieldName) {
@@ -275,7 +310,6 @@
 				.css('height', '')
 				.css('width', '')
 				.toggleClass('explorpc-expanded');
-
 			this._adjustDimensions();
 		},
 
@@ -328,7 +362,7 @@
 					'close': this._getCloseDialogCallback()
 				});
 		},
-		
+
 		prettyPrintResponse: function() {
 			var lastLineIndex = this._responseBodyEditor.lineCount() - 1,
 				lastLine = this._responseBodyEditor.getLine(lastLineIndex),
@@ -337,6 +371,29 @@
 					to: { line: lastLineIndex, ch: lastLine.length }
 				};
 			this._responseBodyEditor.autoFormatRange(range.from, range.to);
+		},
+
+		generatePermanentLink: function() {
+			var dialog = this.element.find('.explorpc-dialog'),
+				spinner = this.element.find('.explorpc-spinner'),
+				successCallback = function(link, linkText) {
+					dialog.html("Permanent link:<br><a href=\"" + link + "\">" + linkText + "</a>");
+					spinner.hide();
+				};
+
+			dialog
+				.html("Sending details to server...")
+				.dialog({
+					'title': 'Permanent link',
+					'height': 'auto',
+					'position': { my: "center", at: "center", of: this.element },
+					'dialogClass': 'explorpc-dialog',
+					'close': this._getCloseDialogCallback()
+				});
+
+			spinner.show().position({ of: dialog });
+
+			this.option('permalinkHandler')(true, this._serialize(), successCallback);
 		},
 
 		_escapeHTML: function(html) {
@@ -503,7 +560,7 @@
 			return url;
 		},
 
-		_doRequest: function(ajax) {
+		_getRequestParams: function() {
 			var params = {};
 			params.type = this.getFieldValue('httpMethod').toUpperCase();
 			params.url = this.getFullUrl();
@@ -536,9 +593,12 @@
 					break;
 			}
 
-			this._lastRequestParams = params;
+			return params;
+		},
 
-			var req = ajax(params)
+		_doRequest: function(ajax) {
+			this._lastRequestParams = this._getRequestParams();
+			ajax(this._lastRequestParams)
 				.fail($.proxy(this._requestError, this))
 				.done($.proxy(this._requestSuccess, this))
 				.always($.proxy(this._requestDone, this));
@@ -628,7 +688,7 @@
 				body: jqXHR.responseText,
 				status: jqXHR.status,
 				statusText: jqXHR.statusText
-			}
+			};
 			this._showResponse(this._lastResponse);
 		},
 
@@ -638,7 +698,7 @@
 				statusType = this._getTypeFromStatus(response.status);
 
 			this.element
-				.find('.explorpc-viewraw, .explorpc-prettyprint')
+				.find('.explorpc-viewraw, .explorpc-prettyprint, .explorpc-permalink')
 				.removeClass('ui-state-disabled');
 			
 			statusLine = "<span class=\"explorpc-" + statusType + "\">" + this._getStatusLine(response) + "</span>";
