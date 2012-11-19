@@ -238,7 +238,7 @@
 				fieldName = this.slice(0, i);
 				fieldValue = decodeURIComponent(this.slice(i + 1));
 				if (fieldName === 'id' && self.option('permalinkHandler') !== null) {
-					self.option('permalinkHandler')(false, fieldValue, $.proxy(self._unserialize, self));
+					self.option('permalinkHandler').call(this, false, fieldValue, $.proxy(self._unserialize, self));
 				} else {
 					self.option(fieldName, fieldValue);
 				}
@@ -398,7 +398,7 @@
 			spinner.show().position({ of: dialog });
 
 			// @todo add an errorCallback
-			this.option('permalinkHandler')(true, this._serialize(), successCallback);
+			this.option('permalinkHandler').call(this, true, this._serialize(), successCallback);
 		},
 
 		_escapeHTML: function(html) {
