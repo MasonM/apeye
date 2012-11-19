@@ -3,9 +3,9 @@
 	$.widget("mm.explorpc", {
 		options: {
 			// FIELD SETTERS
-			type: "json-rpc",
+			type: "raw",
 			httpMethod: "post",
-			auth: "basic",
+			auth: "",
 			url: "",
 			method: "",
 			body: "",
@@ -27,7 +27,7 @@
 		_requestBodyEditor: null,
 		// codemirror instance for response body
 		_responseBodyEditor: null,
-		// last response/request data, used by "view raw request/response" dialog and generate permalink functionality
+		// last response/request data, used by "view raw request/response" dialog and permalink functionality
 		_lastResponse: null,
 		_lastRequestParams: null,
 		// Cache of the jQuery.ajax objects provided by tunnel.html, as served by each of the
@@ -124,7 +124,7 @@
 			};
 
 			if (!this.option('body').length) {
-				this._requestBodyEditor.toggleEmptyFlag();	
+				this._requestBodyEditor.toggleEmptyFlag();
 			}
 		},
 
@@ -245,7 +245,7 @@
 			});
 		},
 
-		// Serializes the request and response as a string so it can be sent to a server when generating a permalink
+		// Serializes the request and response as a string so it can be sent to a server for permalinking
 		_serialize: function() {
 			var serialized = {
 				response: this._lastResponse,
@@ -480,6 +480,8 @@
 					return "<m:alert xmlns:m=\"http://example.org/alert\">\n\t<m:msg>Pickup Mary</m:msg>\n</m:alert>";
 				case 'xml-rpc':
 					return "<params>\n\t<param><value>foo</value></param>\n\t</params>";
+				case 'raw':
+					return '';
 			}
 		},
 
