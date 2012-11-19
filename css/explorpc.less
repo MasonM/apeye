@@ -276,8 +276,8 @@
 	&.explorpc-auth-basic .explorpc-request .explorpc-auth {
 		display: block;
 	}
-	&.explorpc-method-post,
-	&.explorpc-method-put {
+	&.explorpc-method-post .explorpc-request,
+	&.explorpc-method-put  .explorpc-request {
 		.explorpc-request-body-header, .explorpc-body { display: block; }
 	}
 	&.explorpc-autoprettyprint .explorpc-prettyprint {
@@ -289,9 +289,9 @@
 
 	.explorpc-response .explorpc-permalink,
 	.explorpc-notification,
-	.explorpc-method,
+	.explorpc-request .explorpc-method,
 	.explorpc-request .explorpc-auth,
-	.explorpc-body,
+	.explorpc-request .explorpc-body,
 	.explorpc-request-body-header {
 		display: none;
 	}
