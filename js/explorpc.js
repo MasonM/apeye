@@ -555,10 +555,10 @@
 						})
 						.appendTo('head');
 				} else {
-					this._doRequest(this._subdomainAjax[loc.host]);
+					onSuccess(this._subdomainAjax[loc.host]);
 				}
 			} else {
-				this._doRequest($.ajax);
+				onSuccess($.ajax);
 			}
 		},
 
