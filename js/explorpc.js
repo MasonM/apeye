@@ -271,6 +271,7 @@
 
 			this._lastResponse = json.response;
 			this._showResponse(this._lastResponse);
+			this.element.find('.explorpc-permalink').addClass('ui-state-disabled');
 		},
 
 		getFieldValue: function(fieldName) {
