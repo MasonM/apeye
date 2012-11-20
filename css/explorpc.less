@@ -263,14 +263,16 @@
 	&.explorpc-json-rpc .explorpc-notification {
 		display: block;
 	}
-	&.explorpc-json-rpc .explorpc-method {
-		display: table;
+	&.explorpc-soap11,
+	&.explorpc-soap12,
+	&.explorpc-xml-rpc,
+	&.explorpc-json-rpc {
+		.explorpc-request .explorpc-method { display: table; }
 	}
 	&.explorpc-soap11,
 	&.explorpc-soap12 {
-		.explorpc-method {
-			display: table;
-			label span { width: 6.5em; }
+		.explorpc-request .explorpc-method label span {
+			width: 6.5em;
 		}
 	}
 	&.explorpc-auth-basic .explorpc-request .explorpc-auth {
