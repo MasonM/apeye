@@ -114,9 +114,13 @@
 			color: #aaa;
 		}
 		.explorpc-auth input {
-			width: 48%;
-			&[name=username] { float: left; }
-			&[name=password] { float: right; }
+			&[name=username] {
+				width: 48%;
+				margin-right: 2%;
+			}
+			&[name=password] {
+				width: 50%;
+			}
 		}
 		.explorpc-body,
 		.explorpc-send {
@@ -276,7 +280,7 @@
 		}
 	}
 	&.explorpc-auth-basic .explorpc-request .explorpc-auth {
-		display: block;
+		display: table;
 	}
 	&.explorpc-method-post .explorpc-request,
 	&.explorpc-method-put  .explorpc-request {
