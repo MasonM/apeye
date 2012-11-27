@@ -53,7 +53,7 @@
 				.on('click', '.explorpc-viewraw:not(.ui-state-disabled)', $.proxy(this.viewRaw, this))
 				.on('click', '.explorpc-prettyprint:not(.ui-state-disabled)', $.proxy(this.prettyPrintResponse, this))
 				.on('click', '.explorpc-permalink:not(.ui-state-disabled)', $.proxy(this.generatePermanentLink, this))
-				.on('hover', '.explorpc-expand, .explorpc-viewraw, .explorpc-prettyprint', this._buttonHover);
+				.on('hover', '.explorpc-permalink, .explorpc-expand, .explorpc-viewraw, .explorpc-prettyprint', this._buttonHover);
 			
 			// initialize elements
 			this.element
