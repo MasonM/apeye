@@ -24,8 +24,8 @@
 		<script src="static/codemirror/mode/javascript/javascript.js"></script>
 		<script src="static/codemirror/mode/xml/xml.js"></script>
 		<script src="static/codemirror/lib/util/formatting.js"></script>
-		<script src="static/codemirror/lib/util/runmode.js"></script>
-		<script src="static/js/codemirror_httpheaders.js"></script>
+		<script src="static/codemirror/lib/util/multiplex.js"></script>
+		<script src="static/js/codemirror_httpmessage.js"></script>
 		<script src="static/js/codemirror_jsonformatting.js"></script>
 
 		<script src="static/js/explorpc.js"></script>
@@ -168,6 +168,9 @@
 				<header class="ui-widget-header">
 					<h4>Response</h4>
 					<div class="icons">
+						<a class="explorpc-icon explorpc-prettyprint ui-state-disabled" title="Pretty print body">
+							<span class="ui-icon ui-icon-document">Pretty print</span>
+						</a>
 						<a class="explorpc-icon explorpc-permalink ui-state-disabled" title="Create permanent link">
 							<span class="ui-icon ui-icon-link">Permanent link</span>
 						</a>
@@ -180,19 +183,8 @@
 					</div>
 				</header>
 
-				<h4 class="explorpc-subheader explorpc-response-headers-header">HTTP Headers</h4>
-				<div class="field explorpc-response-headers cm-s-default">
-					<pre>No response headers</pre>
-				</div>
-
-				<h4 class="explorpc-subheader explorpc-response-body-header">
-					HTTP Body
-					<a class="explorpc-prettyprint ui-state-disabled" title="Pretty print body">
-						<span class="ui-icon ui-icon-document">Pretty print</span>
-					</a>
-				</h4>
-				<div class="field explorpc-response-body cm-s-default">
-					<textarea name="responseBody"></textarea>
+				<div class="field cm-s-default">
+					<textarea name="response"></textarea>
 				</div>
 			</section>
 
