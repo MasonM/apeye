@@ -25,8 +25,8 @@
 		paramNames: ['type', 'httpMethod', 'auth', 'url', 'method', 'body', 'username', 'password'],
 		// codemirror instance for request body
 		_requestBodyEditor: null,
-		// codemirror instance for response body
-		_responseBodyEditor: null,
+		// codemirror instance for response
+		_responseEditor: null,
 		// last response/request data, used by "view raw request/response" dialog and permalink functionality
 		_lastResponse: null,
 		_lastRequestParams: null,
@@ -38,7 +38,7 @@
 		_create: function() {
 			// initialize CodeMirror instances
 			this._initRequestBody();
-			this._initResponseBody();
+			this._initResponse();
 
 			// register events
 			this.element
@@ -128,12 +128,28 @@
 			}
 		},
 
-		_initResponseBody: function() {
-			this._responseBodyEditor = CodeMirror.fromTextArea(this.element.find('[name=responseBody]')[0], {
+		_initResponse: function() {
+			this._responseEditor = CodeMirror.fromTextArea(this.element.find('[name=response]')[0], {
 				lineNumbers: false,
 				indentUnit: this.option('indent'),
 				readOnly: true
 			});
+			this._setResponseMode('text/plain');
+		},
+
+		_setResponseMode: function(innerMode) {
+			// defineMode() will overwrite the existing "response" mode, if already defined
+			CodeMirror.defineMode("explorpcResponse", function(config) {
+				return CodeMirror.multiplexingMode(
+					CodeMirror.getMode(config, "message/http"), {
+						open: "\n",
+						// seems CodeMirror requires "close", even though we'll never need it
+						close: "\0",
+						mode: CodeMirror.getMode(config, innerMode)
+					}
+				);
+			});
+			this._responseEditor.setOption('mode', 'explorpcResponse');
 		},
 
 		_initFields: function() {
@@ -284,13 +300,10 @@
 				sectionHeight = (hExpand ? (totalHeight / 2) : totalHeight) - 3,
 				// requestBodyHeight = sectionHeight - borders - top margin of request body
 				requestBodyHeight = sectionHeight - 2 - 6,
-				responseHeadersHeaderHeight = this.element.find('.explorpc-response-headers-header').outerHeight(true),
-				responseBodyHeaderHeight = this.element.find('.explorpc-response-body-header').outerHeight(true),
-				// Give the headers 40% of the available height, and the body 60%
-				// ((sectionHeight - header height) * percentage) - h4 height - .field margins
-				responseHeadersHeight = ((sectionHeight- 22) * 0.4) - responseHeadersHeaderHeight- 18,
-				// ((sectionHeight - header height) * percentage) - h4 height - .field margins
-				responseBodyHeight = ((sectionHeight - 22) * 0.6) - responseBodyHeaderHeight - 18;
+				// responseEditorHeight = sectionHeight - <header> height - .field margins
+				responseEditorHeight = sectionHeight - 22 - 18;
+
+			this._responseEditor.setSize(null, responseEditorHeight  + "px");
 
 			// compute request body height by subtracting height of each of its siblings (plus the bottom margin)
 			this.element
@@ -299,10 +312,7 @@
 				.each(function(i, element) {
 					requestBodyHeight -= ($(element).outerHeight() + 12);
 				});
-
-			this.element.find('.explorpc-response-headers').height(responseHeadersHeight);
 			this._requestBodyEditor.setSize(null, requestBodyHeight + "px");
-			this._responseBodyEditor.setSize(null, responseBodyHeight + "px");
 		},
 
 		_buttonHover: function(event) {
@@ -369,13 +379,13 @@
 		},
 
 		prettyPrintResponse: function() {
-			var lastLineIndex = this._responseBodyEditor.lineCount() - 1,
-				lastLine = this._responseBodyEditor.getLine(lastLineIndex),
+			var lastLineIndex = this._responseEditor.lineCount() - 1,
+				lastLine = this._responseEditor.getLine(lastLineIndex),
 				range = {
 					from: { line: 0, ch: 0 },
 					to: { line: lastLineIndex, ch: lastLine.length }
 				};
-			this._responseBodyEditor.autoFormatRange(range.from, range.to);
+			this._responseEditor.autoFormatRange(range.from, range.to);
 		},
 
 		generatePermanentLink: function() {
@@ -671,9 +681,6 @@
 			var errorDesc = "Request failed. Error #" + jqXHR.status + ": " + jqXHR.statusText;
 
 			this.element
-				.find('.explorpc-response-headers pre')
-					.text('No response headers')
-					.end()
 				.find('.explorpc-dialog')
 					.text(errorDesc)
 					.dialog({
@@ -684,7 +691,7 @@
 						'close': this._getCloseDialogCallback()
 					});
 
-			this._responseBodyEditor.setValue('');
+			this._responseEditor.setValue('');
 		},
 
 		_getCloseDialogCallback: function() {
@@ -712,22 +719,13 @@
 		},
 
 		_showResponse: function(response) {
-			var tempDiv = document.createElement('div'),
-				statusLine = '',
-				statusType = this._getTypeFromStatus(response.status);
-
 			this.element
 				.find('.explorpc-viewraw, .explorpc-prettyprint, .explorpc-permalink')
 				.removeClass('ui-state-disabled');
 			
-			statusLine = "<span class=\"explorpc-" + statusType + "\">" + this._getStatusLine(response) + "</span>";
-			CodeMirror.runMode(response.headers, "message/http", tempDiv);
-			this.element
-				.find('.explorpc-response-headers pre')
-				.html(statusLine + tempDiv.innerHTML);
-
-			this._responseBodyEditor.setOption('mode', this.getMimeType());
-			this._responseBodyEditor.setValue(response.body);
+			this._setResponseMode(this.getMimeType());
+			var fullResponse = this._getStatusLine(response) + response.headers + "\n" + response.body;
+			this._responseEditor.setValue(fullResponse);
 
 			if (this.option('autoPrettyPrint')) {
 				this.prettyPrintResponse();
@@ -744,20 +742,6 @@
 					.end()
 				.find('.explorpc-spinner')
 					.hide();
-		},
-
-		_getTypeFromStatus: function(status) {
-			if (status >= 200 && status < 300) {
-				return "success";
-			} else if (status >= 300 && status < 400) {
-				return "redirect";
-			} else if (status >= 400 && status < 500) {
-				return "client-error";
-			} else if (status >= 500 && status < 600) {
-				return "server-error";
-			} else {
-				return "unknown";
-			}
 		},
 
 		destroy: function () {

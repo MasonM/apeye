@@ -36,17 +36,6 @@
 		font-size: 14px;
 	}
 
-	.explorpc-pre {
-		.border-box;
-		white-space: pre;
-		padding: 5px;
-		text-align: left;
-		margin: 0;
-		background-color: @explorpc-pre-bgcolor;
-		font-size: 12px;
-		overflow: auto;
-	}
-
 	&.explorpc-expanded {
 		height: 100%;
 		width: 100%;
@@ -79,11 +68,17 @@
 		width: 50%;
 		display: inline-block;
 		vertical-align: top;
+		position: relative;
 		.border-box;
 
 		header { 
+			height: 18px;
 			line-height: 1;
 			h4 { .explorpc-header; }
+		}
+
+		pre {
+			overflow: visible;
 		}
 	}
 
@@ -100,15 +95,10 @@
 			pre, pre span { color: @explorpc-placeholder-color !important; }
 			.activeline { background: none !important; }
 		}
-
-		pre {
-			overflow: visible;
-		}
 	}
 
 	.explorpc-request {
 		border-right-width: 0;
-		position: relative;
 
 		.placeholder {
 			color: #aaa;
@@ -198,44 +188,23 @@
 			right: 0;
 		}
 
-		.explorpc-response-body-header,
-		.explorpc-response-headers-header {
-			padding-top: 12px;
-		}
-
-		.explorpc-response-body-header {
-			padding: 0;
-		}
-
-		.explorpc-response-headers {
-			pre { 
-				.explorpc-pre;
-	 			height: 100%;
-				width: 100%;
-			}
+		.CodeMirror {
+			background-color: @explorpc-pre-bgcolor;
 			.cm-field-name {
 				font-weight: bold;
 			}
-		}
-
-		.explorpc-response-body .CodeMirror {
-			background-color: @explorpc-pre-bgcolor;
-		}
-
-		.explorpc-success {
-			color: green;
-		}
-
-		.explorpc-redirect {
-			color: yellow;
-		}
-
-		.explorpc-client-error {
-			color: red;
-		}
-
-		.explorpc-server-error {
-			color: #8B0000;
+			.cm-status-success {
+				color: green;
+			}
+			.cm-status-redirect {
+				color: yellow;
+			}
+			.cm-status-client-error {
+				color: red;
+			}
+			.cm-status-server-error {
+				color: #8B0000;
+			}
 		}
 	}
 
@@ -283,7 +252,7 @@
 		display: table;
 	}
 	&.explorpc-method-post .explorpc-request,
-	&.explorpc-method-put  .explorpc-request {
+	&.explorpc-method-put .explorpc-request {
 		.explorpc-request-body-header, .explorpc-body { display: block; }
 	}
 	&.explorpc-autoprettyprint .explorpc-prettyprint {
@@ -302,14 +271,12 @@
 		display: none;
 	}
 
-	.explorpc-response-headers,
-	.explorpc-response-body,
 	.explorpc-body {
 		margin-top: 6px;
 	}
 
 	.CodeMirror-scroll {
-		height: auto;
+		height: 100%;
 	}
 
 	.CodeMirror {
@@ -326,8 +293,7 @@
 	}
 
 	input,
-	.CodeMirror,
-	.explorpc-pre {
+	.CodeMirror {
 		border: 1px solid @explorpc-field-bordercolor;
 	}
 }
@@ -338,7 +304,14 @@
 	text-align: center;
 
 	pre {
-		.explorpc > .explorpc-pre;
+		white-space: pre;
+		padding: 5px;
+		text-align: left;
+		margin: 0;
+		background-color: @explorpc-pre-bgcolor;
+		font-size: 12px;
+		overflow: auto;
+		border: 1px solid @explorpc-field-bordercolor;
 		&:last-child { margin-bottom: 5px; }
 	}
 	h4 {
