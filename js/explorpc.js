@@ -268,7 +268,6 @@
 				request: {}
 			};
 
-			serialized.request.body = this._requestBodyEditor.getActualValue();
 			$.each(this.paramNames, $.proxy(function(i, fieldName) {
 				serialized.request[fieldName] = this.getFieldValue(fieldName);
 			}, this));
@@ -291,7 +290,8 @@
 		},
 
 		getFieldValue: function(fieldName) {
-			return this.element.find('[name=' + fieldName + ']').val();
+			if (fieldName === 'body') return this._requestBodyEditor.getActualValue();
+			else return this.element.find('[name=' + fieldName + ']').val();
 		},
 
 		_adjustDimensions: function() {
@@ -609,7 +609,7 @@
 					params.data = this._getSoapRequestBody();
 					break;
 				case 'raw':
-					params.data = this._requestBodyEditor.getActualValue();
+					params.data = this.getFieldValue('body');
 					break;
 			}
 
@@ -626,7 +626,7 @@
 
 		_getJsonRPCRequestBody: function() {
 			var method = this.getFieldValue('method'),
-				params = this._requestBodyEditor.getActualValue(),
+				params = this.getFieldValue('body'),
 				request = '';
 
 			if (!params) params = '[]';
@@ -647,8 +647,7 @@
 		},
 
 		_getSoapRequestBody: function() {
-			var body = this._requestBodyEditor.getActualValue(),
-				type = this.getFieldValue('type'),
+			var type = this.getFieldValue('type'),
 				request = '<?xml version="1.0" encoding="UTF-8"?>';
 
 			if (type === 'soap11') {
@@ -661,13 +660,13 @@
 			}
 			// @todo Add support for setting SOAP headers
 			request += '<soap:Header/>' +
-					'<soap:Body>' + body + '</soap:Body>' +
+					'<soap:Body>' + this.getFieldValue('body') + '</soap:Body>' +
 				'</soap:Envelope>';
 			return request;
 		},
 
 		_getXMLRPCRequestBody: function() {
-			var body = this._requestBodyEditor.getActualValue(),
+			var body = this.getFieldValue('body'),
 				method = this.getFieldValue('method'),
 				request = '<?xml version="1.0" encoding="UTF-8"?>';
 			request += '<methodCall><methodName>' + method + '</methodName>' + body + '</methodCall>';
