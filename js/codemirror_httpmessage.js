@@ -4,20 +4,39 @@ CodeMirror.defineMode("httpmessage", function() {
 			if (state.endOfHeaders) {
 				stream.skipToEnd();
 				return "body";
-			} else if (stream.sol()) {
-				var matches = stream.match(/^HTTP\/1.1 (\d+)/);
-				if (matches) {
+			}
+			
+			if (state.inHeaderValue) {
+				// "Header fields can be extended over multiple lines by preceding each extra line with at least one SP or HT."
+				// http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.2
+				if (!stream.sol() || stream.match(/^[ \t]+/)) {
 					stream.skipToEnd();
-					return "status-" + this._getTypeFromStatus(matches[1]);
+					// field-value: http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.2
+					return "string";
 				} else {
-					stream.skipTo(":");
-					stream.eat(":");
-					stream.eat(/\s/);
-					return "field-name";
+					state.inHeaderValue = false;
 				}
-			} else {
+			}
+
+			var matches = stream.match(/^HTTP\/1.\d (\d+)/, false);
+			if (matches) {
 				stream.skipToEnd();
-				return "field-value";
+				// Status-Line: http://www.w3.org/Protocols/rfc2616/rfc2616-sec6.html#sec6.1
+				return "status-" + this._getTypeFromStatus(matches[1]);
+			} else if (stream.match(/^.* HTTP\/1.\d$/, false)) {
+				stream.skipToEnd();
+				// Request-Line: http://www.w3.org/Protocols/rfc2616/rfc2616-sec5.html#sec5.1
+				return "request-line";
+			} else if (stream.match(/^.*:/, false)) {
+				stream.skipTo(":");
+				stream.eat(":");
+				state.inHeaderValue = true;
+				// field-name: http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.2
+				return "atom";
+			} else {
+				// shouldn't get here
+				stream.skipToEnd();
+				return "error";
 			}
 		},
 
@@ -40,7 +59,10 @@ CodeMirror.defineMode("httpmessage", function() {
 		},
 
 		startState: function() {
-			return { endOfHeaders: false };
+			return {
+				endOfHeaders: false,
+				inHeaderValue: false,
+			};
 		}
 	};
 });
