@@ -323,6 +323,13 @@
 		},
 
 		_setOption: function(key, value) {
+			if (key === 'id') {
+				// special logic to handle permalink IDs. This isn't really an option (or rather it's a write-only option),
+				// but we treat it as one for consistency and simplicity
+				if (this.option('permalinkHandler') === null) return;
+				this.option('permalinkHandler').call(this, false, value, $.proxy(this._unserialize, this));
+				return;
+			}
 			$.Widget.prototype._setOption.apply(this, arguments);
 			if ($.inArray(key, this.paramNames) !== -1) {
 				this._setField(key, value);
@@ -354,11 +361,7 @@
 				i = this.indexOf('=');
 				fieldName = this.slice(0, i);
 				fieldValue = decodeURIComponent(this.slice(i + 1));
-				if (fieldName === 'id' && self.option('permalinkHandler') !== null) {
-					self.option('permalinkHandler').call(self, false, fieldValue, $.proxy(self._unserialize, self));
-				} else {
-					self.option(fieldName, fieldValue);
-				}
+				self.option(fieldName, fieldValue);
 			});
 		},
 
