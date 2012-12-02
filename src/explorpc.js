@@ -115,8 +115,8 @@
 			permalinkHandler: null,
 			indent: 3,
 			timeout: 5 * 1000,
-			subdomainTunneling: false,
 			autoPrettyPrint: false,
+			subdomainTunneling: false,
 			tunnelFilepath: "/tunnel.html"
 		},
 		// field names
@@ -558,15 +558,9 @@
 			this._requestBodyEditor.setOption('mode', this.getMimeType());
 			this._adjustDimensions();
 
-			this.element
-				.find('.explorpc-request-body-header')
-					.text(this._getRequestBodyHeader())
-					.end()
-				.find('.explorpc-method span')
-					.text(this._getMethodLabel())
-					.end()
-				.find('[name=body]')
-					.attr('placeholder', this._getRequestBodyPlaceholder());
+			this.element.find('.explorpc-request-body-header').text(this._getRequestBodyHeader());
+			this.element.find('.explorpc-method span').text(this._getMethodLabel());
+			this.element.find('[name=body]').attr('placeholder', this._getRequestBodyPlaceholder());
 
 			// set placeholder text
 			this._requestBodyEditor.setValueToPlaceholder();
@@ -647,13 +641,8 @@
 		_requestClicked: function(event) {
 			var responseSection = this.element.find('.explorpc-response');
 
-			this.element
-				.find('[name=request]')
-					.addClass('ui-state-disabled')
-					.end()
-				.find('.explorpc-spinner')
-					.show()
-					.position({ of: responseSection });
+			this.element.find('[name=request]').addClass('ui-state-disabled');
+			this.element.find('.explorpc-spinner').show().position({ of: responseSection });
 
 			responseSection.fadeTo(0, 0.5);
 
@@ -846,15 +835,9 @@
 		},
 
 		_requestDone: function() {
-			this.element
-				.find('[name=request]')
-					.removeClass('ui-state-disabled')
-					.end()
-				.find('.explorpc-response')
-					.fadeTo(0, 1)
-					.end()
-				.find('.explorpc-spinner')
-					.hide();
+			this.element.find('[name=request]').removeClass('ui-state-disabled');
+			this.element.find('.explorpc-response').fadeTo(0, 1);
+			this.element.find('.explorpc-spinner').hide();
 		},
 
 		destroy: function () {
