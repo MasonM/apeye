@@ -1,6 +1,104 @@
 ;(function ($, window, document, undefined) {
 	"use strict";
 	$.widget("mm.explorpc", {
+		html:
+		'<section class="explorpc-request ui-widget ui-widget-content ui-corner-left">'+
+			'<header class="ui-widget-header">'+
+				'<h4>Request</h4>' +
+			'</header>' +
+			'<div class="field explorpc-options">' +
+				'<div class="row">' +
+					'<span>Options</span>' +
+					'<select name="type">' +
+						'<option class="type-raw" value="raw">Raw</option>' +
+						'<option class="type-json-rpc" value="json-rpc">JSON-RPC 2.0</option>' +
+						'<option class="type-xml-rpc" value="xml-rpc">XML-RPC</option>' +
+						'<option class="type-soap11" value="soap11">SOAP 1.1</option>' +
+						'<option class="type-soap12" value="soap12">SOAP 1.2</option>' +
+					'</select>' +
+
+					'<select name="httpMethod">' +
+						'<option class="type-post" value="post">POST</option>' +
+						'<option class="type-get" value="get">GET</option>' +
+						'<option class="type-put" value="put">PUT</option>' +
+						'<option class="type-delete" value="delete">DELETE</option>' +
+						'<option class="type-trace" value="trace">TRACE</option>' +
+					'</select>' +
+
+					'<select name="auth">' +
+						'<option value="none">No auth</option>' +
+						'<option value="basic">Basic</option>' +
+					'</select>' +
+				'</div>' +
+			'</div>' +
+
+			'<div class="field explorpc-url">' +
+				'<label class="row">' +
+					'<span>URL</span>' +
+					'<input type="text" name="url" placeholder="api.example.com/endpoint"/>' +
+				'</label>' +
+			'</div>' +
+
+			'<div class="field explorpc-auth">' +
+				'<div class="row">' +
+					'<span>Auth</span>' +
+					'<input type="text" name="username" placeholder="Username"/>' +
+					'<input type="text" name="password" placeholder="Password"/>' +
+				'</div>' +
+			'</div>' +
+
+			'<div class="field explorpc-method">' +
+				'<label class="row">' +
+					'<span>Method</span>' +
+					'<input type="text" name="method" placeholder="method_name"/>' +
+				'</label>' +
+			'</div>' +
+
+			'<div class="field explorpc-notification">' +
+				'<label class="row">' +
+					'<span>Notification?</span>' +
+					'<input type="checkbox" name="notification"/>' +
+				'</label>' +
+			'</div>' +
+
+			'<h4 class="explorpc-subheader explorpc-request-body-header">Request body</h4>' +
+			'<div class="field explorpc-body">' +
+				'<textarea name="body"></textarea>' +
+			'</div>' +
+
+			'<div class="field explorpc-send">' +
+				'<button name="request">Send</button>' +
+			'</div>' +
+
+			'<div class="ui-widget-header ui-corner-all explorpc-h-expand">' +
+				'<span class="ui-icon ui-icon-triangle-1-e"></span>' +
+			'</div>' +
+		'</section>' +
+
+		'<section class="explorpc-response ui-widget ui-widget-content ui-corner-right">' +
+			'<header class="ui-widget-header">' +
+				'<h4>Response</h4>' +
+				'<div class="icons">' +
+					'<a class="explorpc-icon explorpc-prettyprint ui-state-disabled" title="Pretty print body">' +
+						'<span class="ui-icon ui-icon-document">Pretty print</span>' +
+					'</a>' +
+					'<a class="explorpc-icon explorpc-permalink ui-state-disabled" title="Create permanent link">' +
+						'<span class="ui-icon ui-icon-link">Permanent link</span>' +
+					'</a>' +
+					'<a class="explorpc-icon explorpc-viewraw ui-state-disabled" title="View raw request and response">' +
+						'<span class="ui-icon ui-icon-clipboard">View raw</span>' +
+					'</a>' +
+					'<a class="explorpc-icon explorpc-expand" title="Expand">' +
+						'<span class="ui-icon ui-icon-arrow-4-diag">Close</span>' +
+					'</a>' +
+				'</div>' +
+			'</header>' +
+			'<div class="field cm-s-default">' +
+				'<textarea name="response"></textarea>' +
+			'</div>' +
+		'</section>' +
+		'<div class="explorpc-dialog"></div>' +
+		'<div class="explorpc-spinner"></div>',
 		options: {
 			// FIELD SETTERS
 			type: "raw",
@@ -36,6 +134,9 @@
 		_subdomainAjax: {},
 
 		_create: function() {
+			// inject HTML
+			this.element.addClass('explorpc').html(this.html);
+
 			// initialize CodeMirror instances
 			this._initRequestBody();
 			this._initResponse();

@@ -31,7 +31,7 @@
 		<script type="text/javascript">
 			$(function() {
 				document.domain = "explorpc.org";
-				$('.explorpc').explorpc({
+				$('#explorpc-demo').explorpc({
 					'autoPrettyPrint': true,
 					'subdomainTunneling': true,
 					'autocompleteSource': 'http://api.explorpc.org/soap?wsdl',
@@ -59,7 +59,7 @@
 				});
 
 				$(window).on('hashchange', function() {
-					$('.explorpc').data('explorpc').setFieldsFromString(window.location.hash.substring(1)); 
+					$('#explorpc-demo').data('explorpc').setFieldsFromString(window.location.hash.substring(1)); 
 				}).trigger('hashchange');
 			});
 		</script>
@@ -86,108 +86,6 @@
 			<li><a href='#method=add&type=xml-rpc&url=api.explorpc.org%2Fxml-rpc&body=%3Cparams%3E%0A%20%20%20%3Cparam%3E%3Cvalue%3E%3Cint%3E1%3C%2Fint%3E%3C%2Fvalue%3E%3C%2Fparam%3E%0A%20%20%20%3Cparam%3E%3Cvalue%3E%3Cint%3E4%3C%2Fint%3E%3C%2Fvalue%3E%3C%2Fparam%3E%0A%3C%2Fparams%3E'>Add 10 and 20 with XML-RPC</a></li>
 		</ul>
 
-		<div class="explorpc">
-			<div class="explorpc-dialog"></div>
-
-			<section class="explorpc-request ui-widget ui-widget-content ui-corner-left">
-				<header class="ui-widget-header">
-					<h4>Request</h4>
-				</header>
-
-				<div class="field explorpc-options">
-					<div class="row">
-						<span>Options</span>
-						<select name="type">
-							<option value="raw">Raw</option>
-							<option value="json-rpc">JSON-RPC 2.0</option>
-							<option value="xml-rpc">XML-RPC</option>
-							<option value="soap11">SOAP 1.1</option>
-							<option value="soap12">SOAP 1.2</option>
-						</select>
-
-						<select name="httpMethod">
-							<option value="post">POST</option>
-							<option value="get">GET</option>
-							<option value="put">PUT</option>
-							<option value="delete">DELETE</option>
-							<option value="trace">TRACE</option>
-						</select>
-
-						<select name="auth">
-							<option value="none">No auth</option>
-							<option value="basic">Basic</option>
-						</select>
-					</div>
-				</div>
-
-				<div class="field explorpc-url">
-					<label class="row">
-						<span>URL</span>
-						<input type="text" name="url" placeholder="api.example.com/endpoint"/>
-					</label>
-				</div>
-
-				<div class="field explorpc-auth">
-					<div class="row">
-						<span>Auth</span>
-						<input type="text" name="username" placeholder="Username"/>
-						<input type="text" name="password" placeholder="Password"/>
-					</div>
-				</div>
-
-				<div class="field explorpc-method">
-					<label class="row">
-						<span>Method</span>
-						<input type="text" name="method" placeholder="method_name"/>
-					</label>
-				</div>
-
-				<div class="field explorpc-notification">
-					<label class="row">
-						<span>Notification?</span>
-						<input type="checkbox" name="notification"/>
-					</label>
-				</div>
-
-				<h4 class="explorpc-subheader explorpc-request-body-header">Request body</h4>
-				<div class="field explorpc-body">
-					<textarea name="body"></textarea>
-				</div>
-
-				<div class="field explorpc-send">
-					<button name="request">Send</button>
-				</div>
-
-				<div class="ui-widget-header ui-corner-all explorpc-h-expand">
-					<span class="ui-icon ui-icon-triangle-1-e"></span>
-				</div>
-			</section>
-
-			<section class="explorpc-response ui-widget ui-widget-content ui-corner-right">
-				<header class="ui-widget-header">
-					<h4>Response</h4>
-					<div class="icons">
-						<a class="explorpc-icon explorpc-prettyprint ui-state-disabled" title="Pretty print body">
-							<span class="ui-icon ui-icon-document">Pretty print</span>
-						</a>
-						<a class="explorpc-icon explorpc-permalink ui-state-disabled" title="Create permanent link">
-							<span class="ui-icon ui-icon-link">Permanent link</span>
-						</a>
-						<a class="explorpc-icon explorpc-viewraw ui-state-disabled" title="View raw request and response">
-							<span class="ui-icon ui-icon-clipboard">View raw</span>
-						</a>
-						<a class="explorpc-icon explorpc-expand" title="Expand">
-							<span class="ui-icon ui-icon-arrow-4-diag">Close</span>
-						</a>
-					</div>
-				</header>
-
-				<div class="field cm-s-default">
-					<textarea name="response"></textarea>
-				</div>
-			</section>
-
-			<div class="explorpc-spinner"></div>
-		</div>
+		<div id="explorpc-demo"></div>
 	</body>
 </html>
