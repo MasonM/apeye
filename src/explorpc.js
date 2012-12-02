@@ -436,11 +436,20 @@
 
 		_horizontalExpandChanged: function() {
 			var isExpanded = this.element.hasClass('explorpc-horizontal-expanded');
-			this.element.find('.explorpc-h-expand span')
+
+			// move icons to request section if horizontally expanded so the icons are visible without scrolling
+			this.element
+				.find('.icons')
+				.appendTo(this.element.find('.explorpc-' + (isExpanded ? 'request' : 'response') + ' header'));
+
+			// update triangle to point the opposite direction
+			this.element
+				.find('.explorpc-h-expand span')
 				.removeClass('ui-icon-triangle-1-e ui-icon-triangle-1-w')
 				.addClass(function() {
 					return 'ui-icon-triangle-1-' + (isExpanded ? 'w' : 'e');
 				});
+
 			this._adjustDimensions();
 		},
 

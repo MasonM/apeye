@@ -166,23 +166,6 @@
 	}
 	
 	.explorpc-response {
-		.explorpc-icon {
-			vertical-align: text-top;
-			display: inline-block;
-			margin: 1px 2px;
-			cursor: pointer;
-
-			&:hover { margin: 0 1px; }
-			&.ui-state-disabled:hover { margin: 1px 2px; }
-			&.ui-state-disabled { cursor: default; }
-		}
-
-		header .icons {
-			position: absolute;
-			top: 2px;
-			right: 0;
-		}
-
 		.CodeMirror {
 			background-color: @explorpc-pre-bgcolor;
 			.cm-success {
@@ -223,6 +206,23 @@
 		input::-webkit-input-placeholder {
 			color: @explorpc-placeholder-color;
 		}
+	}
+
+	header .icons {
+		position: absolute;
+		top: 2px;
+		right: 0;
+		.explorpc-icon {
+			vertical-align: text-top;
+			display: inline-block;
+			margin: 1px 2px;
+			cursor: pointer;
+
+			&:hover { margin: 0 1px; }
+			&.ui-state-disabled:hover { margin: 1px 2px; }
+			&.ui-state-disabled { cursor: default; }
+		}
+
 	}
 
 	&.explorpc-json-rpc .explorpc-notification {
