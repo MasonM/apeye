@@ -36,25 +36,22 @@
 					'subdomainTunneling': true,
 					'autocompleteSource': 'http://api.explorpc.org/soap?wsdl',
 					'permalinkHandler': function(sending, dataOrId, successCallback) {
-						if (sending) {
-							$.ajax({
-								url: "/pastebin",
-								type: "POST",
-								contentType: "application/json",
-								data: dataOrId
-							}).done(function(hash) {
-								var link = 'http://explorpc.org/#id=' + hash;
-								successCallback(link, link);
-							});
-						} else {
-							$.ajax({
-								url: "/pastebin",
-								type: "GET",
-								data: { id: dataOrId }
+						var endpoint = "http://api.explorpc.org/pastebin";
+						this.tunnelRequest(endpoint, function(ajax) {
+							ajax({
+								url: endpoint,
+								type: sending ? "POST" : "GET",
+								contentType: "text/plain",
+								data: sending ? dataOrId : { id : dataOrId }
 							}).done(function(data) {
-								successCallback(data);
+								if (sending) {
+									var link = 'http://explorpc.org/#id=' + data;
+									successCallback(link, link);
+								} else {
+									successCallback(data);
+								}
 							});
-						}
+						});
 					}
 				});
 
