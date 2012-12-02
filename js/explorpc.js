@@ -254,7 +254,7 @@
 				fieldName = this.slice(0, i);
 				fieldValue = decodeURIComponent(this.slice(i + 1));
 				if (fieldName === 'id' && self.option('permalinkHandler') !== null) {
-					self.option('permalinkHandler').call(this, false, fieldValue, $.proxy(self._unserialize, self));
+					self.option('permalinkHandler').call(self, false, fieldValue, $.proxy(self._unserialize, self));
 				} else {
 					self.option(fieldName, fieldValue);
 				}
