@@ -386,6 +386,7 @@
 					to: { line: lastLineIndex, ch: lastLine.length }
 				};
 			this._responseEditor.autoFormatRange(range.from, range.to);
+			this._responseEditor.setSelection(range.from);
 		},
 
 		generatePermanentLink: function() {
