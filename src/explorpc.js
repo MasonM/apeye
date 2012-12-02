@@ -18,11 +18,11 @@
 					'</select>' +
 
 					'<select name="httpMethod">' +
-						'<option class="type-post" value="post">POST</option>' +
-						'<option class="type-get" value="get">GET</option>' +
-						'<option class="type-put" value="put">PUT</option>' +
-						'<option class="type-delete" value="delete">DELETE</option>' +
-						'<option class="type-trace" value="trace">TRACE</option>' +
+						'<option class="method-post" value="post">POST</option>' +
+						'<option class="method-get" value="get">GET</option>' +
+						'<option class="method-put" value="put">PUT</option>' +
+						'<option class="method-delete" value="delete">DELETE</option>' +
+						'<option class="method-trace" value="trace">TRACE</option>' +
 					'</select>' +
 
 					'<select name="auth">' +
