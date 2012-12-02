@@ -1,0 +1,23 @@
+{
+	"name": "explorpc",
+	"version": "0.6",
+	"main": "explorpc.js",
+	"description": "Widget for testing and documenting RPC-based APIs",
+	"licenses": [{
+		"type": "MIT",
+		"url": "http://explorpc.org/LICENSE"
+	}],
+	"directories": {"lib": "src"},
+	"bugs": "https://bitbucket.org/MasonM/explorpc/issues',
+	"keywords": ["JavaScript", "HTTP", "SOAP", "JSON-RPC", "XML-RPC", "testing"],
+	"homepage": "http://explorpc.org",
+	"maintainers":[{
+		"name": "Mason Malone",
+		"email": "mason@masonm.org",
+		"web": "http://masonm.org"
+	}],
+	"repositories": [{
+		"type": "mercurial",
+		"url": "https://bitbucket.org/MasonM/explorpc"
+	}]
+}
