@@ -1,7 +1,7 @@
 Overview
 ========
 
-ExploRPC is a widget for issuing HTTP requests, designed to help document and test RPC-based APIs. Unlike [hurl](http://hurl.it/), it's in pure Javascript, relying on a server solely for the optional permalink feature.
+ExploRPC is a widget for issuing HTTP requests, designed to help document and test RPC-based APIs. Unlike [hurl](http://hurl.it/) and [apigee](http://apigee.com), requests are handled entirely by the client &ndash; no server-side proxy is needed.
 
 Features
 ========
