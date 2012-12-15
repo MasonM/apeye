@@ -143,7 +143,7 @@
 				.toggleClass('explorpc-autoprettyprint', this.option('autoPrettyPrint'))
 				.toggleClass('explorpc-canpermalink', this.option('permalinkHandler') !== null)
 				.resizable({ handles: 'se' })
-				 // I want the bigger grip icon (default is too small)
+				// I want the bigger grip icon (default is too small)
 				.find('.ui-resizable-se').addClass('ui-icon-grip-diagonal-se');
 			this._initButtons();
 			this._initAutocomplete();
@@ -336,6 +336,8 @@
 				// special logic to handle permalink IDs. This isn't really an option (or rather it's a write-only option),
 				// but we treat it as one for consistency and simplicity
 				if (this.option('permalinkHandler') === null) return;
+				this.element.fadeTo(0, 0.5);
+				this.element.find('.explorpc-spinner').show().position({ of: this.element });
 				this.option('permalinkHandler').call(this, false, value, $.proxy(this._unserialize, this));
 				return;
 			}
@@ -399,7 +401,9 @@
 
 			this._lastResponse = json.response;
 			this._showResponse(this._lastResponse);
+			this.element.fadeTo(0, 1);
 			this.element.find('.explorpc-permalink').button('enable');
+			this.element.find('.explorpc-spinner').hide();
 		},
 
 		getFieldValue: function(fieldName) {
