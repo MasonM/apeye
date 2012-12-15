@@ -15,25 +15,20 @@
 
 	.explorpc-header,
 	.explorpc-subheader {
-		text-align: center;
+		text-align: left;
 		margin: 0;
 		font-weight: bold;
 		padding: 0 10px;
 	}
 
 	.explorpc-header {
-		line-height: 18px;
+		line-height: 25px;
 		font-size: 16px;
 	}
 
 	.explorpc-subheader {
 		line-height: 1;
 		font-size: 14px;
-	}
-
-	&.explorpc-expanded {
-		height: 100%;
-		width: 100%;
 	}
 
 	&.explorpc-horizontal-expanded {
@@ -67,7 +62,7 @@
 		.border-box;
 
 		header { 
-			height: 18px;
+			height: 25px;
 			line-height: 1;
 			h4 { .explorpc-header; }
 		}
@@ -212,17 +207,13 @@
 		position: absolute;
 		top: 2px;
 		right: 0;
-		.explorpc-icon {
-			vertical-align: text-top;
-			display: inline-block;
-			margin: 1px 2px;
-			cursor: pointer;
-
-			&:hover { margin: 0 1px; }
-			&.ui-state-disabled:hover { margin: 1px 2px; }
-			&.ui-state-disabled { cursor: default; }
-		}
-
+		font-size: 12px;
+		button { margin-right: 5px; }
+		.ui-button-text {
+			line-height: 1;
+			padding: 0.4em 0.5em 0.4em 1.8em;
+		} 
+		.ui-icon { left: 0.3em }
 	}
 
 	&.explorpc-json-rpc .explorpc-notification {
