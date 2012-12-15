@@ -79,18 +79,15 @@
 			'<header class="ui-widget-header">' +
 				'<h4>Response</h4>' +
 				'<div class="icons">' +
-					'<a class="explorpc-icon explorpc-prettyprint ui-state-disabled" title="Pretty print body">' +
-						'<span class="ui-icon ui-icon-document">Pretty print</span>' +
-					'</a>' +
-					'<a class="explorpc-icon explorpc-permalink ui-state-disabled" title="Create permanent link">' +
-						'<span class="ui-icon ui-icon-link">Permanent link</span>' +
-					'</a>' +
-					'<a class="explorpc-icon explorpc-viewraw ui-state-disabled" title="View raw request and response">' +
-						'<span class="ui-icon ui-icon-clipboard">View raw</span>' +
-					'</a>' +
-					'<a class="explorpc-icon explorpc-expand" title="Expand">' +
-						'<span class="ui-icon ui-icon-arrow-4-diag">Close</span>' +
-					'</a>' +
+					'<button class="explorpc-prettyprint" title="Pretty print response">' +
+						'Prty Print' +
+					'</button>' +
+					'<button class="explorpc-permalink" title="Create permanent link">' +
+						'Link' +
+					'</button>' +
+					'<button class="explorpc-viewraw" title="View raw request and response">' +
+						'Raw' +
+					'</button>' +
 				'</div>' +
 			'</header>' +
 			'<div class="field cm-s-default">' +
@@ -141,6 +138,16 @@
 			this._initRequestBody();
 			this._initResponse();
 
+			// initialize elements
+			this.element
+				.toggleClass('explorpc-autoprettyprint', this.option('autoPrettyPrint'))
+				.toggleClass('explorpc-canpermalink', this.option('permalinkHandler') !== null)
+				.resizable({ handles: 'se' })
+				 // I want the bigger grip icon (default is too small)
+				.find('.ui-resizable-se').addClass('ui-icon-grip-diagonal-se');
+			this._initButtons();
+			this._initAutocomplete();
+
 			// register events
 			this.element
 				.resize($.proxy(this._adjustDimensions, this))
@@ -149,26 +156,12 @@
 				.on('change', '[name=auth]', $.proxy(this._authChanged, this))
 				.on('change', '[name=url]', $.proxy(this._urlChanged, this))
 				.on('click', '[name=request]:not(.ui-state-disabled)', $.proxy(this._requestClicked, this))
-				.on('click', '.explorpc-expand', $.proxy(this.toggleExpand, this))
 				.on('click', '.explorpc-h-expand', $.proxy(this.toggleHorizontalExpand, this))
 				.on('click', '.explorpc-viewraw:not(.ui-state-disabled)', $.proxy(this.viewRaw, this))
 				.on('click', '.explorpc-prettyprint:not(.ui-state-disabled)', $.proxy(this.prettyPrintResponse, this))
-				.on('click', '.explorpc-permalink:not(.ui-state-disabled)', $.proxy(this.generatePermanentLink, this))
-				.on('hover', '.explorpc-permalink, .explorpc-expand, .explorpc-viewraw, .explorpc-prettyprint', this._buttonHover);
+				.on('click', '.explorpc-permalink:not(.ui-state-disabled)', $.proxy(this.generatePermanentLink, this));
 			
-			// initialize elements
-			this.element
-				.toggleClass('explorpc-autoprettyprint', this.option('autoPrettyPrint'))
-				.toggleClass('explorpc-canpermalink', this.option('permalinkHandler') !== null)
-				.resizable({ handles: 'se' }) // not sure how useful this is. Keep?
-				.find('.ui-resizable-se')
-					.addClass('ui-icon-grip-diagonal-se') // I want the bigger grip icon (default is too small)
-					.end()
-				.find('button')
-					.button({ disabled: true });
-			this._initAutocomplete();
 			this._initFields();
-
 			this._horizontalExpandChanged();
 			this._adjustDimensions();
 		},
@@ -257,6 +250,22 @@
 			$.each(this.paramNames, $.proxy(function(i, fieldName) {
 				this._setField(fieldName, this.option(fieldName));
 			}, this));
+		},
+
+		_initButtons: function() {
+			this.element.find('[name=request]').button({ disabled: true });
+			this.element.find('.explorpc-prettyprint').button({
+				disabled: true,
+				icons: { primary: 'ui-icon-document' }
+			});
+			this.element.find('.explorpc-permalink').button({
+				disabled: true,
+				icons: { primary: 'ui-icon-link' }
+			});
+			this.element.find('.explorpc-viewraw').button({
+				disabled: true,
+				icons: { primary: 'ui-icon-clipboard' }
+			});
 		},
 
 		_initAutocomplete: function() {
@@ -390,7 +399,7 @@
 
 			this._lastResponse = json.response;
 			this._showResponse(this._lastResponse);
-			this.element.find('.explorpc-permalink').addClass('ui-state-disabled');
+			this.element.find('.explorpc-permalink').button('enable');
 		},
 
 		getFieldValue: function(fieldName) {
@@ -405,7 +414,7 @@
 				// requestBodyHeight = sectionHeight - borders - top margin of request body
 				requestBodyHeight = sectionHeight - 2 - 6,
 				// responseEditorHeight = sectionHeight - <header> height - .field margins
-				responseEditorHeight = sectionHeight - 22 - 18;
+				responseEditorHeight = sectionHeight - 27 - 24;
 
 			this._responseEditor.setSize(null, responseEditorHeight  + "px");
 
@@ -417,19 +426,6 @@
 					requestBodyHeight -= ($(element).outerHeight() + 12);
 				});
 			this._requestBodyEditor.setSize(null, requestBodyHeight + "px");
-		},
-
-		_buttonHover: function(event) {
-			var isHovering = event.type === 'mouseenter' && !$(this).hasClass('ui-state-disabled');
-			$(this).toggleClass('ui-state-hover', isHovering);
-		},
-
-		toggleExpand: function(event) {
-			this.element
-				.css('height', '')
-				.css('width', '')
-				.toggleClass('explorpc-expanded');
-			this._adjustDimensions();
 		},
 
 		toggleHorizontalExpand: function(event) {
@@ -641,7 +637,7 @@
 		_requestClicked: function(event) {
 			var responseSection = this.element.find('.explorpc-response');
 
-			this.element.find('[name=request]').addClass('ui-state-disabled');
+			this.element.find('[name=request]').button('disable');
 			this.element.find('.explorpc-spinner').show().position({ of: responseSection });
 
 			responseSection.fadeTo(0, 0.5);
@@ -823,7 +819,7 @@
 		_showResponse: function(response) {
 			this.element
 				.find('.explorpc-viewraw, .explorpc-prettyprint, .explorpc-permalink')
-				.removeClass('ui-state-disabled');
+				.button('enable');
 			
 			this._setResponseMode(this.getMimeType());
 			var fullResponse = this._getStatusLine(response) + response.headers + "\n" + response.body;
@@ -835,7 +831,7 @@
 		},
 
 		_requestDone: function() {
-			this.element.find('[name=request]').removeClass('ui-state-disabled');
+			this.element.find('[name=request]').button('enable');
 			this.element.find('.explorpc-response').fadeTo(0, 1);
 			this.element.find('.explorpc-spinner').hide();
 		},
