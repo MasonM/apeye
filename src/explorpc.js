@@ -337,8 +337,8 @@
 		},
 
 		_setOption: function(key, value) {
-			if (key === 'id') {
-				// special logic to handle permalink IDs. This isn't really an option (or rather it's a write-only option),
+			if (key === 'permalinkId') {
+				// This isn't really an option (or rather it's a write-only option),
 				// but we treat it as one for consistency and simplicity
 				if (this.option('permalinkHandler') === null) return;
 				this.element.fadeTo(0, 0.5);
