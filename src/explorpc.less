@@ -112,7 +112,8 @@
 		.explorpc-options,
 		.explorpc-url,
 		.explorpc-auth,
-		.explorpc-method {
+		.explorpc-method,
+		.explorpc-id {
 			display: table;
 			table-layout: fixed;
 			width: 100%;
@@ -131,7 +132,8 @@
 			}
 		}
 		.explorpc-url input,
-		.explorpc-method input { 
+		.explorpc-method input,
+		.explorpc-id input { 
 			width: 100%;
 		}
 
@@ -189,9 +191,6 @@
 		 	font-size: 12px;
 			margin-bottom: 0;
 		}
-		input[type="checkbox"] {
-			vertical-align: top;
-		}
 		textarea:-moz-placeholder,
 		input:-moz-placeholder {
 			color: @explorpc-placeholder-color;
@@ -219,8 +218,8 @@
 		.ui-icon { left: 0.3em }
 	}
 
-	&.explorpc-json-rpc .explorpc-notification {
-		display: block;
+	&.explorpc-json-rpc .explorpc-request .explorpc-id {
+		display: table;
 	}
 	&.explorpc-soap11,
 	&.explorpc-soap12,
@@ -249,7 +248,7 @@
 	}
 
 	header .icons .explorpc-permalink,
-	.explorpc-notification,
+	.explorpc-request .explorpc-id,
 	.explorpc-request .explorpc-method,
 	.explorpc-request .explorpc-auth,
 	.explorpc-request .explorpc-body,

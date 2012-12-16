@@ -54,10 +54,10 @@
 				'</label>' +
 			'</div>' +
 
-			'<div class="explorpc-field explorpc-notification">' +
+			'<div class="explorpc-field explorpc-id">' +
 				'<label class="explorpc-row">' +
-					'<span>Notification?</span>' +
-					'<input type="checkbox" name="notification"/>' +
+					'<span>Id</span>' +
+					'<input type="text" name="id"/>' +
 				'</label>' +
 			'</div>' +
 
@@ -106,6 +106,7 @@
 			body: "",
 			username: "",
 			password: "",
+			id: "explorpc",
 
 			// MISC OPTIONS
 			autocompleteSource: null,
@@ -117,7 +118,7 @@
 			tunnelFilepath: "/tunnel.html"
 		},
 		// field names
-		paramNames: ['type', 'httpMethod', 'auth', 'url', 'method', 'body', 'username', 'password'],
+		paramNames: ['type', 'httpMethod', 'auth', 'url', 'method', 'body', 'username', 'password', 'id'],
 		// codemirror instance for request body
 		_requestBodyEditor: null,
 		// codemirror instance for response
@@ -729,23 +730,13 @@
 		_getJsonRPCRequestBody: function() {
 			var method = this.getFieldValue('method'),
 				params = this.getFieldValue('body'),
+				id = this.getFieldValue('id'),
 				request = '';
 
 			if (!params) params = '[]';
 			request = '{"jsonrpc":"2.0","method":"' + method + '","params":' + params;
-			if (!this.element.find('[name=notification]:checked').length) {
-				// generate a random ID for this request, because using NULL for the ID is discouraged in the spec:
-				// "[1] The use of Null as a value for the id member in a Request object is discouraged,
-				// because this specification uses a value of Null for Responses with an unknown id.
-				// Also, because JSON-RPC 1.0 uses an id value of Null for Notifications this could
-				// cause confusion in handling."
-				request += ',"id": ' + this._getRandomId();
-			}
+			if (id.length) request += ',"id": "' + id + '"';
 			return request + '}';
-		},
-
-		_getRandomId: function() {
-			return Math.floor(Math.random() * 99999);
 		},
 
 		_getSoapRequestBody: function() {
