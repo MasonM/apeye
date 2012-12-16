@@ -495,7 +495,7 @@
 				.dialog({
 					'title': 'Raw request and response',
 					'height': 'auto',
-					'position': { my: "center", at: "center", of: this.element },
+					'position': { my: "top", at: "top", of: this.element },
 					'dialogClass': 'explorpc-dialog',
 					'close': this._getCloseDialogCallback()
 				});
