@@ -6,8 +6,8 @@
 			'<header class="ui-widget-header">'+
 				'<h4>Request</h4>' +
 			'</header>' +
-			'<div class="field explorpc-options">' +
-				'<div class="row">' +
+			'<div class="explorpc-field explorpc-options">' +
+				'<div class="explorpc-row">' +
 					'<span>Options</span>' +
 					'<select name="type">' +
 						'<option class="type-raw" value="raw">Raw</option>' +
@@ -32,41 +32,41 @@
 				'</div>' +
 			'</div>' +
 
-			'<div class="field explorpc-url">' +
-				'<label class="row">' +
+			'<div class="explorpc-field explorpc-url">' +
+				'<label class="explorpc-row">' +
 					'<span>URL</span>' +
 					'<input type="text" name="url" placeholder="api.example.com/endpoint"/>' +
 				'</label>' +
 			'</div>' +
 
-			'<div class="field explorpc-auth">' +
-				'<div class="row">' +
+			'<div class="explorpc-field explorpc-auth">' +
+				'<div class="explorpc-row">' +
 					'<span>Auth</span>' +
 					'<input type="text" name="username" placeholder="Username"/>' +
 					'<input type="text" name="password" placeholder="Password"/>' +
 				'</div>' +
 			'</div>' +
 
-			'<div class="field explorpc-method">' +
-				'<label class="row">' +
+			'<div class="explorpc-field explorpc-method">' +
+				'<label class="explorpc-row">' +
 					'<span>Method</span>' +
 					'<input type="text" name="method" placeholder="method_name"/>' +
 				'</label>' +
 			'</div>' +
 
-			'<div class="field explorpc-notification">' +
-				'<label class="row">' +
+			'<div class="explorpc-field explorpc-notification">' +
+				'<label class="explorpc-row">' +
 					'<span>Notification?</span>' +
 					'<input type="checkbox" name="notification"/>' +
 				'</label>' +
 			'</div>' +
 
 			'<h4 class="explorpc-subheader explorpc-request-body-header">Request body</h4>' +
-			'<div class="field explorpc-body">' +
+			'<div class="explorpc-field explorpc-body">' +
 				'<textarea name="body"></textarea>' +
 			'</div>' +
 
-			'<div class="field explorpc-send">' +
+			'<div class="explorpc-field explorpc-send">' +
 				'<button name="request">Send</button>' +
 			'</div>' +
 
@@ -90,7 +90,7 @@
 					'</button>' +
 				'</div>' +
 			'</header>' +
-			'<div class="field cm-s-default">' +
+			'<div class="explorpc-field cm-s-default">' +
 				'<textarea name="response"></textarea>' +
 			'</div>' +
 		'</section>' +

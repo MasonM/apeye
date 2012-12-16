@@ -118,7 +118,7 @@
 			width: 100%;
 			.border-box;
 
-			.row { display: table-row; }
+			.explorpc-row { display: table-row; }
 			span {
 				width: 4.5em; 
 				vertical-align: top;
@@ -178,14 +178,17 @@
 		}
 	}
 
-	.field {
+	.explorpc-field {
 		margin: 12px 0;
 		padding: 0 12px;
 		text-align: left;
 
-		.row span { font-weight: bold; }
+		.explorpc-row span { font-weight: bold; }
 		button { font-size: 14px; }
-		select, input, textarea, .row { font-size: 12px; }
+		select, input, textarea, .explorpc-row {
+		 	font-size: 12px;
+			margin-bottom: 0;
+		}
 		input[type="checkbox"] {
 			vertical-align: top;
 		}
