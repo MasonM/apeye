@@ -634,8 +634,7 @@
 			var url = this.getFieldValue('url');
 			this.element
 				.find('[name=request]')
-				.data('button')
-				.option('disabled', url.length === 0);
+				.button((url.length === 0) ? 'disable' : 'enable');
 		},
 
 		_requestClicked: function(event) {
