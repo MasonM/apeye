@@ -130,6 +130,8 @@
 		// subdomains we've connected to. This means we only have to fetch tunnel.html once
 		// for each subdomain request.
 		_subdomainAjax: {},
+		// non-expanded height. Expanded height will be 2x this value.
+		_normalHeight: 0,
 
 		_create: function() {
 			// inject HTML
@@ -163,6 +165,8 @@
 				.on('click', '.explorpc-permalink:not(.ui-state-disabled)', $.proxy(this.generatePermanentLink, this));
 			
 			this._initFields();
+			this._normalHeight = this.element.height();
+			if (this._isHorizontallyExpanded()) this._normalHeight /= 2;
 			this._horizontalExpandChanged();
 			this._adjustDimensions();
 		},
@@ -413,7 +417,7 @@
 		},
 
 		_adjustDimensions: function() {
-			var hExpand = this.element.hasClass('explorpc-horizontal-expanded'),
+			var hExpand = this._isHorizontallyExpanded(),
 				totalHeight = this.element.height(),
 				sectionHeight = (hExpand ? (totalHeight / 2) : totalHeight) - 3,
 				// requestBodyHeight = sectionHeight - borders - top margin of request body
@@ -433,13 +437,18 @@
 			this._requestBodyEditor.setSize(null, requestBodyHeight + "px");
 		},
 
+		_isHorizontallyExpanded: function() {
+			return this.element.hasClass('explorpc-horizontally-expanded');
+		},
+
 		toggleHorizontalExpand: function(event) {
-			this.element.toggleClass('explorpc-horizontal-expanded');
+			this.element.toggleClass('explorpc-horizontally-expanded');
 			this._horizontalExpandChanged();
 		},
 
 		_horizontalExpandChanged: function() {
-			var isExpanded = this.element.hasClass('explorpc-horizontal-expanded');
+			var isExpanded = this._isHorizontallyExpanded();
+			this.element.height(this._normalHeight * (isExpanded ? 2 : 1));
 
 			// move icons to request section if horizontally expanded so the icons are visible without scrolling
 			this.element
