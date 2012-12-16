@@ -45,7 +45,7 @@
 								data: sending ? dataOrId : { id : dataOrId }
 							}).done(function(data) {
 								if (sending) {
-									var link = 'http://explorpc.org/#id=' + data;
+									var link = 'http://explorpc.org/#permalinkId=' + data;
 									successCallback(link, link);
 								} else {
 									successCallback(data);
