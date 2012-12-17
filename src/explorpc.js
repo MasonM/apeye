@@ -169,9 +169,10 @@
 			
 			this._initFields();
 			this._normalHeight = this.element.height();
-			if (this._isHorizontallyExpanded()) this._normalHeight /= 2;
-			this._horizontalExpandChanged();
-			this._adjustDimensions();
+			if (this._isHorizontallyExpanded()) {
+				this._normalHeight /= 2;
+				this._horizontalExpandChanged();
+			} else this._adjustDimensions();
 		},
 
 		_initRequestBody: function() {
