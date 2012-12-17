@@ -51,6 +51,7 @@
 				'<label class="explorpc-row">' +
 					'<span>Method</span>' +
 					'<input type="text" name="method" placeholder="method_name"/>' +
+					'<a class="explorpc-combobox-toggle ui-corner-right"></a>' +
 				'</label>' +
 			'</div>' +
 
@@ -143,6 +144,7 @@
 
 			// initialize elements
 			this.element
+				.toggleClass('explorpc-hasautocomplete', this.option('autocompleteSource') !== null)
 				.toggleClass('explorpc-autoprettyprint', this.option('autoPrettyPrint'))
 				.toggleClass('explorpc-canpermalink', this.option('permalinkHandler') !== null)
 				.resizable({ handles: 'se' })
@@ -162,7 +164,8 @@
 				.on('click', '.explorpc-h-expand', $.proxy(this.toggleHorizontalExpand, this))
 				.on('click', '.explorpc-viewraw:not(.ui-state-disabled)', $.proxy(this.viewRaw, this))
 				.on('click', '.explorpc-prettyprint:not(.ui-state-disabled)', $.proxy(this.prettyPrintResponse, this))
-				.on('click', '.explorpc-permalink:not(.ui-state-disabled)', $.proxy(this.generatePermanentLink, this));
+				.on('click', '.explorpc-permalink:not(.ui-state-disabled)', $.proxy(this.generatePermanentLink, this))
+				.on('click', '.explorpc-combobox-toggle', $.proxy(this._comboboxToggleClicked, this));
 			
 			this._initFields();
 			this._normalHeight = this.element.height();
@@ -302,6 +305,22 @@
 					};
 				} // else treat source as an array (handled automatically by jQuery UI)
 				method.autocomplete('option', 'source', source);
+			}
+
+			// turn the <a> element into a toggle button for the autocomplete list
+			method.siblings('.explorpc-combobox-toggle').button({
+				icons: { primary: "ui-icon-triangle-1-s" },
+				text: false
+			}).removeClass("ui-corner-all");
+		},
+
+		_comboboxToggleClicked: function() {
+			var method = this.element.find('[name=method]');
+			// close if already visible
+			if (method.autocomplete('widget').is(':visible')) {
+				method.autocomplete('close');
+			} else {
+				method.autocomplete('search', '');
 			}
 		},
 
