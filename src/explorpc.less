@@ -137,6 +137,19 @@
 			width: 100%;
 		}
 
+		.explorpc-method {
+			position: relative;
+			.explorpc-combobox-toggle {
+				display: none;
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				padding: 0;
+				margin-left: -26px;
+				span { width: 16px; }
+			}
+		}
+
 		.explorpc-options {
 			white-space: nowrap;
 			table-layout: auto;
@@ -244,6 +257,9 @@
 		display: none;
 	}
 	&.explorpc-canpermalink header .icons .explorpc-permalink {
+		display: inline-block;
+	}
+	&.explorpc-hasautocomplete .explorpc-request .explorpc-combobox-toggle {
 		display: inline-block;
 	}
 
