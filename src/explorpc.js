@@ -442,6 +442,7 @@
 				sectionHeight = (hExpand ? (totalHeight / 2) : totalHeight) - 3,
 				// requestBodyHeight = sectionHeight - borders - top margin of request body
 				requestBodyHeight = sectionHeight - 2 - 6,
+				autocompleteMaxHeight,
 				// responseEditorHeight = sectionHeight - <header> height - .field margins
 				responseEditorHeight = sectionHeight - 27 - 24;
 
@@ -455,6 +456,10 @@
 					requestBodyHeight -= ($(element).outerHeight() + 12);
 				});
 			this._requestBodyEditor.setSize(null, requestBodyHeight + "px");
+
+			// the autocomplete drop-down is right above the request body
+			autocompleteMaxHeight = requestBodyHeight + 12;
+			this.element.find('.ui-autocomplete').css('max-height', autocompleteMaxHeight + 'px');
 		},
 
 		_isHorizontallyExpanded: function() {
