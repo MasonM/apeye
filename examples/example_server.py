@@ -3,7 +3,7 @@ A Flask app that exposes a common set of math functions via JSON-RPC 2.0,
 XML-RPC and SOAP 1.1 using the simplejsonrpc, Flask-XML-RPC, and soaplib
 libraries, respectively.
 
-Also implements a very simple pastebin that can be used for exploRPC's permanent
+Also implements a very simple pastebin that can be used for APEye's permanent
 link functionality by storing the serialized requests and responses.
 """
 import simplejsonrpc, soaplib, MySQLdb, math, hashlib
@@ -74,7 +74,7 @@ app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {
 
 @app.route("/pastebin", methods=["GET", "POST"])
 def pastebin():
-	db = MySQLdb.connect(host='localhost', user='explorpc', db='example_server')
+	db = MySQLdb.connect(host='localhost', user='apeye', db='example_server')
 	result = ''
 	if request.method == "POST" and request.headers['CONTENT_LENGTH']:
 		result = insert_entry(db.cursor(), request.data)
