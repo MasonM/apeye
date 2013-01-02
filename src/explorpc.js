@@ -101,13 +101,13 @@
 			// FIELD SETTERS
 			type: "raw",
 			httpMethod: "post",
-			auth: "",
+			auth: "none",
 			url: "",
 			method: "",
-			body: "",
 			username: "",
 			password: "",
 			id: "explorpc",
+			body: "",
 
 			// MISC OPTIONS
 			autocompleteSource: null,
