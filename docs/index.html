@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-		<title>ExploRPC</title>
+		<title>APEye</title>
 		<meta name="description" content="A widget for issuing HTTP requests, designed to help document and test RPC-based APIs">
 		<meta name="author" content="Mason Malone">
 		<meta name="viewport" content="width=device-width">
@@ -15,7 +15,7 @@
 		<link rel="stylesheet" href="css/styles.css">
 		<link rel="stylesheet" href="css/humanity/jquery-ui-1.8.23.custom.css">
 
-		<link rel="stylesheet/less" href="src/explorpc.less">
+		<link rel="stylesheet/less" href="src/apeye.less">
 		<link rel="stylesheet" href="src/codemirror/lib/codemirror.css">
 
 		<script src="js/jquery-1.8.1.min.js"></script>
@@ -32,38 +32,38 @@
 		<script src="src/codemirror/mode/http/http.js"></script>
 		<script src="src/codemirror/lib/util/formatting.js"></script>
 		<script src="src/codemirror/lib/util/multiplex.js"></script>
-		<script src="src/explorpc.js"></script>
+		<script src="src/apeye.js"></script>
 
 		<style type="text/css">
-			.explorpc {
+			.apeye {
 				width: 800px;
 				height: 400px;
 				margin: 0 auto;
 			}
-			.explorpc .explorpc-id {
+			.apeye .apeye-id {
 				/* hide the "id" field to keep things simple for the demo */
 				display: none !important;
 			}
 		</style>
 		<script type="text/javascript">
-			// Must define document.domain for tunneling requests to api.explorpc.org
-			document.domain = "explorpc.org";
+			// Must define document.domain for tunneling requests to api.apeye.org
+			document.domain = "apeye.org";
 
 			$(function() {
-				$('#explorpc-demo').explorpc({
+				$('#apeye-demo').apeye({
 					// Auto-fill the fields with a sample request
 					'type': 'json-rpc',
 					'method': 'add',
-					'url': 'api.explorpc.org/json-rpc',
+					'url': 'api.apeye.org/json-rpc',
 					'body': '[10,20]',
 					'httpMethod': 'post',
 
 					// Options
 					'autoPrettyPrint': true,
 					'subdomainTunneling': true,
-					'autocompleteSource': 'http://api.explorpc.org/soap?wsdl',
+					'autocompleteSource': 'http://api.apeye.org/soap?wsdl',
 					'permalinkHandler': function(sending, dataOrId, successCallback) {
-						var endpoint = "http://api.explorpc.org/pastebin";
+						var endpoint = "http://api.apeye.org/pastebin";
 						this.tunnelRequest(endpoint, function(ajax) {
 							ajax({
 								url: endpoint,
@@ -72,7 +72,7 @@
 								data: sending ? dataOrId : { id : dataOrId }
 							}).done(function(data) {
 								if (sending) {
-									var link = 'http://explorpc.org/#permalinkId=' + data;
+									var link = 'http://apeye.org/#permalinkId=' + data;
 									successCallback(link, link);
 								} else {
 									successCallback(data);
@@ -84,7 +84,7 @@
 
 				// this updates all the fields in the demo with the fields set ih the hash part of the URL
 				$(window).on('hashchange', function() {
-					$('#explorpc-demo').data('explorpc').setFieldsFromString(window.location.hash.substring(1)); 
+					$('#apeye-demo').data('apeye').setFieldsFromString(window.location.hash.substring(1)); 
 				}).trigger('hashchange');
 
 				$("#toc").tocify({
@@ -99,7 +99,7 @@
 	</head>
 
 	<body>
-		<a href="https://bitbucket.org/MasonM/explorpc" style="position:absolute;z-index:10000;top:0;right:0;">
+		<a href="https://bitbucket.org/MasonM/apeye" style="position:absolute;z-index:10000;top:0;right:0;">
 			<img src="//bitbucket.org/zgramana/bitbucket-ribbons/raw/988dffc5fbeb/png/bitbucket-ribbon-orange.png" />
 		</a>
 		<div class="navbar navbar-fixed-top">
@@ -110,7 +110,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</a>
-					<a class="brand" href="#">ExploRPC</a>
+					<a class="brand" href="#">APEye</a>
 
 					<div class="nav-collapse">
 						<ul class="nav">
@@ -130,16 +130,16 @@
 				<div class="span9">
 					<h2 class="overview">Overview</h2>
 					<div class="hero-unit">
-						<h1>ExploRPC</h1>
+						<h1>APEye</h1>
 						<p>
-							ExploRPC is a widget for issuing HTTP requests, designed to help document and test RPC-based APIs. Unlike <a href="http://hurl.it">hurl</a> and <a href="http://apigee.com">apigee</a>, requests are handled entirely by the client &ndash; no server-side proxy is needed. Try it out below!
+							APEye is a widget for issuing HTTP requests, designed to help document and test RPC and REST-based APIs. Unlike <a href="http://hurl.it">hurl</a> and <a href="http://apigee.com">apigee</a>, requests are handled entirely by the client &ndash; no server-side proxy is needed. Try it out below!
 						</p>
-						<div id="explorpc-demo"></div>
+						<div id="apeye-demo"></div>
 						<br/>
 						<p>
-							The project is hosted on <a href="http://bitbucket.org" target="_blank" class="projectLinks">Bitbucket</a> and is available for use under the <a href="http://bitbucket.org/MasonM/explorpc/src/tip/LICENSE" target="_blank" class="projectLinks">MIT software license</a>. You can report bugs and discuss features on the <a href="http://bitbucket.org/MasonM/explorpc/issues" target="_blank">issues page</a>.
+							The project is hosted on <a href="http://bitbucket.org" target="_blank" class="projectLinks">Bitbucket</a> and is available for use under the <a href="http://bitbucket.org/MasonM/apeye/src/tip/LICENSE" target="_blank" class="projectLinks">MIT software license</a>. You can report bugs and discuss features on the <a href="http://bitbucket.org/MasonM/apeye/issues" target="_blank">issues page</a>.
 						</p>
-						<p><a class="btn btn-primary btn-large" href="https://bitbucket.org/MasonM/explorpc/" target="_blank">Fork on Bitbucket &raquo;</a></p>
+						<p><a class="btn btn-primary btn-large" href="https://bitbucket.org/MasonM/apeye/" target="_blank">Fork on Bitbucket &raquo;</a></p>
 					</div>
 
 					<h2>Notable Features</h2>
@@ -168,18 +168,18 @@
 
 					<h3>JavaScript</h3>
 					<div class="well">
-					To initialize ExploRPC, call the <code>exploprc</code> method on a container element (e.g. <code>&lt;div class="explorpc-container"&gt;&lt;/div&gt;</code>)
+					To initialize APEye, call the <code>exploprc</code> method on a container element (e.g. <code>&lt;div class="apeye-container"&gt;&lt;/div&gt;</code>)
 					<pre class="prettyprint">
-$('.explorpc-container').explorpc({
+$('.apeye-container').apeye({
 	//options
 });</pre>
 					</div>
 
 					<h3>CSS</h3>
 					<div class="well">
-						The only CSS properties that must be defined on the ExploRPC container are <code>height</code> and <code>width</code>
+						The only CSS properties that must be defined on the APEye container are <code>height</code> and <code>width</code>
 						<pre class="prettyprint">
-.explorpc-container {
+.apeye-container {
 	height: 400px;
 	width: 800px;
 }</pre>
@@ -188,9 +188,9 @@ $('.explorpc-container').explorpc({
 					<h2>Examples</h2>
 					<div class="well">
 						<ul class="examples">
-							<li><a href='#method=add&type=soap11&url=api.explorpc.org%2Fsoap&body=%3Cadd%20xlmns%3D%22http%3A%2F%2Fapi.explorpc.org%2Fsoap%22%3E%0A%20%20%20%3Ca%3E10%3C%2Fa%3E%0A%20%20%20%3Cb%3E20%3C%2Fb%3E%0A%3C%2Fadd%3E'>Add 10 and 20 with SOAP 1.1</a></li>
-							<li><a href='#method=add&type=json-rpc&url=api.explorpc.org%2Fjson-rpc&body=%5B10%2C20%5D'>Add 10 and 20 with JSON-RPC</a></li>
-							<li><a href='#method=add&type=xml-rpc&url=api.explorpc.org%2Fxml-rpc&body=%3Cparams%3E%0A%20%20%20%3Cparam%3E%3Cvalue%3E%3Cint%3E1%3C%2Fint%3E%3C%2Fvalue%3E%3C%2Fparam%3E%0A%20%20%20%3Cparam%3E%3Cvalue%3E%3Cint%3E4%3C%2Fint%3E%3C%2Fvalue%3E%3C%2Fparam%3E%0A%3C%2Fparams%3E'>Add 10 and 20 with XML-RPC</a></li>
+							<li><a href='#method=add&type=soap11&url=api.apeye.org%2Fsoap&body=%3Cadd%20xlmns%3D%22http%3A%2F%2Fapi.apeye.org%2Fsoap%22%3E%0A%20%20%20%3Ca%3E10%3C%2Fa%3E%0A%20%20%20%3Cb%3E20%3C%2Fb%3E%0A%3C%2Fadd%3E'>Add 10 and 20 with SOAP 1.1</a></li>
+							<li><a href='#method=add&type=json-rpc&url=api.apeye.org%2Fjson-rpc&body=%5B10%2C20%5D'>Add 10 and 20 with JSON-RPC</a></li>
+							<li><a href='#method=add&type=xml-rpc&url=api.apeye.org%2Fxml-rpc&body=%3Cparams%3E%0A%20%20%20%3Cparam%3E%3Cvalue%3E%3Cint%3E1%3C%2Fint%3E%3C%2Fvalue%3E%3C%2Fparam%3E%0A%20%20%20%3Cparam%3E%3Cvalue%3E%3Cint%3E4%3C%2Fint%3E%3C%2Fvalue%3E%3C%2Fparam%3E%0A%3C%2Fparams%3E'>Add 10 and 20 with XML-RPC</a></li>
 						</ul>
 					</div>
 
@@ -346,16 +346,16 @@ $('.explorpc-container').explorpc({
 						When autocomplete is enabled via "autocompleteSource", the "Method" field will be turned into a find-as-you-type search box,
 						and a small arrow will be added to allowing viewing all methods.
 						<br/><br/>
-						The "autocompleteSource" option accepts the same values as the <a href="http://jqueryui.com/autocomplete">JQuery UI "source" option</a>, with one additional feature: if given a string representing a URL to a WSDL file, it will be immediately requested and parsed, and the autocomplete list will contain the name attributes of each &lt;wsdl:operation&gt; tag contained in it. The example at the top of this page uses this feature with the WSDL file at <a href="http://api.explorpc.org/soap?wsdl">http://api.explorpc.org/soap?wsdl</a>.
+						The "autocompleteSource" option accepts the same values as the <a href="http://jqueryui.com/autocomplete">JQuery UI "source" option</a>, with one additional feature: if given a string representing a URL to a WSDL file, it will be immediately requested and parsed, and the autocomplete list will contain the name attributes of each &lt;wsdl:operation&gt; tag contained in it. The example at the top of this page uses this feature with the WSDL file at <a href="http://api.apeye.org/soap?wsdl">http://api.apeye.org/soap?wsdl</a>.
 					</p>
 
 					<h3>Subdomain Tunneling</h3>
 					<div class="well">
-					If your API endpoint is on a different subdomain as your documentation site, ExploRPC will let you circumvent the same-origin policy by tunneling requests through an iframe. Enabling tunneling is a 3 step processs:
+					If your API endpoint is on a different subdomain as your documentation site, APEye will let you circumvent the same-origin policy by tunneling requests through an iframe. Enabling tunneling is a 3 step processs:
 					<ol>
 						<li>
-							On the documentation site, add a line of Javascript to set <code>document.domain</code> to a domain suffix shared by both it and the API endpoint. For example, the demo at the top of this page communicates with "api.explorpc.org", which shares the "explorpc.org" suffix:
-							<pre class="prettyprint">document.domain = 'explorpc.org';</pre>
+							On the documentation site, add a line of Javascript to set <code>document.domain</code> to a domain suffix shared by both it and the API endpoint. For example, the demo at the top of this page communicates with "api.apeye.org", which shares the "apeye.org" suffix:
+							<pre class="prettyprint">document.domain = 'apeye.org';</pre>
 						</li>
 						<li>
 							Upload a small HTML file to the subdomain that does 2 things: include jQuery and set <code>document.domain</code> to the suffix as above. For example:
@@ -363,20 +363,20 @@ $('.explorpc-container').explorpc({
 &lt;html&gt;
 	&lt;head&gt;
 		&lt;script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"&gt;&lt;/script&gt;
-		&lt;script&gt;document.domain = 'explorpc.org';&lt;/script&gt;
+		&lt;script&gt;document.domain = 'apeye.org';&lt;/script&gt;
 	&lt;/head&gt;
 	&lt;body&gt;&lt;/body&gt;
 &lt;/html&gt;</pre>
 						</li>
 						<li>
-							When initializing exploRPC, set the <code>subdomainTunneling</code> option to <code>true</code>
+							When initializing APEye, set the <code>subdomainTunneling</code> option to <code>true</code>
 					</ol>
 					</div>
 
 					<h3>Permanent Links</h3>
 					<p class="well">
-					ExploRPC has the ability to serialize the current request and response into a JSON string, and to deserialize such a string to restore all fields to the state represented therein. The <code>permalinkHandler</code> option is what facilitates  This function should send the string to an external server (e.g. a pastebin) for storage, and return the link that should be shown to the user. ExploRPC will also call the <code>permalinkHandler</code> when the <code>permalinkId</code> option is set, and .
-						If set, the permalinkHandler will be called to retrieve the serialized request/response corresponding to the given value, and ExploRPC will be initialized to the state represented by the serialization. This option is write-only.
+					APEye has the ability to serialize the current request and response into a JSON string, and to deserialize such a string to restore all fields to the state represented therein. The <code>permalinkHandler</code> option is what facilitates  This function should send the string to an external server (e.g. a pastebin) for storage, and return the link that should be shown to the user. APEye will also call the <code>permalinkHandler</code> when the <code>permalinkId</code> option is set, and .
+						If set, the permalinkHandler will be called to retrieve the serialized request/response corresponding to the given value, and APEye will be initialized to the state represented by the serialization. This option is write-only.
 					</p>
 
 					<h2>Special thanks</h2>

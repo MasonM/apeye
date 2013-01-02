@@ -1,13 +1,13 @@
 ;(function ($, window, document, undefined) {
 	"use strict";
-	$.widget("mm.explorpc", {
+	$.widget("mm.apeye", {
 		html:
-		'<section class="explorpc-request ui-widget ui-widget-content ui-corner-left">'+
+		'<section class="apeye-request ui-widget ui-widget-content ui-corner-left">'+
 			'<header class="ui-widget-header">'+
 				'<h4>Request</h4>' +
 			'</header>' +
-			'<div class="explorpc-field explorpc-options">' +
-				'<div class="explorpc-row">' +
+			'<div class="apeye-field apeye-options">' +
+				'<div class="apeye-row">' +
 					'<span>Options</span>' +
 					'<select name="type">' +
 						'<option class="type-raw" value="raw">Raw</option>' +
@@ -32,71 +32,71 @@
 				'</div>' +
 			'</div>' +
 
-			'<div class="explorpc-field explorpc-url">' +
-				'<label class="explorpc-row">' +
+			'<div class="apeye-field apeye-url">' +
+				'<label class="apeye-row">' +
 					'<span>URL</span>' +
 					'<input type="text" name="url" placeholder="api.example.com/endpoint"/>' +
 				'</label>' +
 			'</div>' +
 
-			'<div class="explorpc-field explorpc-auth">' +
-				'<div class="explorpc-row">' +
+			'<div class="apeye-field apeye-auth">' +
+				'<div class="apeye-row">' +
 					'<span>Auth</span>' +
 					'<input type="text" name="username" placeholder="Username"/>' +
 					'<input type="text" name="password" placeholder="Password"/>' +
 				'</div>' +
 			'</div>' +
 
-			'<div class="explorpc-field explorpc-method">' +
-				'<label class="explorpc-row">' +
+			'<div class="apeye-field apeye-method">' +
+				'<label class="apeye-row">' +
 					'<span>Method</span>' +
 					'<input type="text" name="method" placeholder="method_name"/>' +
-					'<a class="explorpc-combobox-toggle ui-corner-right"></a>' +
+					'<a class="apeye-combobox-toggle ui-corner-right"></a>' +
 				'</label>' +
 			'</div>' +
 
-			'<div class="explorpc-field explorpc-id">' +
-				'<label class="explorpc-row">' +
+			'<div class="apeye-field apeye-id">' +
+				'<label class="apeye-row">' +
 					'<span>Id</span>' +
 					'<input type="text" name="id"/>' +
 				'</label>' +
 			'</div>' +
 
-			'<h4 class="explorpc-subheader explorpc-request-body-header">Request body</h4>' +
-			'<div class="explorpc-field explorpc-body">' +
+			'<h4 class="apeye-subheader apeye-request-body-header">Request body</h4>' +
+			'<div class="apeye-field apeye-body">' +
 				'<textarea name="body"></textarea>' +
 			'</div>' +
 
-			'<div class="explorpc-field explorpc-send">' +
+			'<div class="apeye-field apeye-send">' +
 				'<button name="request">Send</button>' +
 			'</div>' +
 
-			'<div class="ui-widget-header ui-corner-all explorpc-h-expand">' +
+			'<div class="ui-widget-header ui-corner-all apeye-h-expand">' +
 				'<span class="ui-icon ui-icon-triangle-1-e"></span>' +
 			'</div>' +
 		'</section>' +
 
-		'<section class="explorpc-response ui-widget ui-widget-content ui-corner-right">' +
+		'<section class="apeye-response ui-widget ui-widget-content ui-corner-right">' +
 			'<header class="ui-widget-header">' +
 				'<h4>Response</h4>' +
 				'<div class="icons">' +
-					'<button class="explorpc-prettyprint" title="Pretty print response">' +
+					'<button class="apeye-prettyprint" title="Pretty print response">' +
 						'Prty Print' +
 					'</button>' +
-					'<button class="explorpc-permalink" title="Create permanent link">' +
+					'<button class="apeye-permalink" title="Create permanent link">' +
 						'Link' +
 					'</button>' +
-					'<button class="explorpc-viewraw" title="View raw request and response">' +
+					'<button class="apeye-viewraw" title="View raw request and response">' +
 						'Raw' +
 					'</button>' +
 				'</div>' +
 			'</header>' +
-			'<div class="explorpc-field cm-s-default">' +
+			'<div class="apeye-field cm-s-default">' +
 				'<textarea name="response"></textarea>' +
 			'</div>' +
 		'</section>' +
-		'<div class="explorpc-dialog"></div>' +
-		'<div class="explorpc-spinner"></div>',
+		'<div class="apeye-dialog"></div>' +
+		'<div class="apeye-spinner"></div>',
 		options: {
 			// FIELD SETTERS
 			type: "raw",
@@ -106,7 +106,7 @@
 			method: "",
 			username: "",
 			password: "",
-			id: "explorpc",
+			id: "apeye",
 			body: "",
 
 			// MISC OPTIONS
@@ -136,7 +136,7 @@
 
 		_create: function() {
 			// inject HTML
-			this.element.addClass('explorpc').html(this.html);
+			this.element.addClass('apeye').html(this.html);
 
 			// initialize CodeMirror instances
 			this._initRequestBody();
@@ -144,9 +144,9 @@
 
 			// initialize elements
 			this.element
-				.toggleClass('explorpc-hasautocomplete', this.option('autocompleteSource') !== null)
-				.toggleClass('explorpc-autoprettyprint', this.option('autoPrettyPrint'))
-				.toggleClass('explorpc-canpermalink', this.option('permalinkHandler') !== null)
+				.toggleClass('apeye-hasautocomplete', this.option('autocompleteSource') !== null)
+				.toggleClass('apeye-autoprettyprint', this.option('autoPrettyPrint'))
+				.toggleClass('apeye-canpermalink', this.option('permalinkHandler') !== null)
 				.resizable({ handles: 'se' })
 				// I want the bigger grip icon (default is too small)
 				.find('.ui-resizable-se').addClass('ui-icon-grip-diagonal-se');
@@ -161,11 +161,11 @@
 				.on('change', '[name=auth]', $.proxy(this._authChanged, this))
 				.on('change', '[name=url]', $.proxy(this._urlChanged, this))
 				.on('click', '[name=request]:not(.ui-state-disabled)', $.proxy(this._requestClicked, this))
-				.on('click', '.explorpc-h-expand', $.proxy(this.toggleHorizontalExpand, this))
-				.on('click', '.explorpc-viewraw:not(.ui-state-disabled)', $.proxy(this.viewRaw, this))
-				.on('click', '.explorpc-prettyprint:not(.ui-state-disabled)', $.proxy(this.prettyPrintResponse, this))
-				.on('click', '.explorpc-permalink:not(.ui-state-disabled)', $.proxy(this.generatePermanentLink, this))
-				.on('click', '.explorpc-combobox-toggle', $.proxy(this._comboboxToggleClicked, this));
+				.on('click', '.apeye-h-expand', $.proxy(this.toggleHorizontalExpand, this))
+				.on('click', '.apeye-viewraw:not(.ui-state-disabled)', $.proxy(this.viewRaw, this))
+				.on('click', '.apeye-prettyprint:not(.ui-state-disabled)', $.proxy(this.prettyPrintResponse, this))
+				.on('click', '.apeye-permalink:not(.ui-state-disabled)', $.proxy(this.generatePermanentLink, this))
+				.on('click', '.apeye-combobox-toggle', $.proxy(this._comboboxToggleClicked, this));
 			
 			this._initFields();
 			this._normalHeight = this.element.height();
@@ -205,14 +205,14 @@
 			this._requestBodyEditor.toggleEmptyFlag = function() {
 				var wrapper = this.getWrapperElement();
 				if (this.hasEmptyFlag()) {
-					wrapper.className = wrapper.className.replace('explorpc-empty', '');
+					wrapper.className = wrapper.className.replace('apeye-empty', '');
 				} else {
-					wrapper.className += ' explorpc-empty';	
+					wrapper.className += ' apeye-empty';	
 				}
 			};
 
 			this._requestBodyEditor.hasEmptyFlag = function() {
-				return this.getWrapperElement().className.indexOf('explorpc-empty') !== -1;
+				return this.getWrapperElement().className.indexOf('apeye-empty') !== -1;
 			};
 
 			this._requestBodyEditor.setValueToPlaceholder = function() {
@@ -242,7 +242,7 @@
 
 		_setResponseMode: function(innerMode) {
 			// defineMode() will overwrite the existing "response" mode, if already defined
-			CodeMirror.defineMode("explorpcResponse", function(config) {
+			CodeMirror.defineMode("apeyeResponse", function(config) {
 				return CodeMirror.multiplexingMode(
 					CodeMirror.getMode(config, "message/http"), {
 						open: "\n",
@@ -252,7 +252,7 @@
 					}
 				);
 			});
-			this._responseEditor.setOption('mode', 'explorpcResponse');
+			this._responseEditor.setOption('mode', 'apeyeResponse');
 		},
 
 		_initFields: function() {
@@ -263,15 +263,15 @@
 
 		_initButtons: function() {
 			this.element.find('[name=request]').button({ disabled: true });
-			this.element.find('.explorpc-prettyprint').button({
+			this.element.find('.apeye-prettyprint').button({
 				disabled: true,
 				icons: { primary: 'ui-icon-document' }
 			});
-			this.element.find('.explorpc-permalink').button({
+			this.element.find('.apeye-permalink').button({
 				disabled: true,
 				icons: { primary: 'ui-icon-link' }
 			});
-			this.element.find('.explorpc-viewraw').button({
+			this.element.find('.apeye-viewraw').button({
 				disabled: true,
 				icons: { primary: 'ui-icon-clipboard' }
 			});
@@ -309,7 +309,7 @@
 			}
 
 			// turn the <a> element into a toggle button for the autocomplete list
-			method.siblings('.explorpc-combobox-toggle').button({
+			method.siblings('.apeye-combobox-toggle').button({
 				icons: { primary: "ui-icon-triangle-1-s" },
 				text: false
 			}).removeClass("ui-corner-all");
@@ -362,7 +362,7 @@
 				// but we treat it as one for consistency and simplicity
 				if (this.option('permalinkHandler') === null) return;
 				this.element.fadeTo(0, 0.5);
-				this.element.find('.explorpc-spinner').show().position({ of: this.element });
+				this.element.find('.apeye-spinner').show().position({ of: this.element });
 				this.option('permalinkHandler').call(this, false, value, $.proxy(this._unserialize, this));
 				return;
 			}
@@ -370,7 +370,7 @@
 			if ($.inArray(key, this.paramNames) !== -1) {
 				this._setField(key, value);
 			} else if (key === 'autoPrettyPrint') {
-				this.element.toggleClass('explorpc-autoprettyprint', value);
+				this.element.toggleClass('apeye-autoprettyprint', value);
 			}
 		},
 
@@ -415,7 +415,7 @@
 			return JSON.stringify(serialized);
 		},
 
-		// Takes in a string returned by _serialize() and restores exploRPC to the state represented by the string
+		// Takes in a string returned by _serialize() and restores APEye to the state represented by the string
 		_unserialize: function(jsonString) {
 			var json = JSON.parse(jsonString);
 
@@ -427,8 +427,8 @@
 			this._lastResponse = json.response;
 			this._showResponse(this._lastResponse);
 			this.element.fadeTo(0, 1);
-			this.element.find('.explorpc-permalink').button('enable');
-			this.element.find('.explorpc-spinner').hide();
+			this.element.find('.apeye-permalink').button('enable');
+			this.element.find('.apeye-spinner').hide();
 		},
 
 		getFieldValue: function(fieldName) {
@@ -450,8 +450,8 @@
 
 			// compute request body height by subtracting height of each of its siblings (plus the bottom margin)
 			this.element
-				.find('.explorpc-body')
-				.siblings(':visible:not(.explorpc-h-expand)')
+				.find('.apeye-body')
+				.siblings(':visible:not(.apeye-h-expand)')
 				.each(function(i, element) {
 					requestBodyHeight -= ($(element).outerHeight() + 12);
 				});
@@ -463,11 +463,11 @@
 		},
 
 		_isHorizontallyExpanded: function() {
-			return this.element.hasClass('explorpc-horizontally-expanded');
+			return this.element.hasClass('apeye-horizontally-expanded');
 		},
 
 		toggleHorizontalExpand: function(event) {
-			this.element.toggleClass('explorpc-horizontally-expanded');
+			this.element.toggleClass('apeye-horizontally-expanded');
 			this._horizontalExpandChanged();
 		},
 
@@ -478,11 +478,11 @@
 			// move icons to request section if horizontally expanded so the icons are visible without scrolling
 			this.element
 				.find('.icons')
-				.appendTo(this.element.find('.explorpc-' + (isExpanded ? 'request' : 'response') + ' header'));
+				.appendTo(this.element.find('.apeye-' + (isExpanded ? 'request' : 'response') + ' header'));
 
 			// update triangle to point the opposite direction
 			this.element
-				.find('.explorpc-h-expand span')
+				.find('.apeye-h-expand span')
 				.removeClass('ui-icon-triangle-1-e ui-icon-triangle-1-w')
 				.addClass(function() {
 					return 'ui-icon-triangle-1-' + (isExpanded ? 'w' : 'e');
@@ -515,13 +515,13 @@
 				"</pre>";
 				
 			this.element
-				.find('.explorpc-dialog')
+				.find('.apeye-dialog')
 				.html(html)
 				.dialog({
 					'title': 'Raw request and response',
 					'height': 'auto',
 					'position': { my: "top", at: "top", of: this.element },
-					'dialogClass': 'explorpc-dialog',
+					'dialogClass': 'apeye-dialog',
 					'close': this._getCloseDialogCallback()
 				});
 		},
@@ -538,8 +538,8 @@
 		},
 
 		generatePermanentLink: function() {
-			var dialog = this.element.find('.explorpc-dialog'),
-				spinner = this.element.find('.explorpc-spinner'),
+			var dialog = this.element.find('.apeye-dialog'),
+				spinner = this.element.find('.apeye-spinner'),
 				successCallback = function(link, linkText) {
 					dialog.html("Permanent link:<br><a href=\"" + link + "\">" + linkText + "</a>");
 					spinner.hide();
@@ -551,7 +551,7 @@
 					'title': 'Permanent link',
 					'height': 'auto',
 					'position': { my: "center", at: "center", of: this.element },
-					'dialogClass': 'explorpc-dialog',
+					'dialogClass': 'apeye-dialog',
 					'close': this._getCloseDialogCallback()
 				});
 
@@ -580,8 +580,8 @@
 				httpMethodSelect = this.element.find('[name=httpMethod]');
 
 			this.element
-				.removeClass('explorpc-json-rpc explorpc-soap11 explorpc-soap12 explorpc-xml-rpc explorpc-raw')
-				.addClass('explorpc-' + type);
+				.removeClass('apeye-json-rpc apeye-soap11 apeye-soap12 apeye-xml-rpc apeye-raw')
+				.addClass('apeye-' + type);
 
 			if (type === 'json-rpc' || type === 'soap11' || type === 'soap12' || type === 'xml-rpc') {
 				httpMethodSelect.val('post').attr('disabled', true);
@@ -593,8 +593,8 @@
 			this._requestBodyEditor.setOption('mode', this.getMimeType());
 			this._adjustDimensions();
 
-			this.element.find('.explorpc-request-body-header').text(this._getRequestBodyHeader());
-			this.element.find('.explorpc-method span').text(this._getMethodLabel());
+			this.element.find('.apeye-request-body-header').text(this._getRequestBodyHeader());
+			this.element.find('.apeye-method span').text(this._getMethodLabel());
 			this.element.find('[name=body]').attr('placeholder', this._getRequestBodyPlaceholder());
 
 			// set placeholder text
@@ -655,13 +655,13 @@
 		_httpMethodChanged: function(event) {
 			var httpMethod = this.getFieldValue('httpMethod');
 			this.element
-				.removeClass('explorpc-method-post explorpc-method-put explorpc-method-get explorpc-method-delete explorpc-method-trace')
-				.addClass('explorpc-method-' + httpMethod);
+				.removeClass('apeye-method-post apeye-method-put apeye-method-get apeye-method-delete apeye-method-trace')
+				.addClass('apeye-method-' + httpMethod);
 		},
 
 		_authChanged: function(event) {
 			var auth = this.getFieldValue('auth');
-			this.element.toggleClass('explorpc-auth-basic', auth === 'basic');
+			this.element.toggleClass('apeye-auth-basic', auth === 'basic');
 			this._adjustDimensions();
 		},
 
@@ -673,10 +673,10 @@
 		},
 
 		_requestClicked: function(event) {
-			var responseSection = this.element.find('.explorpc-response');
+			var responseSection = this.element.find('.apeye-response');
 
 			this.element.find('[name=request]').button('disable');
-			this.element.find('.explorpc-spinner').show().position({ of: responseSection });
+			this.element.find('.apeye-spinner').show().position({ of: responseSection });
 
 			responseSection.fadeTo(0, 0.5);
 
@@ -807,13 +807,13 @@
 			var errorDesc = "Request failed. Error #" + jqXHR.status + ": " + jqXHR.statusText;
 
 			this.element
-				.find('.explorpc-dialog')
+				.find('.apeye-dialog')
 					.text(errorDesc)
 					.dialog({
 						'title': 'Request failed',
 						'height': 'auto',
 						'position': { my: "center", at: "center", of: this.element },
-						'dialogClass': 'explorpc-dialog',
+						'dialogClass': 'apeye-dialog',
 						'close': this._getCloseDialogCallback()
 					});
 
@@ -822,7 +822,7 @@
 
 		_getCloseDialogCallback: function() {
 			// workaround for jQuery bug: http://bugs.jqueryui.com/ticket/5762
-			var dialogElem = this.element.find('.explorpc-dialog'),
+			var dialogElem = this.element.find('.apeye-dialog'),
 				element = this.element;
 			return function () {
 				dialogElem.dialog('destroy');
@@ -846,7 +846,7 @@
 
 		_showResponse: function(response) {
 			this.element
-				.find('.explorpc-viewraw, .explorpc-prettyprint, .explorpc-permalink')
+				.find('.apeye-viewraw, .apeye-prettyprint, .apeye-permalink')
 				.button('enable');
 			
 			this._setResponseMode(this.getMimeType());
@@ -860,8 +860,8 @@
 
 		_requestDone: function() {
 			this.element.find('[name=request]').button('enable');
-			this.element.find('.explorpc-response').fadeTo(0, 1);
-			this.element.find('.explorpc-spinner').hide();
+			this.element.find('.apeye-response').fadeTo(0, 1);
+			this.element.find('.apeye-spinner').hide();
 		},
 
 		destroy: function () {
@@ -869,5 +869,5 @@
 		}
 	});
 
-	$.widget.bridge("explorpc", $.mm.explorpc);
+	$.widget.bridge("apeye", $.mm.apeye);
 })(jQuery, window, document);

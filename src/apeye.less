@@ -1,7 +1,7 @@
-@explorpc-pre-bgcolor: #ddd;
-@explorpc-field-bordercolor: #ccc;
-@explorpc-placeholder-color: #999;
-@explorpc-activeline-bgcolor: #e8f2ff;
+@apeye-pre-bgcolor: #ddd;
+@apeye-field-bordercolor: #ccc;
+@apeye-placeholder-color: #999;
+@apeye-activeline-bgcolor: #e8f2ff;
 
 .border-box {
 	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
@@ -9,38 +9,38 @@
 	box-sizing: border-box;         /* Opera/IE 8+ */
 }
 
-.explorpc {
+.apeye {
 	font-size: 0;
 	text-align: center;
 
-	.explorpc-header,
-	.explorpc-subheader {
+	.apeye-header,
+	.apeye-subheader {
 		margin: 0;
 		font-weight: bold;
 		padding: 0 10px;
 	}
 
-	.explorpc-header {
+	.apeye-header {
 		text-align: left;
 		line-height: 25px;
 		font-size: 16px;
 	}
 
-	.explorpc-subheader {
+	.apeye-subheader {
 		line-height: 1;
 		font-size: 14px;
 	}
 
-	&.explorpc-horizontally-expanded {
-		.explorpc-request,
-		.explorpc-response {
+	&.apeye-horizontally-expanded {
+		.apeye-request,
+		.apeye-response {
 			display: block;
 			height: auto;
 			width: 100%;
 		}
-		.explorpc-request {
+		.apeye-request {
 			border-right-width: 1px;
-			.explorpc-options select[name] {
+			.apeye-options select[name] {
 				max-width: none;
 			}
 		}
@@ -51,8 +51,8 @@
 		width: 14px;
 	}
 
-	.explorpc-request,
-	.explorpc-response {
+	.apeye-request,
+	.apeye-response {
 		margin: 0;
 		height: 100%;
 		width: 50%;
@@ -64,7 +64,7 @@
 		header { 
 			height: 25px;
 			line-height: 1;
-			h4 { .explorpc-header; }
+			h4 { .apeye-header; }
 		}
 
 		pre {
@@ -78,22 +78,22 @@
 		margin: 0;
 
 		.activeline {
-			background: @explorpc-activeline-bgcolor;
+			background: @apeye-activeline-bgcolor;
 		}
 
-		&.explorpc-empty {
-			pre, pre span { color: @explorpc-placeholder-color !important; }
+		&.apeye-empty {
+			pre, pre span { color: @apeye-placeholder-color !important; }
 			.activeline { background: none !important; }
 		}
 	}
 
-	.explorpc-request {
+	.apeye-request {
 		border-right-width: 0;
 
 		.placeholder {
 			color: #aaa;
 		}
-		.explorpc-auth input {
+		.apeye-auth input {
 			&[name=username] {
 				width: 48%;
 				margin-right: 2%;
@@ -102,24 +102,24 @@
 				width: 50%;
 			}
 		}
-		.explorpc-body,
-		.explorpc-send {
+		.apeye-body,
+		.apeye-send {
 			text-align: center;
 		}
-		.explorpc-body textarea {
+		.apeye-body textarea {
 			height: 100%;
 		}
-		.explorpc-options,
-		.explorpc-url,
-		.explorpc-auth,
-		.explorpc-method,
-		.explorpc-id {
+		.apeye-options,
+		.apeye-url,
+		.apeye-auth,
+		.apeye-method,
+		.apeye-id {
 			display: table;
 			table-layout: fixed;
 			width: 100%;
 			.border-box;
 
-			.explorpc-row { display: table-row; }
+			.apeye-row { display: table-row; }
 			span {
 				width: 4.5em; 
 				vertical-align: top;
@@ -131,15 +131,15 @@
 				.border-box;
 			}
 		}
-		.explorpc-url input,
-		.explorpc-method input,
-		.explorpc-id input { 
+		.apeye-url input,
+		.apeye-method input,
+		.apeye-id input { 
 			width: 100%;
 		}
 
-		.explorpc-method {
+		.apeye-method {
 			position: relative;
-			.explorpc-combobox-toggle {
+			.apeye-combobox-toggle {
 				display: none;
 				position: absolute;
 				top: 0;
@@ -150,7 +150,7 @@
 			}
 		}
 
-		.explorpc-options {
+		.apeye-options {
 			white-space: nowrap;
 			table-layout: auto;
 			select {
@@ -162,7 +162,7 @@
 			}
 		}
 
-		.explorpc-h-expand {
+		.apeye-h-expand {
 			position: absolute;
 			top: 50%;
 			z-index: 100;
@@ -175,9 +175,9 @@
 		}
 	}
 	
-	.explorpc-response {
+	.apeye-response {
 		.CodeMirror {
-			background-color: @explorpc-pre-bgcolor;
+			background-color: @apeye-pre-bgcolor;
 			.cm-success {
 				color: green;
 			}
@@ -193,28 +193,28 @@
 		}
 	}
 
-	.explorpc-field {
+	.apeye-field {
 		margin: 12px 0;
 		padding: 0 12px;
 		text-align: left;
 
-		.explorpc-row span { font-weight: bold; }
+		.apeye-row span { font-weight: bold; }
 		button { font-size: 14px; }
-		select, input, textarea, .explorpc-row {
+		select, input, textarea, .apeye-row {
 		 	font-size: 12px;
 			margin-bottom: 0;
 		}
 		textarea:-moz-placeholder,
 		input:-moz-placeholder {
-			color: @explorpc-placeholder-color;
+			color: @apeye-placeholder-color;
 		}
 		textarea:-ms-input-placeholder,
 		input:-ms-input-placeholder {
-			color: @explorpc-placeholder-color;
+			color: @apeye-placeholder-color;
 		}
 		textarea::-webkit-input-placeholder,
 		input::-webkit-input-placeholder {
-			color: @explorpc-placeholder-color;
+			color: @apeye-placeholder-color;
 		}
 	}
 
@@ -231,48 +231,48 @@
 		.ui-icon { left: 0.3em }
 	}
 
-	&.explorpc-json-rpc .explorpc-request .explorpc-id {
+	&.apeye-json-rpc .apeye-request .apeye-id {
 		display: table;
 	}
-	&.explorpc-soap11,
-	&.explorpc-soap12,
-	&.explorpc-xml-rpc,
-	&.explorpc-json-rpc {
-		.explorpc-request .explorpc-method { display: table; }
+	&.apeye-soap11,
+	&.apeye-soap12,
+	&.apeye-xml-rpc,
+	&.apeye-json-rpc {
+		.apeye-request .apeye-method { display: table; }
 	}
-	&.explorpc-soap11,
-	&.explorpc-soap12 {
-		.explorpc-request .explorpc-method label span {
+	&.apeye-soap11,
+	&.apeye-soap12 {
+		.apeye-request .apeye-method label span {
 			width: 6.5em;
 		}
 	}
-	&.explorpc-auth-basic .explorpc-request .explorpc-auth {
+	&.apeye-auth-basic .apeye-request .apeye-auth {
 		display: table;
 	}
-	&.explorpc-method-post .explorpc-request,
-	&.explorpc-method-put .explorpc-request {
-		.explorpc-request-body-header, .explorpc-body { display: block; }
+	&.apeye-method-post .apeye-request,
+	&.apeye-method-put .apeye-request {
+		.apeye-request-body-header, .apeye-body { display: block; }
 	}
-	&.explorpc-autoprettyprint header .icons .explorpc-prettyprint {
+	&.apeye-autoprettyprint header .icons .apeye-prettyprint {
 		display: none;
 	}
-	&.explorpc-canpermalink header .icons .explorpc-permalink {
+	&.apeye-canpermalink header .icons .apeye-permalink {
 		display: inline-block;
 	}
-	&.explorpc-hasautocomplete .explorpc-request .explorpc-combobox-toggle {
+	&.apeye-hasautocomplete .apeye-request .apeye-combobox-toggle {
 		display: inline-block;
 	}
 
-	header .icons .explorpc-permalink,
-	.explorpc-request .explorpc-id,
-	.explorpc-request .explorpc-method,
-	.explorpc-request .explorpc-auth,
-	.explorpc-request .explorpc-body,
-	.explorpc-request-body-header {
+	header .icons .apeye-permalink,
+	.apeye-request .apeye-id,
+	.apeye-request .apeye-method,
+	.apeye-request .apeye-auth,
+	.apeye-request .apeye-body,
+	.apeye-request-body-header {
 		display: none;
 	}
 
-	.explorpc-body {
+	.apeye-body {
 		margin-top: 6px;
 	}
 
@@ -296,10 +296,10 @@
 
 	input,
 	.CodeMirror {
-		border: 1px solid @explorpc-field-bordercolor;
+		border: 1px solid @apeye-field-bordercolor;
 	}
 
-	.explorpc-spinner {
+	.apeye-spinner {
 		display: none;
 		z-index: 1005;
 		width: 32px;
@@ -310,7 +310,7 @@
 	}
 }
 
-.ui-dialog.explorpc-dialog {
+.ui-dialog.apeye-dialog {
 	padding: 0 !important;
 	font-size: 12px;
 	text-align: center;
@@ -320,18 +320,18 @@
 		padding: 5px;
 		text-align: left;
 		margin: 0;
-		background-color: @explorpc-pre-bgcolor;
+		background-color: @apeye-pre-bgcolor;
 		font-size: 12px;
 		overflow: auto;
-		border: 1px solid @explorpc-field-bordercolor;
+		border: 1px solid @apeye-field-bordercolor;
 		&:last-child { margin-bottom: 5px; }
 	}
 	h4 {
-		.explorpc > .explorpc-subheader;
+		.apeye > .apeye-subheader;
 		margin: 12px 0 6px 0;
 	}
 	.ui-dialog-titlebar {
-		.explorpc > .explorpc-header;
+		.apeye > .apeye-header;
 		border-radius: 0;
 		padding: 0 5px !important;
 		font-size: 14px !important;

@@ -1,16 +1,16 @@
 {
-	"name": "explorpc",
+	"name": "APEye",
 	"version": "0.6",
-	"main": "explorpc.js",
+	"main": "apeye.js",
 	"description": "Widget for testing and documenting RPC-based APIs",
 	"licenses": [{
 		"type": "MIT",
-		"url": "http://explorpc.org/LICENSE"
+		"url": "http://opensource.org/licenses/MIT"
 	}],
 	"directories": {"lib": "src"},
-	"bugs": "https://bitbucket.org/MasonM/explorpc/issues',
+	"bugs": "https://bitbucket.org/MasonM/apeye/issues',
 	"keywords": ["JavaScript", "HTTP", "SOAP", "JSON-RPC", "XML-RPC", "testing"],
-	"homepage": "http://explorpc.org",
+	"homepage": "http://apeye.org",
 	"maintainers":[{
 		"name": "Mason Malone",
 		"email": "mason@masonm.org",
@@ -18,6 +18,6 @@
 	}],
 	"repositories": [{
 		"type": "mercurial",
-		"url": "https://bitbucket.org/MasonM/explorpc"
+		"url": "https://bitbucket.org/MasonM/apeye"
 	}]
 }
