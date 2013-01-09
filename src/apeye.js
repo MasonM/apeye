@@ -827,6 +827,7 @@
 			return function () {
 				dialogElem.dialog('destroy');
 				dialogElem.appendTo(element);
+				element.find('.apeye-spinner').hide();
 			};
 		},
 
