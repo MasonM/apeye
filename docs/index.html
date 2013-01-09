@@ -9,21 +9,21 @@
 		<meta name="author" content="Mason Malone">
 		<meta name="viewport" content="width=device-width">
 
-		<link rel="stylesheet" href="css/bootswatch_united.min.css">
-		<link rel="stylesheet" href="css/jquery.tocify.css">
+		<link rel="stylesheet" href="css/bootswatch_spacelab.min.css">
 		<link rel="stylesheet" href="css/prettify.css">
 		<link rel="stylesheet" href="css/styles.css">
-		<link rel="stylesheet" href="css/humanity/jquery-ui-1.8.23.custom.css">
+		<link rel="stylesheet" href="css/jquery.tocify.css">
+		<link rel="stylesheet" href="css/apeye/jquery-ui-1.9.2.custom.min.css">
 
 		<link rel="stylesheet/less" href="src/apeye.less">
 		<link rel="stylesheet" href="src/codemirror/lib/codemirror.css">
 
-		<script src="js/jquery-1.8.1.min.js"></script>
+		<script src="js/jquery-1.8.3.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
 		<script src="js/prettify.js"></script>
 		<script src="js/base64.min.js"></script>
 		<script src="js/less-1.3.1.min.js"></script>
-		<script src="js/jquery-ui-1.8.23.custom.min.js"></script>
+		<script src="js/jquery-ui-1.9.2.custom.min.js"></script>
 		<script src="js/jquery.tocify.min.js"></script>
 
 		<script src="src/codemirror/lib/codemirror.js"></script>
@@ -36,7 +36,7 @@
 
 		<style type="text/css">
 			.apeye {
-				width: 800px;
+				width: 600px;
 				height: 400px;
 				margin: 0 auto;
 			}
@@ -88,9 +88,8 @@
 				}).trigger('hashchange');
 
 				$("#toc").tocify({
-					selectors: "h2, h3",
-					scrollTo: 60,
-					highlightOffset: 60,
+					selectors: "h2:not(.no-toc),h3",
+					smoothScrolling: true,
 					extendPage: true
 				});
 				prettyPrint();
@@ -99,101 +98,81 @@
 	</head>
 
 	<body>
-		<a href="https://bitbucket.org/MasonM/apeye" style="position:absolute;z-index:10000;top:0;right:0;">
-			<img src="//bitbucket.org/zgramana/bitbucket-ribbons/raw/988dffc5fbeb/png/bitbucket-ribbon-orange.png" />
-		</a>
-		<div class="navbar navbar-fixed-top">
-			<div class="navbar-inner">
-				<div class="container-fluid">
-					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</a>
-					<a class="brand" href="#">APEye</a>
-
-					<div class="nav-collapse">
-						<ul class="nav">
-							<li class="active"><a href="/">Home</a></li>
-							<li><a href="customDownload.html">Custom Build</a></li>
-						</ul>
+		<div class="container">
+			<div class="row">
+				<div class="span3 tocify">
+					<div id="toc">
+						<h2 class="no-toc">APEye</h2>
 					</div>
 				</div>
-			</div>
-		</div>
-
-		<div class="container-fluid">
-			<div class="row-fluid">
-				<div class="span3 tocify">
-					<div id="toc"></div>
-				</div>
 				<div class="span9">
-					<h2 class="overview">Overview</h2>
-					<div class="hero-unit">
-						<h1>APEye</h1>
+					<div class="overview">
+						<h2 class="toc-header">Overview</h2>
+						<h1>
+							Let users experiment with your API without leaving the documentation
+						</h1>
 						<p>
-							APEye is a widget for issuing HTTP requests, designed to help document and test RPC and REST-based APIs. Unlike <a href="http://hurl.it">hurl</a> and <a href="http://apigee.com">apigee</a>, requests are handled entirely by the client &ndash; no server-side proxy is needed. Try it out below!
+							APEye is a widget for issuing HTTP requests, designed to help document and test APIs. Unlike <a href="http://hurl.it">hurl</a> and <a href="http://apigee.com">apigee</a>, requests are handled entirely by the client &ndash; no server-side proxy is needed. Try it out below!
 						</p>
 						<div id="apeye-demo"></div>
 						<br/>
 						<p>
 							The project is hosted on <a href="http://bitbucket.org" target="_blank" class="projectLinks">Bitbucket</a> and is available for use under the <a href="http://bitbucket.org/MasonM/apeye/src/tip/LICENSE" target="_blank" class="projectLinks">MIT software license</a>. You can report bugs and discuss features on the <a href="http://bitbucket.org/MasonM/apeye/issues" target="_blank">issues page</a>.
 						</p>
-						<p><a class="btn btn-primary btn-large" href="https://bitbucket.org/MasonM/apeye/" target="_blank">Fork on Bitbucket &raquo;</a></p>
+						<p>
+							<a class="btn btn-primary btn-large" href="/customDownload.html" target="_blank">Custom Build&raquo;</a>
+							<a class="btn btn-primary btn-large" href="https://bitbucket.org/MasonM/apeye/" target="_blank">Fork on Bitbucket &raquo;</a>
+						</p>
 					</div>
 
-					<h2>Notable Features</h2>
-					<div class="well">
-						<ul>
-							<li>Supports SOAP 1.1, SOAP 1.2, XML-RPC, and JSON-RPC 2.0</li>
-							<li>Easily integrated into Doxygen-generated API documentation</li>
-							<li>Powered by <a href="http://codemirror.com">CodeMirror</a>, with automatic syntax highlighing and pretty-printing for requests and responses</li>
-							<li><a href="#subdomain">Circumvents the same-origin policy for subdomains by automatically tunneling requests</a></li>
-							<li><a href="#permalinks">Can generate permanent links to snapshot a request and response</a></li>
-							<li><a href="#autcompletion">Autocompletion support for method names</a></li>
-						</ul>
-					</div>
+					<hr/>
+					<h2>Features</h2>
+					<ul>
+						<li>Tested in Firefox 17, Chrome 20, and IE 8-9.</li>
+						<li>Supports SOAP 1.1, SOAP 1.2, XML-RPC, and JSON-RPC 2.0</li>
+						<li>Easily integrated into Doxygen-generated API documentation</li>
+						<li>Powered by <a href="http://codemirror.com">CodeMirror</a>, with automatic syntax highlighing and pretty-printing</li>
+						<li><a href="#subdomain">Circumvents the same-origin policy for subdomains by automatically tunneling requests</a></li>
+						<li><a href="#permalinks">Can generate permanent links to snapshot a request and response</a></li>
+						<li><a href="#autcompletion">Autocompletion support for method names</a></li>
+					</ul>
 
-					<h2>Browser Support</h2>
-					<p class="well">
-						Tested in Firefox 17, Chrome 20, and IE 8-9.
-					</p>
-
+					<hr/>
 					<h2>Getting Started</h2>
 					<p><h3><a href="customDownload.html">Custom Download</h3></a></p>
-					<p class="well">
+					<p>
 						<span class="note"><strong>Note: </strong> All of the plugin files are in the <code>src</code> directory (this includes both the JavaScript and CSS files). If you want to see an example page with all of the files included, look in the <code>demos</code> directory.
 						</span>
 					</p>
 
 					<h3>JavaScript</h3>
-					<div class="well">
-					To initialize APEye, call the <code>exploprc</code> method on a container element (e.g. <code>&lt;div class="apeye-container"&gt;&lt;/div&gt;</code>)
-					<pre class="prettyprint">
-$('.apeye-container').apeye({
-	//options
-});</pre>
-					</div>
+					<p>
+						To initialize APEye, call the <code>exploprc</code> method on a container element (e.g. <code>&lt;div class="apeye-container"&gt;&lt;/div&gt;</code>)
+						<pre class="prettyprint">
+	$('.apeye-container').apeye({
+		//options
+	});</pre>
+					</p>
 
 					<h3>CSS</h3>
-					<div class="well">
+					<p>
 						The only CSS properties that must be defined on the APEye container are <code>height</code> and <code>width</code>
 						<pre class="prettyprint">
 .apeye-container {
 	height: 400px;
 	width: 800px;
 }</pre>
-					</div>
+					</p>
 
+					<hr/>
 					<h2>Examples</h2>
-					<div class="well">
-						<ul class="examples">
-							<li><a href='#method=add&type=soap11&url=api.apeye.org%2Fsoap&body=%3Cadd%20xlmns%3D%22http%3A%2F%2Fapi.apeye.org%2Fsoap%22%3E%0A%20%20%20%3Ca%3E10%3C%2Fa%3E%0A%20%20%20%3Cb%3E20%3C%2Fb%3E%0A%3C%2Fadd%3E'>Add 10 and 20 with SOAP 1.1</a></li>
-							<li><a href='#method=add&type=json-rpc&url=api.apeye.org%2Fjson-rpc&body=%5B10%2C20%5D'>Add 10 and 20 with JSON-RPC</a></li>
-							<li><a href='#method=add&type=xml-rpc&url=api.apeye.org%2Fxml-rpc&body=%3Cparams%3E%0A%20%20%20%3Cparam%3E%3Cvalue%3E%3Cint%3E1%3C%2Fint%3E%3C%2Fvalue%3E%3C%2Fparam%3E%0A%20%20%20%3Cparam%3E%3Cvalue%3E%3Cint%3E4%3C%2Fint%3E%3C%2Fvalue%3E%3C%2Fparam%3E%0A%3C%2Fparams%3E'>Add 10 and 20 with XML-RPC</a></li>
-						</ul>
-					</div>
+					<ul class="examples">
+						<li><a href='#method=add&type=soap11&url=api.apeye.org%2Fsoap&body=%3Cadd%20xlmns%3D%22http%3A%2F%2Fapi.apeye.org%2Fsoap%22%3E%0A%20%20%20%3Ca%3E10%3C%2Fa%3E%0A%20%20%20%3Cb%3E20%3C%2Fb%3E%0A%3C%2Fadd%3E'>Add 10 and 20 with SOAP 1.1</a></li>
+						<li><a href='#method=add&type=json-rpc&url=api.apeye.org%2Fjson-rpc&body=%5B10%2C20%5D'>Add 10 and 20 with JSON-RPC</a></li>
+						<li><a href='#method=add&type=xml-rpc&url=api.apeye.org%2Fxml-rpc&body=%3Cparams%3E%0A%20%20%20%3Cparam%3E%3Cvalue%3E%3Cint%3E1%3C%2Fint%3E%3C%2Fvalue%3E%3C%2Fparam%3E%0A%20%20%20%3Cparam%3E%3Cvalue%3E%3Cint%3E4%3C%2Fint%3E%3C%2Fvalue%3E%3C%2Fparam%3E%0A%3C%2Fparams%3E'>Add 10 and 20 with XML-RPC</a></li>
+					</ul>
 
+					<hr/>
 					<h2>Options</h2>
 					<h3>Overview</h3>
 					<table class="table table-striped table-bordered table-condensed">
@@ -201,11 +180,11 @@ $('.apeye-container').apeye({
 							<th>Name</th>
 							<th>Type</th>
 							<th>Default</th>
-							<th>Parameters</th>
+							<th>Description</th>
 						</tr>
 						<tr>
 							<td class="optionName" title="Name" data-content="Enter Option Description Here">
-								<a href="#">autcompleteSource</a>
+								autocompleteSource
 							</td>
 							<td>null | string | array | function</td>
 							<td>null</td>
@@ -213,7 +192,7 @@ $('.apeye-container').apeye({
 						</tr>
 						<tr>
 							<td class="optionName" title="Option Name" data-content="Enter Option Description Here">
-								<a href="#">permalinkHandler</a>
+								permalinkHandler
 							</td>
 							<td>null | function</td>
 							<td>null</td>
@@ -221,7 +200,7 @@ $('.apeye-container').apeye({
 						</tr>
 						<tr>
 							<td class="optionName" title="Option Name" data-content="Enter Option Description Here">
-								<a href="#">indent</a>
+								indent
 							</td>
 							<td>integer</td>
 							<td>3</td>
@@ -229,7 +208,7 @@ $('.apeye-container').apeye({
 						</tr>
 						<tr>
 							<td class="optionName" title="Option Name" data-content="Enter Option Description Here">
-								<a href="#">timeout</a>
+								timeout
 							</td>
 							<td>integer</td>
 							<td>5000</td>
@@ -237,7 +216,7 @@ $('.apeye-container').apeye({
 						</tr>
 						<tr>
 							<td class="optionName" title="Option Name" data-content="Enter Option Description Here">
-								<a href="#">autoPrettyPrint</a>
+								autoPrettyPrint
 							</td>
 							<td>boolean</td>
 							<td>false</td>
@@ -245,7 +224,7 @@ $('.apeye-container').apeye({
 						</tr>
 						<tr>
 							<td class="optionName" title="Option Name" data-content="Enter Option Description Here">
-								<a href="#">subdomainTunneling</a>
+								subdomainTunneling
 							</td>
 							<td>boolean</td>
 							<td>false</td>
@@ -253,7 +232,7 @@ $('.apeye-container').apeye({
 						</tr>
 						<tr>
 							<td class="optionName" title="Option Name" data-content="Enter Option Description Here">
-								<a href="#">tunnelFilepath</a>
+								tunnelFilepath
 							</td>
 							<td>string</td>
 							<td>"/tunnel.html"</td>
@@ -261,7 +240,7 @@ $('.apeye-container').apeye({
 						</tr>
 						<tr>
 							<td class="optionName" title="Option Name" data-content="Enter Option Description Here">
-								<a href="#">permalinkId</a>
+								permalinkId
 							</td>
 							<td>string</td>
 							<td>null</td>
@@ -269,7 +248,7 @@ $('.apeye-container').apeye({
 						</tr>
 						<tr>
 							<td class="optionName" title="Option Name" data-content="Enter Option Description Here">
-								<a href="#">type</a>
+								type
 							</td>
 							<td>string</td>
 							<td>"raw"</td>
@@ -277,7 +256,7 @@ $('.apeye-container').apeye({
 						</tr>
 						<tr>
 							<td class="optionName" title="Option Name" data-content="Enter Option Description Here">
-								<a href="#">httpMethod</a>
+								httpMethod
 							</td>
 							<td>string</td>
 							<td>"post"</td>
@@ -285,7 +264,7 @@ $('.apeye-container').apeye({
 						</tr>
 						<tr>
 							<td class="optionName" title="Option Name" data-content="Enter Option Description Here">
-								<a href="#">auth</a>
+								auth
 							</td>
 							<td>string</td>
 							<td>"none"</td>
@@ -293,7 +272,7 @@ $('.apeye-container').apeye({
 						</tr>
 						<tr>
 							<td class="optionName" title="Option Name" data-content="Enter Option Description Here">
-								<a href="#">url</a>
+								url
 							</td>
 							<td>string</td>
 							<td>""</td>
@@ -301,15 +280,15 @@ $('.apeye-container').apeye({
 						</tr>
 						<tr>
 							<td class="optionName" title="Option Name" data-content="Enter Option Description Here">
-								<a href="#">method</a>
+								method
 							</td>
 							<td>string</td>
 							<td>""</td>
-							<td>Setter for the "Method" field (only shown if type != <code>"raw"</code>)</td>
+							<td>Setter for the "Method" field (only shown if type != "raw")</td>
 						</tr>
 						<tr>
 							<td class="optionName" title="Option Name" data-content="Enter Option Description Here">
-								<a href="#">username</a>
+								username
 							</td>
 							<td>string</td>
 							<td>""</td>
@@ -317,7 +296,7 @@ $('.apeye-container').apeye({
 						</tr>
 						<tr>
 							<td class="optionName" title="Option Name" data-content="Enter Option Description Here">
-								<a href="#">password</a>
+								password
 							</td>
 							<td>string</td>
 							<td>""</td>
@@ -325,7 +304,7 @@ $('.apeye-container').apeye({
 						</tr>
 						<tr>
 							<td class="optionName" title="Option Name" data-content="Enter Option Description Here">
-								<a href="#">id</a>
+								id
 							</td>
 							<td>string</td>
 							<td>""</td>
@@ -333,7 +312,7 @@ $('.apeye-container').apeye({
 						</tr>
 						<tr>
 							<td class="optionName" title="Option Name" data-content="Enter Option Description Here">
-								<a href="#">body</a>
+								body
 							</td>
 							<td>string</td>
 							<td>""</td>
@@ -342,15 +321,15 @@ $('.apeye-container').apeye({
 					</table>
 
 					<h3>Autocompletion</h3>
-					<p class="well">
+					<p>
 						When autocomplete is enabled via "autocompleteSource", the "Method" field will be turned into a find-as-you-type search box,
 						and a small arrow will be added to allowing viewing all methods.
 						<br/><br/>
-						The "autocompleteSource" option accepts the same values as the <a href="http://jqueryui.com/autocomplete">JQuery UI "source" option</a>, with one additional feature: if given a string representing a URL to a WSDL file, it will be immediately requested and parsed, and the autocomplete list will contain the name attributes of each &lt;wsdl:operation&gt; tag contained in it. The example at the top of this page uses this feature with the WSDL file at <a href="http://api.apeye.org/soap?wsdl">http://api.apeye.org/soap?wsdl</a>.
+						The "autocompleteSource" option accepts the same values as the <a href="http://api.jqueryui.com/autocomplete/#option-source">JQuery UI "source" option</a>, with one additional feature: if given a string representing a URL to a WSDL file, the file will be immediately requested and parsed, and the autocomplete list will contain the name attributes of each &lt;wsdl:operation&gt; tag contained in it. The example at the top of this page uses this feature with the WSDL file at <a href="http://api.apeye.org/soap?wsdl">http://api.apeye.org/soap?wsdl</a>.
 					</p>
 
 					<h3>Subdomain Tunneling</h3>
-					<div class="well">
+					<p>
 					If your API endpoint is on a different subdomain as your documentation site, APEye will let you circumvent the same-origin policy by tunneling requests through an iframe. Enabling tunneling is a 3 step processs:
 					<ol>
 						<li>
@@ -371,16 +350,16 @@ $('.apeye-container').apeye({
 						<li>
 							When initializing APEye, set the <code>subdomainTunneling</code> option to <code>true</code>
 					</ol>
-					</div>
+					</p>
 
 					<h3>Permanent Links</h3>
-					<p class="well">
+					<p>
 					APEye has the ability to serialize the current request and response into a JSON string, and to deserialize such a string to restore all fields to the state represented therein. The <code>permalinkHandler</code> option is what facilitates  This function should send the string to an external server (e.g. a pastebin) for storage, and return the link that should be shown to the user. APEye will also call the <code>permalinkHandler</code> when the <code>permalinkId</code> option is set, and .
 						If set, the permalinkHandler will be called to retrieve the serialized request/response corresponding to the given value, and APEye will be initialized to the state represented by the serialization. This option is write-only.
 					</p>
 
 					<h2>Special thanks</h2>
-					<p class="well note">
+					<p>
 						Enter CSS Instructions Here
 					</p>
 				</div>

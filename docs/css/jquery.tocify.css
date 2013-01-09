@@ -5,14 +5,10 @@
 
 /* The Table of Contents container element */
 #toc {
-    width: 20%;
+    width: 200px;
     position: fixed;
-    border: 1px solid #ccc;
     max-height: 95%;
     overflow-y: auto;
-    webkit-border-radius: 6px;
-    moz-border-radius: 6px;
-    border-radius: 6px;
 }
 
 /* The Table of Contents is composed of multiple nested unordered lists.  These styles remove the default styling of an unordered list because it is ugly. */

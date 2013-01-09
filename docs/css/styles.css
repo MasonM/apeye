@@ -6,16 +6,12 @@ section#components {
 	padding-top: 0px;
 }
 
-h2.overview {
-	display: none;
+.tocify h2 {
+	text-align: center;
 }
 
 .sidebar-nav {
 	padding: 9px 0;
-}
-
-p {
-	font-size: 18px;
 }
 
 .apeye-dialog a {
@@ -45,12 +41,15 @@ select {
 	padding: 0;
 }
 
-#css-download, #javascript-download {
-	display: none;
+.toc-header {
+	visibility: hidden;
+	height: 0;
+	margin: 0;
 }
 
-h1 {
-	text-align: center;
+/* Override styles */
+.apeye header h4, .apeye-dialog .ui-dialog-title  {
+	color: #444;
 }
 
 @media (max-width: 767px) {
