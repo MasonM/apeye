@@ -2,7 +2,7 @@
 	"name": "APEye",
 	"version": "0.6",
 	"main": "apeye.js",
-	"description": "Widget for testing and documenting RPC-based APIs",
+	"description": "jQuery widget for testing and documenting APIs",
 	"licenses": [{
 		"type": "MIT",
 		"url": "http://opensource.org/licenses/MIT"
