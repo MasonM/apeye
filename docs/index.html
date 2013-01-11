@@ -12,7 +12,6 @@
 		<link rel="stylesheet" href="css/bootswatch_spacelab.min.css">
 		<link rel="stylesheet" href="css/prettify.css">
 		<link rel="stylesheet" href="css/styles.css">
-		<link rel="stylesheet" href="css/jquery.tocify.css">
 		<link rel="stylesheet" href="css/apeye/jquery-ui-1.9.2.custom.min.css">
 
 		<link rel="stylesheet/less" href="src/apeye.less">
@@ -23,7 +22,7 @@
 		<script src="js/base64.min.js"></script>
 		<script src="js/less-1.3.1.min.js"></script>
 		<script src="js/jquery-ui-1.9.2.custom.min.js"></script>
-		<script src="js/jquery.tocify.min.js"></script>
+		<script src="js/jquery.toc.js"></script>
 
 		<script src="src/codemirror/lib/codemirror.js"></script>
 		<script src="src/codemirror/mode/javascript/javascript.js"></script>
@@ -87,11 +86,7 @@
 						.setFieldsFromString(window.location.hash.substring(1));
 				}).trigger('hashchange');
 
-				$("#toc").tocify({
-					selectors: "h2:not(.no-toc),h3",
-					smoothScrolling: true,
-					extendPage: true
-				});
+				$("#toc").toc({ selectors: "h2:not(.no-toc),h3" });
 				prettyPrint();
 			});
 		</script>
@@ -102,7 +97,7 @@
 				margin: 0 auto;
 			}
 			.apeye .apeye-id {
-				/* Hide the "id" field to keep things simple for the demo. The default id of "apeye" is fine. */
+				/* Hide the "id" field to keep things simple for the demo. The default of "apeye" is fine. */
 				display: none !important;
 			}
 		</style>
@@ -160,9 +155,9 @@
 					<p>
 						To initialize APEye, call the <code>exploprc</code> method on a container element (e.g. <code>&lt;div class="apeye-container"&gt;&lt;/div&gt;</code>)
 						<pre class="prettyprint">
-	$('.apeye-container').apeye({
-		//options
-	});</pre>
+$('.apeye-container').apeye({
+	//options
+});</pre>
 					</p>
 
 					<h3>CSS</h3>

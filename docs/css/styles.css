@@ -47,19 +47,41 @@ select {
 	margin: 0;
 }
 
-/* Override styles */
+/* Override bootstrap styles */
 .apeye header h4, .apeye-dialog .ui-dialog-title  {
 	color: #444;
 }
 
-@media (max-width: 767px) {
-	.tocify {
-		padding-bottom: 20px;
-	}
+#toc {
+    width: 200px;
+    position: fixed;
+    overflow-y: auto;
 }
 
-@media (max-width: 480px) {
-	.hero-unit h1 {
-		font-size: 30px;
-	}
+/* The Table of Contents is composed of multiple nested unordered lists.  These styles remove the default styling of an unordered list because it is ugly. */
+#toc ul, #toc li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border: none;
+    line-height: 30px;
+}
+
+/* Top level header elements */
+#toc .toc-h2 {
+    text-indent: 10px;
+}
+
+/* Top level subheader elements.  These are the first nested items underneath a header element. */
+#toc .toc-h3 {
+    text-indent: 30px;
+    font-size: 12px;
+}
+
+#toc a:hover {
+	text-decoration: none;
+}
+
+#toc a {
+	margin: 0;
 }
