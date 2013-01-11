@@ -5,7 +5,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
 		<title>APEye</title>
-		<meta name="description" content="A widget for issuing HTTP requests, designed to help document and test RPC-based APIs">
+		<meta name="description" content="A jQuery widget for issuing HTTP requests, designed to help document and test APIs">
 		<meta name="author" content="Mason Malone">
 		<meta name="viewport" content="width=device-width">
 
@@ -64,7 +64,7 @@
 							ajax({
 								url: endpoint,
 								type: sending ? "POST" : "GET",
-								contentType: "text/plain",
+								contentType: "text/plain", // tells jQuery to not try to decode response. We want it raw
 								data: sending ? dataOrId : { id : dataOrId }
 							}).done(function(data) {
 								if (sending) {
@@ -123,7 +123,7 @@
 							Spruce up your API docs with a <br>fully-functional client
 						</h1>
 						<p>
-							APEye is a widget for issuing HTTP requests, designed to help document and test APIs. With a few lines of Javascript, you can let users experiment with your API without leaving the documentation. Unlike <a href="http://hurl.it">hurl</a> and <a href="http://apigee.com">apigee</a>, requests are handled entirely by the client &ndash; no server-side proxy is needed. Try it out below!
+							APEye is a jQuery widget for issuing HTTP requests, designed to help document and test APIs. With a few lines of Javascript, you can let users experiment with your API without leaving the documentation. Unlike <a href="http://hurl.it">hurl</a> and <a href="http://apigee.com">apigee</a>, requests are handled entirely by the client &ndash; no server-side proxy is needed. Try it out below!
 						</p>
 						<div id="apeye-demo"></div>
 						<br/>
@@ -334,7 +334,7 @@
 					<h3>Autocompletion</h3>
 					<p>
 						When autocomplete is enabled via "autocompleteSource", the "Method" field will be turned into a find-as-you-type search box,
-						and a small arrow will be added to allowing viewing all methods.
+						and a small arrow will be added to allow viewing all methods.
 						<br/><br/>
 						The "autocompleteSource" option accepts the same values as the <a href="http://api.jqueryui.com/autocomplete/#option-source">JQuery UI "source" option</a>, with one additional feature: if given a string representing a URL to a WSDL file, the file will be immediately requested and parsed, and the autocomplete list will contain the name attributes of each &lt;wsdl:operation&gt; tag contained in it. The example at the top of this page uses this feature with the WSDL file at <a href="http://api.apeye.org/soap?wsdl">http://api.apeye.org/soap?wsdl</a>.
 					</p>
