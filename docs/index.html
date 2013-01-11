@@ -33,35 +33,32 @@
 		<script src="src/codemirror/lib/util/multiplex.js"></script>
 		<script src="src/apeye.js"></script>
 
-		<style type="text/css">
-			.apeye {
-				width: 600px;
-				height: 400px;
-				margin: 0 auto;
-			}
-			.apeye .apeye-id {
-				/* hide the "id" field to keep things simple for the demo */
-				display: none !important;
-			}
-		</style>
 		<script type="text/javascript">
-			// Must define document.domain for tunneling requests to api.apeye.org
+			// Must define document.domain so we can tunnel requests to api.apeye.org
 			document.domain = "apeye.org";
 
 			$(function() {
 				$('#apeye-demo').apeye({
-					// Auto-fill the fields with a sample request
+					// FIELD SETTERS: Auto-fill the fields with a sample request
+					'url': 'api.apeye.org/json-rpc',
 					'type': 'json-rpc',
 					'method': 'add',
-					'url': 'api.apeye.org/json-rpc',
 					'body': '[10,20]',
 					'httpMethod': 'post',
 
-					// Options
+					// OPTIONS
+					// Automatically pretty-print responses
 					'autoPrettyPrint': true,
+					// Always tunnel requests through an iframe (needed because endpoint in the sample request is on a different subdomain)
 					'subdomainTunneling': true,
+					// Get a list of valid methods from the auto-generated WSDL, and use that for autocompletion for the "Method" field
 					'autocompleteSource': 'http://api.apeye.org/soap?wsdl',
+					// Function to handle sending/retrieving serialized state strings, used for the "Permanent Link" functionality
 					'permalinkHandler': function(sending, dataOrId, successCallback) {
+						// Use a simple Flask-based pastebin (source at examples/example_server.fcgi) to
+						// store the serialized data. The pastebin has the following API:
+						// * To store data, POST it to /pastebin. The response will contain an ID.
+						// * To retrieve data, do a GET on /pastebin?id=<id>, with <id> replaced with the desired ID
 						var endpoint = "http://api.apeye.org/pastebin";
 						this.tunnelRequest(endpoint, function(ajax) {
 							ajax({
@@ -71,6 +68,9 @@
 								data: sending ? dataOrId : { id : dataOrId }
 							}).done(function(data) {
 								if (sending) {
+									// The "hashchange" logic below will take care of kicking of the unserialization,
+									// since it calls setFieldsFromString() and permalinkId is the option name to trigger
+									// the unserialize logic.
 									var link = 'http://apeye.org/#permalinkId=' + data;
 									successCallback(link, link);
 								} else {
@@ -81,9 +81,10 @@
 					}
 				});
 
-				// this updates all the fields in the demo with the fields set ih the hash part of the URL
 				$(window).on('hashchange', function() {
-					$('#apeye-demo').data('apeye').setFieldsFromString(window.location.hash.substring(1)); 
+					$('#apeye-demo').data('apeye')
+						// If window hash changes, this updates options and/or fields encoded in the hash string
+						.setFieldsFromString(window.location.hash.substring(1));
 				}).trigger('hashchange');
 
 				$("#toc").tocify({
@@ -94,6 +95,17 @@
 				prettyPrint();
 			});
 		</script>
+		<style type="text/css">
+			.apeye {
+				width: 600px;
+				height: 400px;
+				margin: 0 auto;
+			}
+			.apeye .apeye-id {
+				/* Hide the "id" field to keep things simple for the demo. The default id of "apeye" is fine. */
+				display: none !important;
+			}
+		</style>
 	</head>
 
 	<body>
