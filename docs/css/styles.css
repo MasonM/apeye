@@ -48,34 +48,32 @@ select {
 }
 
 /* Override bootstrap styles */
-.apeye header h4, .apeye-dialog .ui-dialog-title  {
+.apeye header h4, .apeye-dialog .ui-dialog-title {
 	color: #444;
 }
 
 #toc {
-    width: 200px;
-    position: fixed;
-    overflow-y: auto;
+	width: 200px;
+	position: fixed;
+	overflow-y: auto;
+	margin-top: 15px;
 }
 
-/* The Table of Contents is composed of multiple nested unordered lists.  These styles remove the default styling of an unordered list because it is ugly. */
 #toc ul, #toc li {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    border: none;
-    line-height: 30px;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	border: none;
+	line-height: 30px;
 }
 
-/* Top level header elements */
 #toc .toc-h2 {
-    text-indent: 10px;
+	text-indent: 10px;
 }
 
-/* Top level subheader elements.  These are the first nested items underneath a header element. */
 #toc .toc-h3 {
-    text-indent: 30px;
-    font-size: 12px;
+	text-indent: 30px;
+	font-size: 12px;
 }
 
 #toc a:hover {
