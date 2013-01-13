@@ -282,7 +282,7 @@
 .apeye.apeye-json-rpc .apeye-request .apeye-method {
   display: table;
 }
-.apeye.apeye-soap11 .apeye-request .apeye-method label span, .apeye.apeye-soap12 .apeye-request .apeye-method label span {
+.apeye.apeye-soap11 .apeye-request .apeye-method label > span, .apeye.apeye-soap12 .apeye-request .apeye-method label > span {
   width: 6.5em;
 }
 .apeye.apeye-auth-basic .apeye-request .apeye-auth {
