@@ -131,8 +131,6 @@
 		// subdomains we've connected to. This means we only have to fetch tunnel.html once
 		// for each subdomain request.
 		_subdomainAjax: {},
-		// non-expanded height. Expanded height will be 2x this value.
-		_normalHeight: 0,
 
 		_create: function() {
 			// inject HTML
@@ -168,9 +166,7 @@
 				.on('click', '.apeye-combobox-toggle', $.proxy(this._comboboxToggleClicked, this));
 			
 			this._initFields();
-			this._normalHeight = this.element.height();
 			if (this._isHorizontallyExpanded()) {
-				this._normalHeight /= 2;
 				this._horizontalExpandChanged();
 			} else this._adjustDimensions();
 		},
@@ -473,7 +469,7 @@
 
 		_horizontalExpandChanged: function() {
 			var isExpanded = this._isHorizontallyExpanded();
-			this.element.height(this._normalHeight * (isExpanded ? 2 : 1));
+			this.element.height(this.element.height() * (isExpanded ? 2 : 0.5));
 
 			// move icons to request section if horizontally expanded so the icons are visible without scrolling
 			this.element
