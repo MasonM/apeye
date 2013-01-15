@@ -11,5 +11,5 @@ function assertInvisible(i, val) {
 }
 
 function assertFieldValue(fieldName, fieldValue) {
-	deepEqual(apeye.find(fieldName).val(), fieldValue);
+	strictEqual(apeye.find(fieldName).val(), fieldValue);
 }
