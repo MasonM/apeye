@@ -49,8 +49,10 @@
 					'autoPrettyPrint': true,
 					// Always tunnel requests through an iframe (needed because endpoint in the sample request is on a different subdomain)
 					'subdomainTunneling': true,
+					// Available endpoints for the API server app
+					'autocompleteUrlSource': [ 'api.apeye.org/json-rpc', 'api.apeye.org/soap', 'api.apeye.org/xml-rpc' ],
 					// Get a list of valid methods from the auto-generated WSDL, and use that for autocompletion for the "Method" field
-					'autocompleteSource': 'http://api.apeye.org/soap?wsdl',
+					'autocompleteMethodSource': 'http://api.apeye.org/soap?wsdl',
 					// Function to handle sending/retrieving serialized state strings, used for the "Permanent Link" functionality
 					'permalinkHandler': function(sending, dataOrId, successCallback) {
 						// Use a simple Flask-based pastebin (source at examples/example_server.fcgi) to
@@ -139,7 +141,7 @@
 						<li>Powered by <a href="http://codemirror.com">CodeMirror</a>, with automatic syntax highlighing and pretty-printing</li>
 						<li><a href="#subdomain">Circumvents the same-origin policy for subdomains by automatically tunneling requests</a></li>
 						<li><a href="#permalinks">Can generate permanent links to snapshot a request and response</a></li>
-						<li><a href="#autcompletion">Autocompletion support for method names</a></li>
+						<li>Autocompletion support for <a href="#methodAutocomplete">method names</a> and <a href="#urlAutocomplete">URLs</a></li>
 					</ul>
 
 					<hr/>
@@ -188,15 +190,23 @@ $('.apeye-container').apeye({
 							<th>Description</th>
 						</tr>
 						<tr>
-							<td class="optionName" title="Name" data-content="Enter Option Description Here">
-								autocompleteSource
+							<td class="optionName">
+								autocompleteMethodSource
 							</td>
 							<td>null | string | array | function</td>
 							<td>null</td>
-							<td>See <a href="#autocompletion">Autocompletion</a></td>
+							<td>See <a href="#methodAutocomplete">Method Autocompletion</a></td>
 						</tr>
 						<tr>
-							<td class="optionName" title="Option Name" data-content="Enter Option Description Here">
+							<td class="optionName">
+								autocompleteUrlSource
+							</td>
+							<td>null | string | array | function</td>
+							<td>null</td>
+							<td>See <a href="#urlAutocomplete">URL Autocompletion</a></td>
+						</tr>
+						<tr>
+							<td class="optionName">
 								permalinkHandler
 							</td>
 							<td>null | function</td>
@@ -325,14 +335,23 @@ $('.apeye-container').apeye({
 						</tr>
 					</table>
 
-					<h3>Autocompletion</h3>
+					<a name="methodAutocomplete"></a>
+					<h3>Method Autocompletion</h3>
 					<p>
-						When autocomplete is enabled via "autocompleteSource", the "Method" field will be turned into a find-as-you-type search box,
+						When method autocomplete is enabled via "autocompleteMethodSource", the "Method" field will be turned into a find-as-you-type search box,
 						and a small arrow will be added to allow viewing all methods.
 						<br/><br/>
-						The "autocompleteSource" option accepts the same values as the <a href="http://api.jqueryui.com/autocomplete/#option-source">JQuery UI "source" option</a>, with one additional feature: if given a string representing a URL to a WSDL file, the file will be immediately requested and parsed, and the autocomplete list will contain the name attributes of each &lt;wsdl:operation&gt; tag contained in it. The example at the top of this page uses this feature with the WSDL file at <a href="http://api.apeye.org/soap?wsdl">http://api.apeye.org/soap?wsdl</a>.
+						The "autocompleteMethodSource" option accepts the same values as the <a href="http://api.jqueryui.com/autocomplete/#option-source">JQuery UI "source" option</a>, with one additional feature: if given a string representing a URL to a WSDL file, the file will be immediately requested and parsed, and the autocomplete list will contain the name attributes of each &lt;wsdl:operation&gt; tag contained in it. The example at the top of this page uses this feature with the WSDL file at <a href="http://api.apeye.org/soap?wsdl">http://api.apeye.org/soap?wsdl</a>.
 					</p>
 
+					<a name="urlAutocomplete"></a>
+					<h3>URL Autocompletion</h3>
+					<p>
+						As with method autocompletion, using the "autocompleteUrlSource" option will turn the "URL" field into a find-as-you-type search box. The "autocompleteUrlSource" option accepts the same values as the <a href="http://api.jqueryui.com/autocomplete/#option-source">JQuery UI "source" option</a>.
+						<br/><br/>
+					</p>
+
+					<a name="subdomainTunneling"></a>
 					<h3>Subdomain Tunneling</h3>
 					<p>
 					If your API endpoint is on a different subdomain as your documentation site, APEye will let you circumvent the same-origin policy by tunneling requests through an iframe. Enabling tunneling is a 3 step processs:

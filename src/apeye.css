@@ -170,10 +170,10 @@
 .apeye .apeye-request .apeye-url input, .apeye .apeye-request .apeye-method input, .apeye .apeye-request .apeye-id input {
   width: 100%;
 }
-.apeye .apeye-request .apeye-method {
+.apeye .apeye-request .apeye-method, .apeye .apeye-request .apeye-url {
   position: relative;
 }
-.apeye .apeye-request .apeye-method .apeye-combobox-toggle {
+.apeye .apeye-request .apeye-method .apeye-combobox-toggle, .apeye .apeye-request .apeye-url .apeye-combobox-toggle {
   display: none;
   position: absolute;
   top: 0;
@@ -181,7 +181,7 @@
   padding: 0;
   margin-left: -26px;
 }
-.apeye .apeye-request .apeye-method .apeye-combobox-toggle span {
+.apeye .apeye-request .apeye-method .apeye-combobox-toggle span, .apeye .apeye-request .apeye-url .apeye-combobox-toggle span {
   width: 16px;
 }
 .apeye .apeye-request .apeye-options {
@@ -298,9 +298,6 @@
   display: none;
 }
 .apeye.apeye-canpermalink header .icons .apeye-permalink {
-  display: inline-block;
-}
-.apeye.apeye-hasautocomplete .apeye-request .apeye-combobox-toggle {
   display: inline-block;
 }
 .apeye header .icons .apeye-permalink,
