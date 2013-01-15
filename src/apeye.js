@@ -36,6 +36,7 @@
 				'<label class="apeye-row">' +
 					'<span>URL</span>' +
 					'<input type="text" name="url" placeholder="api.example.com/endpoint"/>' +
+					'<a class="apeye-combobox-toggle ui-corner-right"></a>' +
 				'</label>' +
 			'</div>' +
 
@@ -110,7 +111,8 @@
 			body: "",
 
 			// MISC OPTIONS
-			autocompleteSource: null,
+			autocompleteMethodSource: null,
+			autocompleteUrlSource: null,
 			permalinkHandler: null,
 			indent: 3,
 			timeout: 5 * 1000,
@@ -142,14 +144,14 @@
 
 			// initialize elements
 			this.element
-				.toggleClass('apeye-hasautocomplete', this.option('autocompleteSource') !== null)
 				.toggleClass('apeye-autoprettyprint', this.option('autoPrettyPrint'))
 				.toggleClass('apeye-canpermalink', this.option('permalinkHandler') !== null)
 				.resizable({ handles: 'se' })
 				// I want the bigger grip icon (default is too small)
 				.find('.ui-resizable-se').addClass('ui-icon-grip-diagonal-se');
 			this._initButtons();
-			this._initAutocomplete();
+			this._initMethodAutocomplete();
+			this._initUrlAutocomplete();
 
 			// register events
 			this.element
@@ -273,21 +275,40 @@
 			});
 		},
 
-		_initAutocomplete: function() {
-			var source = this.option('autocompleteSource'),
-				method = this.element.find('[name=method]');
-			if (!source) return;
-
-			method.autocomplete({
-				appendTo: this.element,
+		_initAutocomplete: function(inputField) {
+			inputField.autocomplete({
+				appendTo: inputField.parent(),
 				minLength: 0
 			}).focus(function() {
 				// show autocomplete list when input is focused
 				if (this.value === "") $(this).trigger('keydown.autocomplete');
 			});
+
+			// turn the <a> element into a toggle button for the autocomplete list
+			inputField.siblings('.apeye-combobox-toggle').button({
+				icons: { primary: "ui-icon-triangle-1-s" },
+				text: false
+			}).removeClass("ui-corner-all").show();
+		},
+
+		_initUrlAutocomplete: function() {
+			var source = this.option('autocompleteUrlSource'),
+				url = this.element.find('[name=url]');
+			if (!source) return;
+
+			this._initAutocomplete(url);
+			url.autocomplete('option', 'source', source);
+		},
+
+		_initMethodAutocomplete: function() {
+			var source = this.option('autocompleteMethodSource'),
+				method = this.element.find('[name=method]');
+			if (!source) return;
+
+			this._initAutocomplete(method);
 			if (typeof source === "string") {
 				// treat the source as WSDL file that must be requested and parsed
-				method.autocomplete('disable');
+				method.autocomplete('disable'); // disable until we complete parsing the WSDL
 				if (this.option('subdomainTunneling')) {
 					this.tunnelRequest(source, this._initAutocompleteWsdl);
 				} else {
@@ -303,28 +324,22 @@
 				} // else treat source as an array (handled automatically by jQuery UI)
 				method.autocomplete('option', 'source', source);
 			}
-
-			// turn the <a> element into a toggle button for the autocomplete list
-			method.siblings('.apeye-combobox-toggle').button({
-				icons: { primary: "ui-icon-triangle-1-s" },
-				text: false
-			}).removeClass("ui-corner-all");
 		},
 
-		_comboboxToggleClicked: function() {
-			var method = this.element.find('[name=method]');
+		_comboboxToggleClicked: function(event) {
+			var field = $(event.target).closest('.apeye-row').find('input');
 			// close if already visible
-			if (method.autocomplete('widget').is(':visible')) {
-				method.autocomplete('close');
+			if (field.autocomplete('widget').is(':visible')) {
+				field.autocomplete('close');
 			} else {
-				method.autocomplete('search', '');
+				field.autocomplete('search', '');
 			}
 		},
 
 		_initAutocompleteWsdl: function(ajax) {
 			var self = this;
 			ajax({
-				url: this.option('autocompleteSource'),
+				url: this.option('autocompleteMethodSource'),
 				type: "GET",
 				dataType: "text"
 			})
