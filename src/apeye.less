@@ -4,9 +4,9 @@
 @apeye-activeline-bgcolor: #e8f2ff;
 
 .border-box {
-	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
-	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
-	box-sizing: border-box;         /* Opera/IE 8+ */
+	-webkit-box-sizing: border-box; // Safari/Chrome, other WebKit
+	-moz-box-sizing: border-box; // Firefox, other Gecko
+	box-sizing: border-box; // Opera/IE 8+
 }
 
 .apeye {
@@ -111,10 +111,7 @@
 			height: 100%;
 		}
 		.apeye-options,
-		.apeye-url,
-		.apeye-auth,
-		.apeye-method,
-		.apeye-id {
+		.apeye-field {
 			display: table;
 			table-layout: fixed;
 			width: 100%;
@@ -132,9 +129,7 @@
 				.border-box;
 			}
 		}
-		.apeye-url input,
-		.apeye-method input,
-		.apeye-id input { 
+		.apeye-field input {
 			width: 100%;
 		}
 
@@ -194,7 +189,7 @@
 		}
 	}
 
-	.apeye-field {
+	.apeye-row-container {
 		margin: 12px 0;
 		padding: 0 12px;
 		text-align: left;
