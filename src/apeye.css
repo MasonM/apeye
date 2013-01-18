@@ -1,13 +1,7 @@
 .border-box {
   -webkit-box-sizing: border-box;
-  /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
-  /* Firefox, other Gecko */
-
   box-sizing: border-box;
-  /* Opera/IE 8+ */
-
 }
 .apeye {
   font-size: 0;
@@ -50,14 +44,8 @@
   vertical-align: top;
   position: relative;
   -webkit-box-sizing: border-box;
-  /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
-  /* Firefox, other Gecko */
-
   box-sizing: border-box;
-  /* Opera/IE 8+ */
-
 }
 .apeye .apeye-request header, .apeye .apeye-response header {
   height: 25px;
@@ -108,66 +96,33 @@
 .apeye .apeye-request .apeye-body textarea {
   height: 100%;
 }
-.apeye .apeye-request .apeye-options,
-.apeye .apeye-request .apeye-url,
-.apeye .apeye-request .apeye-auth,
-.apeye .apeye-request .apeye-method,
-.apeye .apeye-request .apeye-id {
+.apeye .apeye-request .apeye-options, .apeye .apeye-request .apeye-field {
   display: table;
   table-layout: fixed;
   width: 100%;
   -webkit-box-sizing: border-box;
-  /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
-  /* Firefox, other Gecko */
-
   box-sizing: border-box;
-  /* Opera/IE 8+ */
-
 }
-.apeye .apeye-request .apeye-options .apeye-row,
-.apeye .apeye-request .apeye-url .apeye-row,
-.apeye .apeye-request .apeye-auth .apeye-row,
-.apeye .apeye-request .apeye-method .apeye-row,
-.apeye .apeye-request .apeye-id .apeye-row {
+.apeye .apeye-request .apeye-options .apeye-row, .apeye .apeye-request .apeye-field .apeye-row {
   display: table-row;
 }
-.apeye .apeye-request .apeye-options span,
-.apeye .apeye-request .apeye-url span,
-.apeye .apeye-request .apeye-auth span,
-.apeye .apeye-request .apeye-method span,
-.apeye .apeye-request .apeye-id span {
+.apeye .apeye-request .apeye-options span, .apeye .apeye-request .apeye-field span {
   width: 4.5em;
   vertical-align: top;
 }
 .apeye .apeye-request .apeye-options select,
-.apeye .apeye-request .apeye-url select,
-.apeye .apeye-request .apeye-auth select,
-.apeye .apeye-request .apeye-method select,
-.apeye .apeye-request .apeye-id select,
+.apeye .apeye-request .apeye-field select,
 .apeye .apeye-request .apeye-options input,
-.apeye .apeye-request .apeye-url input,
-.apeye .apeye-request .apeye-auth input,
-.apeye .apeye-request .apeye-method input,
-.apeye .apeye-request .apeye-id input,
+.apeye .apeye-request .apeye-field input,
 .apeye .apeye-request .apeye-options span,
-.apeye .apeye-request .apeye-url span,
-.apeye .apeye-request .apeye-auth span,
-.apeye .apeye-request .apeye-method span,
-.apeye .apeye-request .apeye-id span {
+.apeye .apeye-request .apeye-field span {
   display: table-cell;
   -webkit-box-sizing: border-box;
-  /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
-  /* Firefox, other Gecko */
-
   box-sizing: border-box;
-  /* Opera/IE 8+ */
-
 }
-.apeye .apeye-request .apeye-url input, .apeye .apeye-request .apeye-method input, .apeye .apeye-request .apeye-id input {
+.apeye .apeye-request .apeye-field input {
   width: 100%;
 }
 .apeye .apeye-request .apeye-method, .apeye .apeye-request .apeye-url {
@@ -229,32 +184,32 @@
 .apeye .apeye-response .CodeMirror .cm-server-error {
   color: #8B0000;
 }
-.apeye .apeye-field {
+.apeye .apeye-row-container {
   margin: 12px 0;
   padding: 0 12px;
   text-align: left;
 }
-.apeye .apeye-field .apeye-row span {
+.apeye .apeye-row-container .apeye-row span {
   font-weight: bold;
 }
-.apeye .apeye-field button {
+.apeye .apeye-row-container button {
   font-size: 14px;
 }
-.apeye .apeye-field select,
-.apeye .apeye-field input,
-.apeye .apeye-field textarea,
-.apeye .apeye-field .apeye-row {
+.apeye .apeye-row-container select,
+.apeye .apeye-row-container input,
+.apeye .apeye-row-container textarea,
+.apeye .apeye-row-container .apeye-row {
   font-size: 12px;
   width: auto;
   margin-bottom: 0;
 }
-.apeye .apeye-field textarea:-moz-placeholder, .apeye .apeye-field input:-moz-placeholder {
+.apeye .apeye-row-container textarea:-moz-placeholder, .apeye .apeye-row-container input:-moz-placeholder {
   color: #999999;
 }
-.apeye .apeye-field textarea:-ms-input-placeholder, .apeye .apeye-field input:-ms-input-placeholder {
+.apeye .apeye-row-container textarea:-ms-input-placeholder, .apeye .apeye-row-container input:-ms-input-placeholder {
   color: #999999;
 }
-.apeye .apeye-field textarea::-webkit-input-placeholder, .apeye .apeye-field input::-webkit-input-placeholder {
+.apeye .apeye-row-container textarea::-webkit-input-placeholder, .apeye .apeye-row-container input::-webkit-input-placeholder {
   color: #999999;
 }
 .apeye header .icons {
@@ -319,14 +274,8 @@
   height: 100%;
   background-color: white;
   -webkit-box-sizing: border-box;
-  /* Safari/Chrome, other WebKit */
-
   -moz-box-sizing: border-box;
-  /* Firefox, other Gecko */
-
   box-sizing: border-box;
-  /* Opera/IE 8+ */
-
 }
 .apeye .ui-autocomplete {
   font-size: 12px;

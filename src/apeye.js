@@ -6,7 +6,7 @@
 			'<header class="ui-widget-header">'+
 				'<h4>Request</h4>' +
 			'</header>' +
-			'<div class="apeye-field apeye-options">' +
+			'<div class="apeye-row-container apeye-options">' +
 				'<div class="apeye-row">' +
 					'<span>Options</span>' +
 					'<select name="type">' +
@@ -32,7 +32,7 @@
 				'</div>' +
 			'</div>' +
 
-			'<div class="apeye-field apeye-url">' +
+			'<div class="apeye-row-container apeye-field apeye-url">' +
 				'<label class="apeye-row">' +
 					'<span>URL</span>' +
 					'<input type="text" name="url" placeholder="api.example.com/endpoint"/>' +
@@ -40,7 +40,7 @@
 				'</label>' +
 			'</div>' +
 
-			'<div class="apeye-field apeye-auth">' +
+			'<div class="apeye-row-container apeye-field apeye-auth">' +
 				'<div class="apeye-row">' +
 					'<span>Auth</span>' +
 					'<input type="text" name="username" placeholder="Username"/>' +
@@ -48,7 +48,7 @@
 				'</div>' +
 			'</div>' +
 
-			'<div class="apeye-field apeye-method">' +
+			'<div class="apeye-row-container apeye-field apeye-method">' +
 				'<label class="apeye-row">' +
 					'<span>Method</span>' +
 					'<input type="text" name="method" placeholder="method_name"/>' +
@@ -56,7 +56,7 @@
 				'</label>' +
 			'</div>' +
 
-			'<div class="apeye-field apeye-id">' +
+			'<div class="apeye-row-container apeye-field apeye-id">' +
 				'<label class="apeye-row">' +
 					'<span>Id</span>' +
 					'<input type="text" name="id"/>' +
@@ -64,11 +64,11 @@
 			'</div>' +
 
 			'<h4 class="apeye-subheader apeye-request-body-header">Request body</h4>' +
-			'<div class="apeye-field apeye-body">' +
+			'<div class="apeye-row-container apeye-body">' +
 				'<textarea name="body"></textarea>' +
 			'</div>' +
 
-			'<div class="apeye-field apeye-send">' +
+			'<div class="apeye-row-container apeye-send">' +
 				'<button name="request">Send</button>' +
 			'</div>' +
 
@@ -92,7 +92,7 @@
 					'</button>' +
 				'</div>' +
 			'</header>' +
-			'<div class="apeye-field cm-s-default">' +
+			'<div class="apeye-row-container cm-s-default">' +
 				'<textarea name="response"></textarea>' +
 			'</div>' +
 		'</section>' +
