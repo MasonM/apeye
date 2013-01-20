@@ -52,6 +52,14 @@ select {
 	color: #444;
 }
 
+pre.prettyprint {
+	margin-bottom: 5px;
+}
+
+ol li {
+	padding-bottom: 10px;
+}
+
 #toc {
 	width: 200px;
 	position: fixed;
