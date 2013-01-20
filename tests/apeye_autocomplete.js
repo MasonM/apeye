@@ -16,11 +16,11 @@ function testAutocomplete(fieldElement, expectedValues) {
 }
 
 test("method autocompletion w/ array", function() {
-	var methods = [ 'foo', 'bar', 'baz' ],
-		apeye = $('<div/>').appendTo('#qunit-fixture').apeye({
-			'type': 'json-rpc',
-			'autocompleteMethodSource': methods
-		}); 
+	var methods = [ 'foo', 'bar', 'baz' ];
+	apeye = $('<div/>').appendTo('#qunit-fixture').apeye({
+		'type': 'json-rpc',
+		'autocompleteMethodSource': methods
+	}); 
 	testAutocomplete(apeye.find('.apeye-method'), methods);
 });
 
