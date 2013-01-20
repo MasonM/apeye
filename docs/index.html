@@ -310,6 +310,8 @@ $('.apeye-container').apeye({
 					<h3>URL Autocompletion</h3>
 					<p>
 						As with method autocompletion, using the "autocompleteUrlSource" option will turn the "URL" field into a find-as-you-type search box. The "autocompleteUrlSource" option accepts the same values as the <a href="http://api.jqueryui.com/autocomplete/#option-source">JQuery UI "source" option</a>.
+						<br/><br/>
+						If your API is REST-based, you can have APEye automatically add fields based on parameter names in the URL by enclosing them in angle brackets. For example, if you have the URL "http://example.com/book/&lt;bookId&gt;/foo", a field will be added under the "Request" section with the label "bookId".
 					</p>
 
 					<a name="subdomainTunneling"></a>

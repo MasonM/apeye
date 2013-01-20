@@ -1,4 +1,4 @@
-;(function ($, window, document, undefined) {
+;(function ($, window, document) {
 	"use strict";
 	$.widget("mm.apeye", {
 		html:
@@ -133,6 +133,12 @@
 		// subdomains we've connected to. This means we only have to fetch tunnel.html once
 		// for each subdomain request.
 		_subdomainAjax: {},
+		_urlParamFieldTemplate: '<div class="apeye-row-container apeye-field apeye-url-param-field">' +
+			'<label class="apeye-row">' +
+				'<span></span>' +
+				'<input type="text"/>' +
+			'</label>' +
+		'</div>',
 
 		_create: function() {
 			// inject HTML
@@ -169,7 +175,7 @@
 			
 			this._initFields();
 			if (this._isHorizontallyExpanded()) {
-				this._horizontalExpandChanged();
+				this._horizontalExpandChanged(); // this calls _adjustDimensions() at the end
 			} else this._adjustDimensions();
 		},
 
@@ -681,6 +687,39 @@
 			this.element
 				.find('[name=request]')
 				.button((url.length === 0) ? 'disable' : 'enable');
+			this._createFieldsFromUrlParams();
+		},
+
+		_getParamsFromUrl: function() {
+			var regex = new RegExp(/<([^>]*)>/g), 
+				params = [],
+				match;
+			while (match = regex.exec(this.getFieldValue('url'))) {
+				params.push(match[1]);
+			}
+			return params;
+		},
+
+		_createFieldsFromUrlParams: function() {
+			var existingParamFields = this.element.find('.apeye-request .apeye-url-param-field'),
+				requestBodyHeader = this.element.find('.apeye-request-body-header'),
+				template = $(this._urlParamFieldTemplate),
+				existingField;
+
+			existingParamFields.detach();
+			$.each(this._getParamsFromUrl(), function(i, paramName) {
+				existingField = existingParamFields.find('[data-fieldName=' + paramName + ']');
+				if (existingField.length) {
+					existingField.insertBefore(requestBodyHeader);
+				} else {
+					template.clone()	
+						.insertBefore(requestBodyHeader)
+						.attr('data-fieldName', paramName)
+						.find('span').text(paramName).end()
+						.find('input').attr('name', paramName);
+				}
+			});
+			existingParamFields = null;
 		},
 
 		_requestClicked: function(event) {
@@ -721,10 +760,14 @@
 		},
 
 		getFullUrl: function() {
-			var url = this.getFieldValue('url');
+			var url = this.getFieldValue('url'), paramValue, self = this;
 			if (!url.match(/^https?:\/\//)) {
 				url = window.location.protocol + '//' + url;
 			}
+			$.each(this._getParamsFromUrl(), function(i, paramName) {
+				paramValue = self.element.find('.apeye-url-param-field[data-fieldName="' + paramName + '"] input').val();
+				url = url.replace(new RegExp("<" + paramName + ">"), paramValue);
+			});
 			return url;
 		},
 
