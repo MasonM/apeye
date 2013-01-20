@@ -36,7 +36,7 @@ test("passed field values are set", function() {
 	apeye = $('<div/>').appendTo('#qunit-fixture').apeye(fieldValues);
 	$.each(fieldValues, function(fieldName, fieldValue) {
 		if (fieldName === 'body') {
-			strictEqual(apeye.data('apeye').getFieldValue('body'), fieldValue);
+			strictEqual(apeye.apeye('getFieldValue', 'body'), fieldValue);
 		} else assertFieldValue('[name=' + fieldName + ']', fieldValue);
 	});
 });
