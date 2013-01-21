@@ -23,6 +23,7 @@ module.exports = function(grunt) {
 				files: {
 					'dist/codemirror.js': [
 						'src/codemirror/lib/codemirror.js',
+						'src/codemirror/mode/javascript/javascript.js',
 						'src/codemirror/mode/xml/xml.js',
 						'src/codemirror/mode/http/http.js',
 						'src/codemirror/lib/util/formatting.js',
