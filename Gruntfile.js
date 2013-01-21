@@ -11,34 +11,35 @@ module.exports = function(grunt) {
 			' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n',
 		// Task configuration.
 		concat: {
-			options: {
-				banner: '<%= banner %>',
-				stripBanners: true,
-				process: false
-			},
-			dist: {
+			apeye: {
+				options: {
+					banner: '<%= banner %>',
+					stripBanners: true
+				},
 				src: ['src/apeye.js' ],
 				dest: 'dist/apeye.js'
 			},
 			codemirror: {
-				src: [
-					'src/codemirror/lib/codemirror.js',
-					'src/codemirror/mode/xml/xml.js',
-					'src/codemirror/mode/http/http.js',
-					'src/codemirror/lib/util/formatting.js',
-					'src/codemirror/lib/util/multiplex.js'
-				],
-				dest: 'dist/codemirror.js'
+				files: {
+					'dist/codemirror.js': [
+						'src/codemirror/lib/codemirror.js',
+						'src/codemirror/mode/xml/xml.js',
+						'src/codemirror/mode/http/http.js',
+						'src/codemirror/lib/util/formatting.js',
+						'src/codemirror/lib/util/multiplex.js'
+					],
+					'dist/codemirror.css': 'src/codemirror/lib/codemirror.css'
+				}
 			}
 		},
 		uglify: {
 			dist: {
 				options: { banner: '<%= banner %>' },
-				src: '<%= concat.dist.dest %>',
+				src: 'dist/apeye.js',
 				dest: 'dist/apeye.min.js'
 			},
 			codemirror: {
-				src: '<%= concat.codemirror.dest %>',
+				src: 'dist/codemirror.js',
 				dest: 'dist/codemirror.min.js'
 			}
 		},
