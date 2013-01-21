@@ -47,6 +47,6 @@ test("reorder params", function() {
 
 	apeye.find('.apeye-url-param-field input')
 		.first().val('bar2').end()
-		.last().val('foo2')
+		.last().val('foo2');
 	strictEqual(apeye.apeye('getFullUrl'), 'http://example.com/bar2/foo2');
 });
