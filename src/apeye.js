@@ -483,7 +483,7 @@
 			return this.element.hasClass('apeye-horizontally-expanded');
 		},
 
-		toggleHorizontalExpand: function(event) {
+		toggleHorizontalExpand: function() {
 			this.element.toggleClass('apeye-horizontally-expanded');
 			this._horizontalExpandChanged();
 		},
@@ -592,7 +592,7 @@
 			return l;
 		},
 
-		_typeChanged: function(event) {
+		_typeChanged: function() {
 			var type = this.getFieldValue('type'),
 				httpMethodSelect = this.element.find('[name=httpMethod]');
 
@@ -669,20 +669,20 @@
 			}
 		},
 
-		_httpMethodChanged: function(event) {
+		_httpMethodChanged: function() {
 			var httpMethod = this.getFieldValue('httpMethod');
 			this.element
 				.removeClass('apeye-method-post apeye-method-put apeye-method-get apeye-method-delete apeye-method-trace')
 				.addClass('apeye-method-' + httpMethod);
 		},
 
-		_authChanged: function(event) {
+		_authChanged: function() {
 			var auth = this.getFieldValue('auth');
 			this.element.toggleClass('apeye-auth-basic', auth === 'basic');
 			this._adjustDimensions();
 		},
 
-		_urlChanged: function(event) {
+		_urlChanged: function() {
 			var url = this.getFieldValue('url');
 			this.element
 				.find('[name=request]')
@@ -694,7 +694,7 @@
 			var regex = new RegExp(/<([^>]*)>/g), 
 				params = [],
 				match;
-			while (match = regex.exec(this.getFieldValue('url'))) {
+			while ((match = regex.exec(this.getFieldValue('url'))) !== null) {
 				params.push(match[1]);
 			}
 			return params;
@@ -722,7 +722,7 @@
 			existingParamFields = null;
 		},
 
-		_requestClicked: function(event) {
+		_requestClicked: function() {
 			var responseSection = this.element.find('.apeye-response');
 
 			this.element.find('[name=request]').button('disable');
