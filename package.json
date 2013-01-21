@@ -1,23 +1,45 @@
 {
 	"name": "APEye",
-	"version": "0.6",
+	"version": "0.6.0",
 	"main": "apeye.js",
 	"description": "jQuery widget for testing and documenting APIs",
-	"licenses": [{
-		"type": "MIT",
-		"url": "http://opensource.org/licenses/MIT"
-	}],
-	"directories": {"lib": "src"},
-	"bugs": "https://bitbucket.org/MasonM/apeye/issues',
-	"keywords": ["JavaScript", "HTTP", "SOAP", "JSON-RPC", "XML-RPC", "testing"],
-	"homepage": "http://apeye.org",
-	"maintainers":[{
+	"author": {
 		"name": "Mason Malone",
-		"email": "mason@masonm.org",
-		"web": "http://masonm.org"
-	}],
-	"repositories": [{
-		"type": "mercurial",
-		"url": "https://bitbucket.org/MasonM/apeye"
-	}]
+		"email": "<mason@masonm.org",
+		"url": "http://masonm.org"
+	},
+	"homepage": "http://apeye.org",
+	"licenses": [
+		{
+			"type": "MIT",
+			"url": "http://opensource.org/licenses/MIT"
+		}
+	],
+	"directories": {
+		"lib": "src"
+	},
+	"bugs": "https://bitbucket.org/MasonM/apeye/issues",
+	"keywords": [
+		"JavaScript",
+		"HTTP",
+		"SOAP",
+		"JSON-RPC",
+		"XML-RPC",
+		"API",
+		"testing"
+	],
+	"repositories": [
+		{
+			"type": "mercurial",
+			"url": "https://bitbucket.org/MasonM/apeye"
+		}
+	],
+	"devDependencies": {
+		"grunt": "~0.4.0",
+		"grunt-contrib-qunit": "~0.1.1",
+		"grunt-contrib-jshint": "~0.1.0",
+		"grunt-contrib-uglify": "https://github.com/gruntjs/grunt-contrib-uglify/tarball/master",
+		"grunt-contrib-less": "https://github.com/gruntjs/grunt-contrib-less/tarball/master",
+		"grunt-contrib-concat": "https://github.com/gruntjs/grunt-contrib-concat/tarball/master"
+	}
 }
