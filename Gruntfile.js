@@ -1,5 +1,9 @@
+// need to set the template root for Swig
+require('swig').init({ root: __dirname + "/docs" });
+
 module.exports = function(grunt) {
 	"use strict";
+
 	// Project configuration.
 	grunt.initConfig({
 		// Metadata.
@@ -67,7 +71,7 @@ module.exports = function(grunt) {
 				}
 			},
 			gruntfile: {
-				options: { globals: { 'module': false } },
+				options: { globals: { module: false, require: false, "__dirname": false } },
 				src: 'Gruntfile.js'
 			},
 			src: {
@@ -106,6 +110,18 @@ module.exports = function(grunt) {
 				}
 			}
 		},
+		template: {
+			index: {
+				src: 'docs/index.swig',
+				dest: 'docs/index.html',
+				variables: { curTab: "home" }
+			},
+			download: {
+				src: 'docs/customDownload.swig',
+				dest: 'docs/customDownload.html',
+				variables: { curTab: "download" }
+			}
+		},
 		watch: {
 			gruntfile: {
 				files: '<%= jshint.gruntfile.src %>',
@@ -129,7 +145,8 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-templater');
 
 	// Default task.
-	grunt.registerTask('default', ['jshint', 'less', 'qunit', 'concat', 'uglify']);
+	grunt.registerTask('default', ['jshint', 'less', 'qunit', 'concat', 'uglify', 'template']);
 };
