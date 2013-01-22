@@ -49,7 +49,7 @@ select {
 
 /* Override bootstrap styles */
 .apeye header h4, .apeye-dialog .ui-dialog-title {
-	color: #444;
+	color: #222;
 }
 
 pre.prettyprint {
