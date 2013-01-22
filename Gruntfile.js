@@ -39,7 +39,6 @@ module.exports = function(grunt) {
 		},
 		uglify: {
 			dist: {
-				options: { banner: '<%= banner %>' },
 				src: 'dist/apeye.js',
 				dest: 'dist/apeye.min.js'
 			},
