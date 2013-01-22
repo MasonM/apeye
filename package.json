@@ -40,6 +40,9 @@
 		"grunt-contrib-jshint": "~0.1.0",
 		"grunt-contrib-uglify": "https://github.com/gruntjs/grunt-contrib-uglify/tarball/master",
 		"grunt-contrib-less": "https://github.com/gruntjs/grunt-contrib-less/tarball/master",
-		"grunt-contrib-concat": "https://github.com/gruntjs/grunt-contrib-concat/tarball/master"
+		"grunt-contrib-concat": "https://github.com/gruntjs/grunt-contrib-concat/tarball/master",
+		"grunt-contrib-watch": "~0.1.4",
+		"grunt-templater": "~0.0.3",
+		"swig": "~0.13.4"
 	}
 }
