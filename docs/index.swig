@@ -23,7 +23,7 @@
 	<script src="js/example_init.js"></script>
 	<script>
 		$(function() {
-			$("#toc").toc({ selectors: "h2:not(.no-toc),h3" });
+			$("#toc").toc({ selectors: "h2,h3" });
 			prettyPrint();
 		});
 	</script>
@@ -287,7 +287,7 @@ $('.apeye-container').apeye({
 						The function should retrieve the JSON string corresponding to the permalinkId from the external server, and call <code>successCallback</code> with that string on success.
 					</li>
 				</ol>
-				The example at the top of this page uses this feature with a simple MySQL-backed pastebin. See the <a href="js/example_init.js">example_init.js file</a> for the the annotated code.
+				The example at the top of this page uses this feature with a simple MySQL-backed pastebin. See the <a href="js/example_init.js">example_init.js file</a> for the annotated code.
 				</p>
 			</div>
 		</div>
