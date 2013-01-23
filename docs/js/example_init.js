@@ -13,7 +13,7 @@ $(function() {
 		// OPTIONS
 		// Automatically pretty-print responses
 		'autoPrettyPrint': true,
-		// Always tunnel requests through an iframe (needed because endpoint in the sample request is on a different subdomain)
+		// Always tunnel requests through an iframe (needed because the endpoint in the sample request is on a different subdomain)
 		'subdomainTunneling': true,
 		// Available endpoints for the API server app
 		'autocompleteUrlSource': [ 'api.apeye.org/json-rpc', 'api.apeye.org/soap', 'api.apeye.org/xml-rpc' ],
@@ -35,7 +35,7 @@ $(function() {
 				}).done(function(data) {
 					if (sending) {
 						// The "$(window).on('hashchange')" logic below will take care of kicking of the unserialization,
-						// since it calls setFieldsFromString() with the hash string, which will set the permalinkId
+						// since it calls setFieldsFromString with the hash string, which will set the permalinkId
 						var link = 'http://apeye.org/#permalinkId=' + data;
 						successCallback(link, link);
 					} else {
@@ -47,8 +47,7 @@ $(function() {
 	});
 
 	$(window).on('hashchange', function() {
-		$('#apeye-demo').data('apeye')
-			// If window hash changes, this updates options and/or fields encoded in the hash string
-			.setFieldsFromString(window.location.hash.substring(1));
+		// If window hash changes, this updates options and/or fields encoded in the hash string
+		$('#apeye-demo').apeye('setFieldsFromString', window.location.hash.substring(1));
 	}).trigger('hashchange');
 });
