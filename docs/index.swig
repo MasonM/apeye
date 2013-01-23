@@ -107,9 +107,7 @@ $('.apeye-container').apeye({
 				<hr/>
 				<h2>Examples</h2>
 				<ul class="examples">
-					<li><a href='#method=add&type=soap11&url=api.apeye.org%2Fsoap&body=%3Cadd%20xlmns%3D%22http%3A%2F%2Fapi.apeye.org%2Fsoap%22%3E%0A%20%20%20%3Ca%3E10%3C%2Fa%3E%0A%20%20%20%3Cb%3E20%3C%2Fb%3E%0A%3C%2Fadd%3E'>Add 10 and 20 with SOAP 1.1</a></li>
-					<li><a href='#method=add&type=json-rpc&url=api.apeye.org%2Fjson-rpc&body=%5B10%2C20%5D'>Add 10 and 20 with JSON-RPC</a></li>
-					<li><a href='#method=add&type=xml-rpc&url=api.apeye.org%2Fxml-rpc&body=%3Cparams%3E%0A%20%20%20%3Cparam%3E%3Cvalue%3E%3Cint%3E1%3C%2Fint%3E%3C%2Fvalue%3E%3C%2Fparam%3E%0A%20%20%20%3Cparam%3E%3Cvalue%3E%3Cint%3E4%3C%2Fint%3E%3C%2Fvalue%3E%3C%2Fparam%3E%0A%3C%2Fparams%3E'>Add 10 and 20 with XML-RPC</a></li>
+					<li>The APEye instance at the top of this page communicates with a <a href="https://bitbucket.org/MasonM/apeye/src/tip/examples/api.apeye.org/example_server.py">simple Flask-based server</a> that provides arithmetic functions over JSON-RPC 2.0, XML-RPC, and SOAP 1.1. <a href="/standalone-rpc.html">Visit this page</a> for a complete list of example requests for each of these protocols</li>
 				</ul>
 
 				<hr/>

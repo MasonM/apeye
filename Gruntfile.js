@@ -119,6 +119,11 @@ module.exports = function(grunt) {
 				src: 'docs/customDownload.swig',
 				dest: 'docs/customDownload.html',
 				variables: { curTab: "download" }
+			},
+			standalone_rpc: {
+				src: 'docs/standalone-rpc.swig',
+				dest: 'docs/standalone-rpc.html',
+				variables: {}
 			}
 		},
 		watch: {
@@ -133,6 +138,10 @@ module.exports = function(grunt) {
 			test: {
 				files: '<%= jshint.test.src %>',
 				tasks: ['jshint:test', 'qunit']
+			},
+			docs: {
+				files: 'docs/*.swig',
+				tasks: ['template']
 			}
 		}
 	});
