@@ -120,7 +120,7 @@ module.exports = function(grunt) {
 				dest: 'docs/customDownload.html',
 				variables: { curTab: "download" }
 			},
-			standalone_rpc: {
+			standaloneRpc: {
 				src: 'docs/standalone-rpc.swig',
 				dest: 'docs/standalone-rpc.html',
 				variables: {}
