@@ -41,9 +41,7 @@ $.fn.toc = function(options) {
       var elScrollTo = $(e.target).attr('href');
       var $el = $(elScrollTo);
       
-      scrollable.animate({ scrollTop: $el.offset().top }, 400, 'swing', function() {
-        location.hash = elScrollTo;
-      });
+      scrollable.animate({ scrollTop: $el.offset().top - 60 }, 400, 'swing');
     }
     $('li', self).removeClass(activeClassName);
     $(e.target).parent().addClass(activeClassName);
