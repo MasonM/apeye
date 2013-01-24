@@ -80,6 +80,12 @@
 				</ul>
 
 				<hr/>
+				<h2>Examples</h2>
+				<ul class="examples">
+					<li>The APEye instance at the top of this page communicates with a <a href="https://bitbucket.org/MasonM/apeye/src/tip/examples/api.apeye.org/">simple Flask-based server</a> that provides arithmetic functions over JSON-RPC 2.0, XML-RPC, and SOAP 1.1. <a href="/standalone-rpc.html">Visit this page</a> for a complete list of example requests for each of these protocols</li>
+				</ul>
+
+				<hr/>
 				<h2>Getting Started</h2>
 				<p>
 					Go to the <a href="customDownload.html">Custom Download</a> page to get the minified JS and CSS. To initialize APEye, call the <code>apeye</code> method on a container element (e.g. <code>&lt;div class="apeye-container"&gt;&lt;/div&gt;</code>)
@@ -103,12 +109,6 @@ $('.apeye-container').apeye({
 	display: none;
 }</pre>
 				</p>
-
-				<hr/>
-				<h2>Examples</h2>
-				<ul class="examples">
-					<li>The APEye instance at the top of this page communicates with a <a href="https://bitbucket.org/MasonM/apeye/src/tip/examples/api.apeye.org/example_server.py">simple Flask-based server</a> that provides arithmetic functions over JSON-RPC 2.0, XML-RPC, and SOAP 1.1. <a href="/standalone-rpc.html">Visit this page</a> for a complete list of example requests for each of these protocols</li>
-				</ul>
 
 				<hr/>
 				<h2>Options</h2>
