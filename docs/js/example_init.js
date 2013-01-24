@@ -21,7 +21,7 @@ $(function() {
 		'autocompleteMethodSource': 'http://api.apeye.org/soap?wsdl',
 		// Function to handle sending/retrieving serialized state strings, used for the "Permanent Link" functionality
 		'permalinkHandler': function(sending, dataOrId, successCallback) {
-			// Use a simple Flask-based pastebin (source at examples/api.apeye.org/example_server.py) to
+			// Use a simple Flask-based pastebin (source at examples/api.apeye.org/example_server/pastebin.py) to
 			// store the serialized data. The pastebin has the following API:
 			// * To store data, POST it to /pastebin. The response will contain an ID.
 			// * To retrieve data, do a GET on /pastebin?id=<id>, with <id> replaced with the desired ID
