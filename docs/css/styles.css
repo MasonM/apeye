@@ -47,6 +47,10 @@ select {
 	margin: 0;
 }
 
+#apeye-launch-rest-example {
+	margin: 10px 0;
+}
+
 /* Override bootstrap styles */
 .apeye header h4, .apeye-dialog .ui-dialog-title {
 	color: #222;

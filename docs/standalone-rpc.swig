@@ -20,7 +20,7 @@
 	<style type="text/css">
 		.apeye {
 			width: 700px;
-			height: 600px;
+			height: 500px;
 			margin: 0 auto;
 		}
 		.apeye .apeye-id {
