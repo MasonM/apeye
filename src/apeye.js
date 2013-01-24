@@ -665,7 +665,7 @@
 				case 'xml-rpc':
 					return 'text/xml';
 				default:
-					return 'text/plain';
+					return this._lastResponse ? this._lastResponse.contentType : 'text/plain';
 			}
 		},
 
@@ -894,7 +894,8 @@
 				headers: jqXHR.getAllResponseHeaders(),
 				body: jqXHR.responseText,
 				status: jqXHR.status,
-				statusText: jqXHR.statusText
+				statusText: jqXHR.statusText,
+				contentType: jqXHR.getResponseHeader('Content-Type')
 			};
 			this._showResponse(this._lastResponse);
 		},
