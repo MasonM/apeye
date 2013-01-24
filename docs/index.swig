@@ -43,7 +43,7 @@
 			display: none;
 			height: 300px;
 		}
-		#apeye-rest-example .apeye-options {
+		#apeye-rest-example .apeye-options, #apeye-rest-example .apeye-h-expand {
 			/* Don't show any of the options, because changing from the sample request won't make sense */
 			display: none;
 		}
