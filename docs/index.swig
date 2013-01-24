@@ -21,6 +21,7 @@
 	<script src="dist/apeye.js"></script>
 
 	<script src="js/apeye-rpc-example.js"></script>
+	<script src="js/apeye-rest-example.js"></script>
 	<script>
 		$(function() {
 			$("#toc").toc({ selectors: "h2,h3" });
@@ -28,7 +29,7 @@
 		});
 	</script>
 	<style type="text/css">
-		#apeye-rpc-example {
+		#apeye-rpc-example, #apeye-rest-example {
 			width: 600px;
 			height: 400px;
 			margin: 0 auto;
@@ -36,6 +37,15 @@
 		#apeye-rpc-example .apeye-id {
 			/* Hide the "id" field to keep things simple for the demo. The default of "apeye" is fine. */
 			display: none !important;
+		}
+
+		#apeye-rest-example {
+			display: none;
+			height: 300px;
+		}
+		#apeye-rest-example .apeye-options {
+			/* Don't show any of the options, because changing from the sample request won't make sense */
+			display: none;
 		}
 	</style>
 {% endblock head %}
@@ -82,7 +92,12 @@
 				<hr/>
 				<h2>Examples</h2>
 				<ul class="examples">
-					<li>The APEye instance at the top of this page communicates with a <a href="https://bitbucket.org/MasonM/apeye/src/tip/examples/api.apeye.org/">simple Flask-based server</a> that provides arithmetic functions over JSON-RPC 2.0, XML-RPC, and SOAP 1.1. <a href="/standalone-rpc.html">Visit this page</a> for a complete list of example requests for each of these protocols</li>
+					<li>Click the button below for a stripped-down APEye console for a <a href="https://bitbucket.org/MasonM/apeye/src/tip/examples/api.apeye.org/example_server/rest.py">simple REST API</a>:
+						<br>
+						<a id="apeye-launch-rest-example" class="btn btn-info btn-small" href="#">Launch REST Console</a>
+						<div id="apeye-rest-example" class="apeye-horizontally-expanded"></div>
+					</li>
+					<li>The APEye instance at the top of this page communicates with a <a href="https://bitbucket.org/MasonM/apeye/src/tip/examples/api.apeye.org/example_server/rpc.py">simple Flask-based server</a> that provides arithmetic functions over JSON-RPC 2.0, XML-RPC, and SOAP 1.1. <a href="/standalone-rpc.html">Visit this page</a> for a complete list of example requests for each of these protocols</li>
 				</ul>
 
 				<hr/>
