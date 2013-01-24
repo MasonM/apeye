@@ -2,7 +2,7 @@
 document.domain = "apeye.org";
 
 $(function() {
-	$('#apeye-demo').apeye({
+	$('#apeye-rpc-example').apeye({
 		// FIELD SETTERS: Auto-fill the fields with a sample request
 		'url': 'api.apeye.org/json-rpc',
 		'type': 'json-rpc',
@@ -48,6 +48,6 @@ $(function() {
 
 	$(window).on('hashchange', function() {
 		// If window hash changes, this updates options and/or fields encoded in the hash string
-		$('#apeye-demo').apeye('setFieldsFromString', window.location.hash.substring(1));
+		$('#apeye-rpc-example').apeye('setFieldsFromString', window.location.hash.substring(1));
 	}).trigger('hashchange');
 });
