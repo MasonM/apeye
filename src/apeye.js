@@ -165,7 +165,7 @@
 				.on('change', '[name=type]', $.proxy(this._typeChanged, this))
 				.on('change', '[name=httpMethod]', $.proxy(this._httpMethodChanged, this))
 				.on('change', '[name=auth]', $.proxy(this._authChanged, this))
-				.on('change', '[name=url]', $.proxy(this._urlChanged, this))
+				.on('autocompletechange change', '[name=url]', $.proxy(this._urlChanged, this))
 				.on('click', '[name=request]:not(.ui-state-disabled)', $.proxy(this._requestClicked, this))
 				.on('click', '.apeye-h-expand', $.proxy(this.toggleHorizontalExpand, this))
 				.on('click', '.apeye-viewraw:not(.ui-state-disabled)', $.proxy(this.viewRaw, this))
