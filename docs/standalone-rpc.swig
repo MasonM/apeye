@@ -16,7 +16,7 @@
 	<script src="dist/codemirror.js"></script>
 	<script src="dist/apeye.js"></script>
 
-	<script src="js/example_init.js"></script>
+	<script src="js/apeye-rpc-example.js"></script>
 	<style type="text/css">
 		.apeye {
 			width: 700px;
@@ -97,7 +97,7 @@
 				</ul>
 			</div>
 			<div class="span9">
-				<div id="apeye-demo"></div>
+				<div id="apeye-rpc-example"></div>
 			</div>
 		</div>
 	</div>
