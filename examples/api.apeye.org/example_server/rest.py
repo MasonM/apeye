@@ -1,6 +1,8 @@
-"""
-Really simple read-only REST API for accessing a complete list of my favorite authors
-"""
+## @namespace example_server::rest
+#  Really simple read-only REST API for accessing a fixed list of authors and books.
+#  Supports only HTTP GET. All responses are encoded in JSON.
+#  <p>Source at https://bitbucket.org/MasonM/apeye/src/tip/examples/api.apeye.org/example_server/rest.py</p>
+#  <p>Doxygen config at https://bitbucket.org/MasonM/apeye/src/tip/examples/doxygen/</p>
 from flask import json, Response
 from example_server import app
 
@@ -21,10 +23,14 @@ books = (
 )
 
 @app.route("/rest/author/", methods=["GET"])
+## Returns list of all authors
+#  @apeye{url=api.apeye.org/rest/author}
 def list_authors():
 	return Response(json.dumps(authors), mimetype="application/json")
 
 @app.route("/rest/author/<author_id>", methods=["GET"])
+## Returns the author corresponding to the given ID
+#  @apeye{url=api.apeye.org/rest/author/3}
 def get_author(author_id):
 	try: 
 		return Response(json.dumps(authors[int(author_id) - 1]), mimetype="application/json")
@@ -32,10 +38,14 @@ def get_author(author_id):
 		return ""
 
 @app.route("/rest/book/", methods=["GET"])
+## Returns list of all books
+#  @apeye{url=api.apeye.org/rest/book}
 def list_books():
 	return Response(json.dumps(books), mimetype="application/json")
 
 @app.route("/rest/book/<book_id>", methods=["GET"])
+## Returns the book corresponding to the given ID
+#  @apeye{url=api.apeye.org/rest/book/3}
 def get_book(book_id):
 	try: 
 		return Response(json.dumps(books[int(book_id) - 1]), mimetype="application/json")

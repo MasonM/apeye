@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+		<!--BEGIN PROJECT_NAME--><title>$projectname: $title</title><!--END PROJECT_NAME-->
+		<link rel="stylesheet" href="/css/smoothness/jquery-ui-1.9.2.custom.min.css">
+		<link rel="stylesheet" href="/dist/apeye.css">
+		<link rel="stylesheet" href="/dist/codemirror.css">
+		<script src="/js/jquery-1.8.3.min.js"></script>
+		<script src="/js/base64.min.js"></script>
+		<script src="/js/jquery-ui-1.9.2.custom.min.js"></script>
+		<script src="/dist/codemirror.js"></script>
+		<script src="/dist/apeye.js"></script>
+		<script type="text/javascript">
+			document.domain = "apeye.org";
+
+			$(function() {
+				var apeyeParamDefaults = {
+					'type': 'raw',
+					'httpMethod': 'get',
+					'autoPrettyPrint': true,
+					'subdomainTunneling': true
+				};
+				$('.apeye-tryitout').button().on('click', function(event) {
+					event.preventDefault();
+					$(this)
+						.closest('p')
+						.addClass('apeye-horizontally-expanded')
+						.apeye(apeyeParamDefaults)
+						.apeye('setFieldsFromString', this.hash.substring(1));
+				});
+			});
+		</script>
+		<style type="text/css">
+			.apeye {
+				width: 400px;
+				height: 420px;
+			}
+			.apeye .apeye-h-expand { display: none }
+		</style>
+
+		<link href="$relpath$tabs.css" rel="stylesheet" type="text/css"/>
+		<link href="$relpath$doxygen.css" rel="stylesheet" type="text/css" />
+	</head>
+	<body>
+		<div id="top"><!-- do not remove this div! -->
+			<!--BEGIN TITLEAREA-->
+			<div id="titlearea">
+				<table cellspacing="0" cellpadding="0">
+					<tbody>
+						<tr style="height: 56px;">
+							<!--BEGIN PROJECT_NAME-->
+							<td style="padding-left: 0.5em;">
+								<div id="projectname">$projectname</div>
+								<!--BEGIN PROJECT_BRIEF--><div id="projectbrief">$projectbrief</div><!--END PROJECT_BRIEF-->
+							</td>
+							<!--END PROJECT_NAME-->
+						</tr>
+					</tbody>
+				</table>
+			</div>
