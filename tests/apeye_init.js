@@ -40,9 +40,3 @@ test("passed field values are set", function() {
 		} else assertFieldValue('[name=' + fieldName + ']', fieldValue);
 	});
 });
-
-test("starting in horizontally expanded mode adjusts height correctly", function() {
-	apeye = $('<div/>').addClass('apeye-horizontally-expanded').appendTo('#qunit-fixture').apeye();
-	ok(apeye.hasClass('apeye-horizontally-expanded'));
-	strictEqual(apeye.height(), 600);
-});
