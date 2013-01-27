@@ -472,8 +472,10 @@
 				});
 			this._requestBodyEditor.setSize(null, requestBodyHeight + "px");
 
-			if (!this.element.find('.apeye-body').is(':visible')) {
-				// the request body is hidden, which means "HTTP Method" isn't set to "POST" or "PUT"
+			if (!this.element.find('.apeye-body').is(':visible') && hExpand) {
+				// If the request body is hidden, that means "HTTP Method" isn't set to "POST" or "PUT".
+				// In that case, we need the response body to take up the height that the request body
+				// would've taken if we're horizontally expanded
 				responseEditorHeight += requestBodyHeight + 12;
 			}
 			this._responseEditor.setSize(null, responseEditorHeight  + "px");
