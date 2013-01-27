@@ -504,6 +504,15 @@
 					return 'ui-icon-triangle-1-' + (isExpanded ? 'w' : 'e');
 				});
 
+			this.element
+				.find('.apeye-request')
+					.removeClass('ui-corner-left ui-corner-top')
+					.addClass('ui-corner-' + (isExpanded ? 'top' : 'left'))
+					.end()
+				.find('.apeye-response')
+					.removeClass('ui-corner-right ui-corner-bottom')
+					.addClass('ui-corner-' + (isExpanded ? 'bottom' : 'right'));
+
 			this._adjustDimensions();
 		},
 
