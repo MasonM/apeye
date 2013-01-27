@@ -1,5 +1,6 @@
 node_modules
 dist
 docs/.*\.html
+docs/doxygen
 .*\.swp
 .*\.pyc

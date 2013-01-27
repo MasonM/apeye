@@ -91,12 +91,13 @@
 				<hr/>
 				<h2>Examples</h2>
 				<ul class="examples">
-					<li>Click the button below for a stripped-down APEye console for a <a href="https://bitbucket.org/MasonM/apeye/src/tip/examples/api.apeye.org/example_server/rest.py">simple REST API</a>:
+					<li>Click the button below to launch a stripped-down APEye console for a <a href="https://bitbucket.org/MasonM/apeye/src/tip/examples/api.apeye.org/example_server/rest.py">simple REST API</a>:
 						<br>
 						<a id="apeye-launch-rest-example" class="btn btn-info btn-small" href="#">Launch REST Console</a>
 						<div id="apeye-rest-example" class="apeye-horizontally-expanded"></div>
 					</li>
-					<li>The APEye instance at the top of this page communicates with a <a href="https://bitbucket.org/MasonM/apeye/src/tip/examples/api.apeye.org/example_server/rpc.py">simple Flask-based server</a> that provides arithmetic functions over JSON-RPC 2.0, XML-RPC, and SOAP 1.1. <a href="/standalone-rpc.html">Visit this page</a> for a complete list of example requests for each of these protocols</li>
+					<li>To see how APEye might be used with Doxygen, see <a href="doxygen/namespaceexample__server_1_1rest.html">this page</a> for Doxygen-generated documentation for the above REST API.</li>
+					<li>The APEye instance at the top of this page communicates with a <a href="https://bitbucket.org/MasonM/apeye/src/tip/examples/api.apeye.org/example_server/rpc.py">simple Flask-based server</a> that provides arithmetic functions over JSON-RPC 2.0, XML-RPC, and SOAP 1.1. <a href="/standalone-rpc.html">Visit this page</a> for a detailed list of example requests for each of these protocols</li>
 				</ul>
 
 				<hr/>
@@ -293,7 +294,7 @@ $('.apeye-container').apeye({
 					<li>
 						When the "Link" button is clicked, the function will be called like so:
 						<pre class="prettyprint">permalinkHandler(true, '["some JSON string"]', successCallback);</pre>
-						The function should then send the JSON string to an external server (e.g. a pastbin) for storage, and call <code>successCallback</code> on success with a unique link.
+						The function should then send the JSON string to an external server (e.g. a pastebin) for storage, and call <code>successCallback</code> on success with a unique link.
 					</li>
 					<li>
 						When the <code>permalinkId</code> option is set, the function will be called like so:
@@ -301,7 +302,7 @@ $('.apeye-container').apeye({
 						The function should retrieve the JSON string corresponding to the permalinkId from the external server, and call <code>successCallback</code> with that string on success.
 					</li>
 				</ol>
-				The example at the top of this page uses this feature with a simple MySQL-backed pastebin. See the <a href="js/example_init.js">example_init.js file</a> for the annotated code.
+				The example at the top of this page uses this feature with a simple MySQL-backed pastebin. See the <a href="http://bitbucket.org/MasonM/apeye/src/tip/docs/docs/apeye-rpc-example.js">apeye-rpc-example.js file</a> for the annotated code.
 				</p>
 			</div>
 		</div>
