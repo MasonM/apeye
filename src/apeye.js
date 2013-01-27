@@ -485,13 +485,12 @@
 
 		toggleHorizontalExpand: function() {
 			this.element.toggleClass('apeye-horizontally-expanded');
+			this.element.height(this.element.height() * (this._isHorizontallyExpanded() ? 2 : 0.5));
 			this._horizontalExpandChanged();
 		},
 
 		_horizontalExpandChanged: function() {
 			var isExpanded = this._isHorizontallyExpanded();
-			this.element.height(this.element.height() * (isExpanded ? 2 : 0.5));
-
 			// move icons to request section if horizontally expanded so the icons are visible without scrolling
 			this.element
 				.find('.icons')

@@ -2,6 +2,9 @@ module('Resizing');
 
 test("horizontal expansion", function() {
 	apeye = $('<div/>').appendTo('#qunit-fixture').apeye();
+	strictEqual(apeye.width(), 600);
+	strictEqual(apeye.height(), 300);
+
 	apeye.find('.apeye-h-expand').click();
 	strictEqual(apeye.width(), 600);
 	strictEqual(apeye.height(), 600);
@@ -9,6 +12,16 @@ test("horizontal expansion", function() {
 	apeye.find('.apeye-h-expand').click();
 	strictEqual(apeye.width(), 600);
 	strictEqual(apeye.height(), 300);
+});
+
+test("starting off horizontally expanded", function() {
+	apeye = $('<div class="apeye-horizontally-expanded"/>').appendTo('#qunit-fixture').apeye();
+	strictEqual(apeye.width(), 600);
+	strictEqual(apeye.height(), 300);
+
+	apeye.find('.apeye-h-expand').click();
+	strictEqual(apeye.width(), 600);
+	strictEqual(apeye.height(), 150);
 });
 
 test("resizing using handle", function() {
