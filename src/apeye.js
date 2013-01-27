@@ -463,8 +463,6 @@
 				// responseEditorHeight = sectionHeight - <header> height - .field margins
 				responseEditorHeight = sectionHeight - 27 - 24;
 
-			this._responseEditor.setSize(null, responseEditorHeight  + "px");
-
 			// compute request body height by subtracting height of each of its siblings (plus the bottom margin)
 			this.element
 				.find('.apeye-body')
@@ -473,6 +471,12 @@
 					requestBodyHeight -= ($(element).outerHeight() + 12);
 				});
 			this._requestBodyEditor.setSize(null, requestBodyHeight + "px");
+
+			if (!this.element.find('.apeye-body').is(':visible')) {
+				// the request body is hidden, which means "HTTP Method" isn't set to "POST" or "PUT"
+				responseEditorHeight += requestBodyHeight + 12;
+			}
+			this._responseEditor.setSize(null, responseEditorHeight  + "px");
 
 			// the autocomplete drop-down is right above the request body
 			autocompleteMaxHeight = requestBodyHeight + 12;
@@ -682,6 +686,7 @@
 			this.element
 				.removeClass('apeye-method-post apeye-method-put apeye-method-get apeye-method-delete apeye-method-trace')
 				.addClass('apeye-method-' + httpMethod);
+			this._adjustDimensions();
 		},
 
 		_authChanged: function() {
