@@ -81,9 +81,8 @@
 				<ul>
 					<li>Tested in Firefox 17, Chrome 20, and IE 8-9.</li>
 					<li>Supports SOAP 1.1, SOAP 1.2, XML-RPC, and JSON-RPC 2.0</li>
-					<li>Easily integrated into Doxygen-generated API documentation</li>
 					<li>Powered by <a href="http://codemirror.com">CodeMirror</a>, with automatic syntax highlighing and pretty-printing</li>
-					<li><a href="#subdomainTunneling">Circumvents the same-origin policy for subdomains by automatically tunneling requests</a></li>
+					<li><a href="#subdomainTunneling">Circumvents the same-origin policy for subdomains</a></li>
 					<li><a href="#permalinks">Can generate permanent links to snapshot a request and response</a></li>
 					<li>Autocompletion support for <a href="#methodAutocomplete">method names</a> and <a href="#urlAutocomplete">URLs</a></li>
 				</ul>
