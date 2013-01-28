@@ -3,7 +3,7 @@ Overview
 
 APEye is a jQuery widget for issuing HTTP requests, designed to help document and test APIs. With a few lines of Javascript, you can let users experiment with your API without leaving the documentation. Unlike [hurl](http://hurl.it/) and [apigee](http://apigee.com), requests are handled entirely by the client -- no server-side proxy is needed.
 
-Homepage: http://www.apeye.org/
+Homepage: [http://www.apeye.org/](http://www.apeye.org/)
 
 Features
 ========
