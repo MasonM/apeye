@@ -97,6 +97,7 @@
 					</li>
 					<li>To see how APEye might be used with Doxygen, see <a href="doxygen/namespaceexample__server_1_1rest.html">this page</a> for Doxygen-generated documentation for the above REST API.</li>
 					<li>The APEye instance at the top of this page communicates with a <a href="https://bitbucket.org/MasonM/apeye/src/tip/examples/api.apeye.org/example_server/rpc.py">simple Flask-based server</a> that provides arithmetic functions over JSON-RPC 2.0, XML-RPC, and SOAP 1.1. <a href="/standalone-rpc.html">Visit this page</a> for a detailed list of example requests for each of these protocols</li>
+					<li><a href="http://nutshell.com/api">Nutshell CRM</a> uses APEye throughout the documentation of its RPC-based API. Each method on <a href="https://www.nutshell.com/api/detail/class_core.html">the API reference page</a> has a separate "Try it out!" button that launches an APEye console for that method. </li>
 				</ul>
 
 				<hr/>
