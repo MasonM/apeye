@@ -5,10 +5,10 @@
 	"description": "jQuery widget for testing and documenting APIs",
 	"author": {
 		"name": "Mason Malone",
-		"email": "<mason@masonm.org",
+		"email": "mason@masonm.org",
 		"url": "http://masonm.org"
 	},
-	"homepage": "http://apeye.org",
+	"homepage": "http://www.apeye.org",
 	"licenses": [
 		{
 			"type": "MIT",
@@ -26,6 +26,8 @@
 		"JSON-RPC",
 		"XML-RPC",
 		"API",
+		"REST",
+		"jQuery",
 		"testing"
 	],
 	"repositories": [
