@@ -1,0 +1,5 @@
+Flask==0.9
+Flask-XML-RPC==0.1.2
+soaplib==2.0.0-beta2
+simple-jsonrpc==0.3.4
+MySQL-python==1.2.3
