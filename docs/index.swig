@@ -65,7 +65,7 @@
 					<p>
 						APEye is a jQuery widget for issuing HTTP requests, designed to help document and test APIs. With a few lines of Javascript, you can let users experiment with your API without leaving the documentation. Unlike <a href="http://hurl.it">hurl</a> and <a href="http://apigee.com">apigee</a>, requests are handled entirely by the client &ndash; no server-side proxy is needed. Try it out below!
 					</p>
-					<hr>
+					<br>
 					<div class="row-fluid">
 						<div class="span2">
 							<h5>JSON-RPC</h5>
@@ -131,7 +131,7 @@
 							<div id="apeye-rpc-example"></div>
 						</div>
 					</div>
-					<hr>
+					<br>
 					<p>
 						The project is hosted on <a href="http://bitbucket.org" target="_blank" class="projectLinks">Bitbucket</a> and is available for use under the <a href="http://bitbucket.org/MasonM/apeye/src/tip/LICENSE" target="_blank" class="projectLinks">MIT software license</a>. You can report bugs and discuss features on the <a href="http://bitbucket.org/MasonM/apeye/issues" target="_blank">issues page</a>.
 					</p>
