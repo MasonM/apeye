@@ -30,8 +30,8 @@
 	</script>
 	<style type="text/css">
 		#apeye-rpc-example, #apeye-rest-example {
-			width: 600px;
-			height: 400px;
+			width: 580px;
+			height: 500px;
 			margin: 0 auto;
 		}
 		#apeye-rpc-example .apeye-id {
@@ -65,8 +65,73 @@
 					<p>
 						APEye is a jQuery widget for issuing HTTP requests, designed to help document and test APIs. With a few lines of Javascript, you can let users experiment with your API without leaving the documentation. Unlike <a href="http://hurl.it">hurl</a> and <a href="http://apigee.com">apigee</a>, requests are handled entirely by the client &ndash; no server-side proxy is needed. Try it out below!
 					</p>
-					<div id="apeye-rpc-example"></div>
-					<br/>
+					<hr>
+					<div class="row-fluid">
+						<div class="span2">
+							<h5>JSON-RPC</h5>
+							{% set prefix = "#type=json-rpc&url=api.apeye.org%2Fjson-rpc" %}
+							<ul>
+								<li><a href='{{prefix}}&method=add&body={% filter url_encode %}[10,20]{% endfilter %}'>10+20</a></li>
+								<li><a href='{{prefix}}&method=multiply&body={% filter url_encode %}[10,20]{% endfilter %}'>10*20</a></li>
+								<li><a href='{{prefix}}&method=sum&body={% filter url_encode %}[[10,20,30]]{% endfilter %}'>10+20+30</a></li>
+								<li><a href='{{prefix}}&method=square&body={% filter url_encode %}[10]{% endfilter %}'>10<sup>2</sup></a></li>
+							</ul>
+
+							<h5>SOAP</h5>
+							{% set prefix = "#type=soap11&url=api.apeye.org%2Fsoap" %}
+							<ul>
+								<li><a href='{{prefix}}&method=add&body={% filter url_encode %}<add xlmns="http://api.apeye.org/soap">
+	<a>10</a>
+	<b>20</b>
+</add>{% endfilter %}'>10+20</a></li>
+								<li><a href='{{prefix}}&method=multiply&body={% filter url_encode %}<multiply xlmns="http://api.apeye.org/soap">
+	<a>10</a>
+	<b>20</b>
+</multiply>{% endfilter %}'>10*20</a></li>
+								<li><a href='{{prefix}}&method=sum&body={% filter url_encode %}<sum xlmns="http://api.apeye.org/soap">
+	<a>
+		<decimal>10</decimal>
+		<decimal>20</decimal>
+		<decimal>30</decimal>
+	</a>
+</sum>{% endfilter %}'>10+20+30</a></li>
+								<li><a href='{{prefix}}&method=square&body={% filter url_encode %}<square xlmns="http://api.apeye.org/soap">
+	<a>10</a>
+</square>{% endfilter %}'>10<sup>2</sup></a></li>
+							</ul>
+
+							<h5>XML-RPC</h5>
+							{% set prefix = "#type=xml-rpc&url=api.apeye.org%2Fxml-rpc" %}
+							<ul>
+								<li><a href='{{prefix}}&method=add&body={% filter url_encode %}<params>
+	<param><value><int>10</int></value></param>
+	<param><value><int>20</int></value></param>
+</params>{% endfilter %}'>10+20</a></li>
+								<li><a href='{{prefix}}&method=multiply&body={% filter url_encode %}<params>
+	<param><value><int>10</int></value></param>
+	<param><value><int>20</int></value></param>
+</params>{% endfilter %}'>10*20</a></li>
+								<li><a href='{{prefix}}&method=sum&body={% filter url_encode %}<params>
+	<param>
+		<array>
+			<data>
+				<value><int>10</int></value>
+				<value><int>20</int></value>
+				<value><int>30</int></value>
+			</data>
+		</array>
+	</param>
+</params>{% endfilter %}'>10+20+30</a></li>
+								<li><a href='{{prefix}}&method=square&body={% filter url_encode %}<params>
+	<param><value><int>10</int></value></param>
+</params>{% endfilter %}'>10<sup>2</sup></a></li>
+							</ul>
+						</div>
+						<div class="span10">
+							<div id="apeye-rpc-example"></div>
+						</div>
+					</div>
+					<hr>
 					<p>
 						The project is hosted on <a href="http://bitbucket.org" target="_blank" class="projectLinks">Bitbucket</a> and is available for use under the <a href="http://bitbucket.org/MasonM/apeye/src/tip/LICENSE" target="_blank" class="projectLinks">MIT software license</a>. You can report bugs and discuss features on the <a href="http://bitbucket.org/MasonM/apeye/issues" target="_blank">issues page</a>.
 					</p>
@@ -79,7 +144,7 @@
 				<hr/>
 				<h2>Features</h2>
 				<ul>
-					<li>Tested in Firefox 17+, Chrome 20+, and IE 9.</li>
+					<li>Tested in Firefox 17+, Chrome 20+, and IE 9</li>
 					<li>Supports SOAP 1.1, SOAP 1.2, XML-RPC, and JSON-RPC 2.0</li>
 					<li>Powered by <a href="http://codemirror.com">CodeMirror</a>, with automatic syntax highlighing and pretty-printing</li>
 					<li><a href="#subdomainTunneling">Circumvents the same-origin policy for subdomains</a></li>
@@ -96,7 +161,6 @@
 						<div id="apeye-rest-example" class="apeye-horizontally-expanded"></div>
 					</li>
 					<li>To see how APEye might be used with Doxygen, see <a href="doxygen/namespaceexample__server_1_1rest.html">this page</a> for Doxygen-generated documentation for the above REST API.</li>
-					<li>The APEye instance at the top of this page communicates with a <a href="https://bitbucket.org/MasonM/apeye/src/tip/examples/api.apeye.org/example_server/rpc.py">simple Flask-based server</a> that provides arithmetic functions over JSON-RPC 2.0, XML-RPC, and SOAP 1.1. <a href="/standalone-rpc.html">Visit this page</a> for a detailed list of example requests for each of these protocols</li>
 					<li><a href="http://nutshell.com/api">Nutshell CRM</a> uses APEye throughout the documentation of its RPC-based API. Each method on <a href="https://www.nutshell.com/api/detail/class_core.html">the API reference page</a> has a separate "Try it out!" button that launches an APEye console for that method. </li>
 				</ul>
 
@@ -290,7 +354,7 @@ $('.apeye-container').apeye({
 				<a name="permalinks"></a>
 				<h3>Permanent Links</h3>
 				<p>
-				APEye has the ability to serialize the current request and response into a JSON string, and to deserialize such a string to restore all fields to the state represented therein. The <code>permalinkHandler</code> and <code>permalinkId</code> options are what facilitates this. The <code>permalinkHandler</code> option should be set to a function with the prototype <code>function(sending, dataOrId, successCallback)</code> that does two things: <ol>
+				APEye has the ability to serialize the current request and response into a JSON string, and to deserialize such a string to restore all fields to the state represented therein. The <code>permalinkHandler</code> and <code>permalinkId</code> options are what facilitate this. The <code>permalinkHandler</code> option should be set to a function with the prototype <code>function(sending, dataOrId, successCallback)</code> that does two things: <ol>
 					<li>
 						When the "Link" button is clicked, the function will be called like so:
 						<pre class="prettyprint">permalinkHandler(true, '["some JSON string"]', successCallback);</pre>

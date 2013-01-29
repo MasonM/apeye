@@ -2,6 +2,10 @@ body {
 	padding: 50px;
 }
 
+.span2 {
+	font-size: 12px;
+}
+
 section#components {
 	padding-top: 0px;
 }
