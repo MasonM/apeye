@@ -11,7 +11,7 @@
 					'<span>Options</span>' +
 					'<select name="type">' +
 						'<option class="type-raw" value="raw">Raw</option>' +
-						'<option class="type-json-rpc" value="json-rpc">JSON-RPC 2.0</option>' +
+						'<option class="type-json-rpc" value="json-rpc">JSON-RPC</option>' +
 						'<option class="type-xml-rpc" value="xml-rpc">XML-RPC</option>' +
 						'<option class="type-soap11" value="soap11">SOAP 1.1</option>' +
 						'<option class="type-soap12" value="soap12">SOAP 1.2</option>' +
