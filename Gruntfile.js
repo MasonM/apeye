@@ -119,11 +119,6 @@ module.exports = function(grunt) {
 				src: 'docs/customDownload.swig',
 				dest: 'docs/customDownload.html',
 				variables: { curTab: "download" }
-			},
-			standaloneRpc: {
-				src: 'docs/standalone-rpc.swig',
-				dest: 'docs/standalone-rpc.html',
-				variables: {}
 			}
 		},
 		watch: {
