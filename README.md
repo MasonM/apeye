@@ -8,7 +8,7 @@ Homepage: [http://www.apeye.org/](http://www.apeye.org/)
 Features
 ========
 
-* Tested in Firefox 17+, Chrome 20+, and IE 8-9
+* Tested in Firefox 17+, Chrome 20+, and IE 9
 * Supports SOAP 1.1, SOAP 1.2, XML-RPC, and JSON-RPC 2.0
 * Powered by [CodeMirror](http://codemirror.com), with automatic syntax highlighing and pretty-printing
 * Circumvents the [same-origin policy](https://developer.mozilla.org/en-US/docs/Same_origin_policy_for_JavaScript) for subdomains
