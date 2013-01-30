@@ -2,6 +2,8 @@
 document.domain = "apeye.org";
 
 $(function() {
+	var permalinkEndpoint = "http://api.apeye.org/pastebin";
+
 	$('#apeye-rpc-example').apeye({
 		// FIELD SETTERS: Auto-fill the fields with a sample request
 		'url': 'api.apeye.org/json-rpc',
@@ -19,28 +21,34 @@ $(function() {
 		'autocompleteUrlSource': [ 'api.apeye.org/json-rpc', 'api.apeye.org/soap', 'api.apeye.org/xml-rpc' ],
 		// Get a list of valid methods from the auto-generated WSDL, and use that for autocompletion for the "Method" field
 		'autocompleteMethodSource': 'http://api.apeye.org/soap?wsdl',
-		// Function to handle sending/retrieving serialized state strings, used for the "Permanent Link" functionality
-		'permalinkHandler': function(sending, dataOrId, successCallback) {
-			// Use a simple Flask-based pastebin (source at examples/api.apeye.org/example_server/pastebin.py) to
-			// store the serialized data. The pastebin has the following API:
-			// * To store data, POST it to /pastebin. The response will contain an ID.
-			// * To retrieve data, do a GET on /pastebin?id=<id>, with <id> replaced with the desired ID
-			var endpoint = "http://api.apeye.org/pastebin";
-			this.tunnelRequest(endpoint, function(ajax) {
+		// Functions to handle sending/retrieving serialized state strings, used for the "Permanent Link" functionality
+		// Uses a simple Flask-based pastebin (source at examples/api.apeye.org/example_server/pastebin.py) to
+		// store the serialized data. The pastebin has the following API:
+		// * To store data, POST it to /pastebin. The response will contain an ID.
+		// * To retrieve data, do a GET on /pastebin?id=<id>, with <id> replaced with the desired ID
+		'permalinkSender': function(jsonData, successCallback) {
+			this.tunnelRequest(permalinkEndpoint, function(ajax) {
 				ajax({
-					url: endpoint,
-					type: sending ? "POST" : "GET",
-					contentType: "text/plain", // tells jQuery to not try to decode response. We want it raw
-					data: sending ? dataOrId : { id : dataOrId }
+					url: permalinkEndpoint,
+					type: "POST",
+					data: jsonData
 				}).done(function(data) {
-					if (sending) {
-						// The "$(window).on('hashchange')" logic below will take care of kicking of the unserialization,
-						// since it calls setFieldsFromString with the hash string, which will set the permalinkId
-						var link = 'http://apeye.org/#permalinkId=' + data;
-						successCallback(link, link);
-					} else {
-						successCallback(data);
-					}
+					// The "$(window).on('hashchange')" logic below will take care of kicking off the unserialization,
+					// since it calls setFieldsFromString with the hash string, which will set the permalinkId
+					var link = 'http://apeye.org/#permalinkId=' + data;
+					successCallback(link, link);
+				});
+			});
+		},
+		'permalinkRetriever': function(permalinkId, successCallback) {
+			this.tunnelRequest(permalinkEndpoint, function(ajax) {
+				ajax({
+					url: permalinkEndpoint,
+					type: "GET",
+					contentType: "text/plain", // tells jQuery to not try to decode response. We want it raw
+					data: { id : permalinkId }
+				}).done(function(data) {
+					successCallback(data);
 				});
 			});
 		}

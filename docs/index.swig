@@ -212,7 +212,13 @@ $('.apeye-container').apeye({
 						<td>See <a href="#urlAutocomplete">URL Autocompletion</a></td>
 					</tr>
 					<tr>
-						<td class="optionName">permalinkHandler</td>
+						<td class="optionName">permalinkSender</td>
+						<td>null | function</td>
+						<td>null</td>
+						<td>See <a href="#permalinks">Permanent Links</a></td>
+					</tr>
+					<tr>
+						<td class="optionName">permalinkRetriever</td>
 						<td>null | function</td>
 						<td>null</td>
 						<td>See <a href="#permalinks">Permanent Links</a></td>
@@ -354,19 +360,12 @@ $('.apeye-container').apeye({
 				<a name="permalinks"></a>
 				<h3>Permanent Links</h3>
 				<p>
-				APEye has the ability to serialize the current request and response into a JSON string, and to deserialize such a string to restore all fields to the state represented therein. The <code>permalinkHandler</code> and <code>permalinkId</code> options are what facilitate this. The <code>permalinkHandler</code> option should be set to a function with the prototype <code>function(sending, dataOrId, successCallback)</code> that does two things: <ol>
-					<li>
-						When the "Link" button is clicked, the function will be called like so:
-						<pre class="prettyprint">permalinkHandler(true, '["some JSON string"]', successCallback);</pre>
-						The function should then send the JSON string to an external server (e.g. a pastebin) for storage, and call <code>successCallback</code> on success with a unique link.
-					</li>
-					<li>
-						When the <code>permalinkId</code> option is set, the function will be called like so:
-						<pre class="prettyprint">permalinkHandler(false, permalinkId, successCallback);</pre>
-						The function should retrieve the JSON string corresponding to the permalinkId from the external server, and call <code>successCallback</code> with that string on success.
-					</li>
-				</ol>
-				The example at the top of this page uses this feature with a simple MySQL-backed pastebin. See the <a href="http://bitbucket.org/MasonM/apeye/src/tip/docs/docs/apeye-rpc-example.js">apeye-rpc-example.js file</a> for the annotated code.
+				APEye has the ability to serialize the current request and response into a JSON string, and to deserialize such a string to restore all fields to the state represented therein. The <code>permalinkSender</code>, <code>permalinkRetriever</code> and <code>permalinkId</code> options are what facilitate this:
+				<ul>
+					<li>The <code>permalinkSender</code> option should be set to a function with the prototype <code>function(jsonData, successCallback)</code> that sends the given jsonData string to an external server (e.g. a pastebin) for storage, and calls <code>successCallback</code> on success with a unique link. This function will be called when the "Link" button, which is only shown if permalinkSender is non-null, is clicked.
+					<li>The <code>permalinkRetriever</code> option should be set to a function with the prototype <code>function(permalinkId, successCallback)</code> that will retrieve the JSON string corresponding to the given permalinkId from the external server, and calls <code>successCallback</code> with that string on success. This function will be called when the <code>permalinkId</code> ID is set. 
+				</ul>
+				The example at the top of this page uses this feature with a <a href="http://bitbucket.org/MasonM/apeye/src/tip/examples/api.apeye.org/example_server/pastebin.py">simple MySQL-backed pastebin</a>. See the <a href="http://bitbucket.org/MasonM/apeye/src/tip/docs/js/apeye-rpc-example.js">apeye-rpc-example.js file</a> for the annotated code.
 				</p>
 			</div>
 		</div>

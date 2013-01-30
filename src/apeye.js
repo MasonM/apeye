@@ -113,7 +113,8 @@
 			// MISC OPTIONS
 			autocompleteMethodSource: null,
 			autocompleteUrlSource: null,
-			permalinkHandler: null,
+			permalinkRetriever: null,
+			permalinkSender: null,
 			indent: 3,
 			timeout: 5 * 1000,
 			autoPrettyPrint: false,
@@ -151,7 +152,7 @@
 			// initialize elements
 			this.element
 				.toggleClass('apeye-autoprettyprint', this.option('autoPrettyPrint'))
-				.toggleClass('apeye-canpermalink', this.option('permalinkHandler') !== null)
+				.toggleClass('apeye-canpermalink', this.option('permalinkSender') !== null)
 				.resizable({ handles: 'se' })
 				// I want the bigger grip icon (default is too small)
 				.find('.ui-resizable-se').addClass('ui-icon-grip-diagonal-se');
@@ -377,10 +378,10 @@
 			if (key === 'permalinkId') {
 				// This isn't really an option (or rather it's a write-only option),
 				// but we treat it as one for consistency and simplicity
-				if (this.option('permalinkHandler') === null) return;
+				if (this.option('permalinkRetriever') === null) return;
 				this.element.fadeTo(0, 0.5);
 				this.element.find('.apeye-spinner').show().position({ of: this.element });
-				this.option('permalinkHandler').call(this, false, value, $.proxy(this._unserialize, this));
+				this.option('permalinkRetriever').call(this, value, $.proxy(this._unserialize, this));
 				return;
 			}
 			$.Widget.prototype._setOption.apply(this, arguments);
@@ -589,7 +590,7 @@
 			spinner.show().position({ of: dialog });
 
 			// @todo add an errorCallback
-			this.option('permalinkHandler').call(this, true, this._serialize(), successCallback);
+			this.option('permalinkSender').call(this, this._serialize(), successCallback);
 		},
 
 		_escapeHTML: function(html) {
