@@ -80,49 +80,49 @@
 					<div class="row-fluid">
 						<div class="span2">
 							<h5>JSON-RPC</h5>
-							{% set prefix = "#type=json-rpc&url=api.apeye.org%2Fjson-rpc" %}
+							{% set prefix = "#type=json-rpc&amp;url=api.apeye.org%2Fjson-rpc" %}
 							<ul>
-								<li><a href='{{prefix}}&method=add&body={% filter url_encode %}[10,20]{% endfilter %}'>10+20</a></li>
-								<li><a href='{{prefix}}&method=multiply&body={% filter url_encode %}[10,20]{% endfilter %}'>10*20</a></li>
-								<li><a href='{{prefix}}&method=sum&body={% filter url_encode %}[[10,20,30]]{% endfilter %}'>10+20+30</a></li>
-								<li><a href='{{prefix}}&method=square&body={% filter url_encode %}[10]{% endfilter %}'>10<sup>2</sup></a></li>
+								<li><a href='{{prefix}}&amp;method=add&amp;body={% filter url_encode %}[10,20]{% endfilter %}'>10+20</a></li>
+								<li><a href='{{prefix}}&amp;method=multiply&amp;body={% filter url_encode %}[10,20]{% endfilter %}'>10*20</a></li>
+								<li><a href='{{prefix}}&amp;method=sum&amp;body={% filter url_encode %}[[10,20,30]]{% endfilter %}'>10+20+30</a></li>
+								<li><a href='{{prefix}}&amp;method=square&amp;body={% filter url_encode %}[10]{% endfilter %}'>10<sup>2</sup></a></li>
 							</ul>
 
 							<h5>SOAP</h5>
-							{% set prefix = "#type=soap11&url=api.apeye.org%2Fsoap" %}
+							{% set prefix = "#type=soap11&amp;url=api.apeye.org%2Fsoap" %}
 							<ul>
-								<li><a href='{{prefix}}&method=add&body={% filter url_encode %}<add xlmns="http://api.apeye.org/soap">
+								<li><a href='{{prefix}}&amp;method=add&amp;body={% filter url_encode %}<add xlmns="http://api.apeye.org/soap">
 	<a>10</a>
 	<b>20</b>
 </add>{% endfilter %}'>10+20</a></li>
-								<li><a href='{{prefix}}&method=multiply&body={% filter url_encode %}<multiply xlmns="http://api.apeye.org/soap">
+								<li><a href='{{prefix}}&amp;method=multiply&amp;body={% filter url_encode %}<multiply xlmns="http://api.apeye.org/soap">
 	<a>10</a>
 	<b>20</b>
 </multiply>{% endfilter %}'>10*20</a></li>
-								<li><a href='{{prefix}}&method=sum&body={% filter url_encode %}<sum xlmns="http://api.apeye.org/soap">
+								<li><a href='{{prefix}}&amp;method=sum&amp;body={% filter url_encode %}<sum xlmns="http://api.apeye.org/soap">
 	<a>
 		<decimal>10</decimal>
 		<decimal>20</decimal>
 		<decimal>30</decimal>
 	</a>
 </sum>{% endfilter %}'>10+20+30</a></li>
-								<li><a href='{{prefix}}&method=square&body={% filter url_encode %}<square xlmns="http://api.apeye.org/soap">
+								<li><a href='{{prefix}}&amp;method=square&amp;body={% filter url_encode %}<square xlmns="http://api.apeye.org/soap">
 	<a>10</a>
 </square>{% endfilter %}'>10<sup>2</sup></a></li>
 							</ul>
 
 							<h5>XML-RPC</h5>
-							{% set prefix = "#type=xml-rpc&url=api.apeye.org%2Fxml-rpc" %}
+							{% set prefix = "#type=xml-rpc&amp;url=api.apeye.org%2Fxml-rpc" %}
 							<ul>
-								<li><a href='{{prefix}}&method=add&body={% filter url_encode %}<params>
+								<li><a href='{{prefix}}&amp;method=add&amp;body={% filter url_encode %}<params>
 	<param><value><int>10</int></value></param>
 	<param><value><int>20</int></value></param>
 </params>{% endfilter %}'>10+20</a></li>
-								<li><a href='{{prefix}}&method=multiply&body={% filter url_encode %}<params>
+								<li><a href='{{prefix}}&amp;method=multiply&amp;body={% filter url_encode %}<params>
 	<param><value><int>10</int></value></param>
 	<param><value><int>20</int></value></param>
 </params>{% endfilter %}'>10*20</a></li>
-								<li><a href='{{prefix}}&method=sum&body={% filter url_encode %}<params>
+								<li><a href='{{prefix}}&amp;method=sum&amp;body={% filter url_encode %}<params>
 	<param>
 		<array>
 			<data>
@@ -133,7 +133,7 @@
 		</array>
 	</param>
 </params>{% endfilter %}'>10+20+30</a></li>
-								<li><a href='{{prefix}}&method=square&body={% filter url_encode %}<params>
+								<li><a href='{{prefix}}&amp;method=square&amp;body={% filter url_encode %}<params>
 	<param><value><int>10</int></value></param>
 </params>{% endfilter %}'>10<sup>2</sup></a></li>
 							</ul>
