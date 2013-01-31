@@ -24,7 +24,13 @@
 	<script src="js/apeye-rest-example.js"></script>
 	<script>
 		$(function() {
-			$("#toc").toc({ selectors: "h2,h3" });
+			$("#toc").toc({
+				selectors: "h2,h3",
+				smoothScrolling: false,
+				anchorName: function(i, heading, prefix) {
+					return heading.id;
+				}
+			});
 			prettyPrint();
 		});
 	</script>
@@ -58,7 +64,7 @@
 			</div>
 			<div class="span9">
 				<div class="overview">
-					<h2 class="toc-header">Overview</h2>
+					<h2 id="overview" class="toc-header">Overview</h2>
 					<h1>
 						Spruce up your API docs with a <br>fully-functional client
 					</h1>
@@ -142,18 +148,18 @@
 				</div>
 
 				<hr/>
-				<h2>Features</h2>
+				<h2 id="features">Features</h2>
 				<ul>
 					<li>Tested in Firefox 17+, Chrome 20+, and IE 9</li>
 					<li>Supports SOAP 1.1, SOAP 1.2, XML-RPC, and JSON-RPC 2.0</li>
 					<li>Powered by <a href="http://codemirror.com">CodeMirror</a>, with automatic syntax highlighing and pretty-printing</li>
-					<li><a href="#subdomainTunneling">Circumvents the same-origin policy for subdomains</a></li>
+					<li><a href="#subdomain-tunneling">Circumvents the same-origin policy for subdomains</a></li>
 					<li><a href="#permalinks">Can generate permanent links to snapshot a request and response</a></li>
-					<li>Autocompletion support for <a href="#methodAutocomplete">method names</a> and <a href="#urlAutocomplete">URLs</a></li>
+					<li>Autocompletion support for <a href="#method-autocompletion">method names</a> and <a href="#url-autocompletion">URLs</a></li>
 				</ul>
 
 				<hr/>
-				<h2>Examples</h2>
+				<h2 id="examples">Examples</h2>
 				<ul class="examples">
 					<li>Click the button below to launch a stripped-down APEye console for a <a href="https://bitbucket.org/MasonM/apeye/src/tip/examples/api.apeye.org/example_server/rest.py">simple REST API</a>:
 						<br>
@@ -165,7 +171,7 @@
 				</ul>
 
 				<hr/>
-				<h2>Getting Started</h2>
+				<h2 id="getting-started">Getting Started</h2>
 				<p>
 					Go to the <a href="customDownload.html">Custom Download</a> page to get the minified JS and CSS. To initialize APEye, call the <code>apeye</code> method on a container element (e.g. <code>&lt;div class="apeye-container"&gt;&lt;/div&gt;</code>)
 					<pre class="prettyprint">
@@ -174,7 +180,7 @@ $('.apeye-container').apeye({
 });</pre>
 				</p>
 
-				<h3>CSS</h3>
+				<h3 id="getting-started-css">CSS</h3>
 				<p>
 					The only CSS properties that must be defined on the APEye container are <code>height</code> and <code>width</code>
 					<pre class="prettyprint lang-css">
@@ -190,8 +196,8 @@ $('.apeye-container').apeye({
 				</p>
 
 				<hr/>
-				<h2>Options</h2>
-				<h3>Overview</h3>
+				<h2 id="options">Options</h2>
+				<h3 id="options-overview">Overview</h3>
 				<table class="table table-striped table-bordered table-condensed">
 					<tr>
 						<th>Name</th>
@@ -203,13 +209,13 @@ $('.apeye-container').apeye({
 						<td class="optionName">autocompleteMethodSource</td>
 						<td>null | string | array | function</td>
 						<td>null</td>
-						<td>See <a href="#methodAutocomplete">Method Autocompletion</a></td>
+						<td>See <a href="#method-autocompletion">Method Autocompletion</a></td>
 					</tr>
 					<tr>
 						<td class="optionName">autocompleteUrlSource</td>
 						<td>null | string | array | function</td>
 						<td>null</td>
-						<td>See <a href="#urlAutocomplete">URL Autocompletion</a></td>
+						<td>See <a href="#url-autocompletion">URL Autocompletion</a></td>
 					</tr>
 					<tr>
 						<td class="optionName">permalinkSender</td>
@@ -245,13 +251,13 @@ $('.apeye-container').apeye({
 						<td class="optionName">subdomainTunneling</td>
 						<td>boolean</td>
 						<td>false</td>
-						<td>See <a href="#subdomainTunneling">Subdomain Tunneling</a></td>
+						<td>See <a href="#subdomain-tunneling">Subdomain Tunneling</a></td>
 					</tr>
 					<tr>
 						<td class="optionName">tunnelFilepath</td>
 						<td>string</td>
 						<td>"/tunnel.html"</td>
-						<td>See <a href="#subdomainTunneling">Subdomain Tunneling</a></td>
+						<td>See <a href="#subdomain-tunneling">Subdomain Tunneling</a></td>
 					</tr>
 					<tr>
 						<td class="optionName">permalinkId</td>
@@ -315,8 +321,7 @@ $('.apeye-container').apeye({
 					</tr>
 				</table>
 
-				<a name="methodAutocomplete"></a>
-				<h3>Method Autocompletion</h3>
+				<h3 id="method-autocompletion">Method Autocompletion</h3>
 				<p>
 					When method autocompletion is enabled via "autocompleteMethodSource", the "Method" field will be turned into a find-as-you-type search box,
 					and a small arrow will be added to allow viewing all methods.
@@ -324,16 +329,14 @@ $('.apeye-container').apeye({
 					The "autocompleteMethodSource" option accepts the same values as the <a href="http://api.jqueryui.com/autocomplete/#option-source">JQuery UI "source" option</a>, with one additional feature: if given a string representing a URL to a WSDL file, the file will be immediately requested and parsed, and the autocomplete list will contain the name attributes of each &lt;wsdl:operation&gt; tag contained in it. The example at the top of this page uses this feature with the WSDL file at <a href="http://api.apeye.org/soap?wsdl">http://api.apeye.org/soap?wsdl</a>.
 				</p>
 
-				<a name="urlAutocomplete"></a>
-				<h3>URL Autocompletion</h3>
+				<h3 id="url-autocompletion">URL Autocompletion</h3>
 				<p>
 					As with method autocompletion, using the "autocompleteUrlSource" option will turn the "URL" field into a find-as-you-type search box. The "autocompleteUrlSource" option accepts the same values as the <a href="http://api.jqueryui.com/autocomplete/#option-source">JQuery UI "source" option</a>.
 					<br/><br/>
 					If your API is REST-based, you can have APEye automatically add fields based on parameter names in the URL by enclosing them in angle brackets. For example, if you have the URL "http://example.com/book/&lt;bookId&gt;/foo", a field will be added under the "Request" section with the label "bookId".
 				</p>
 
-				<a name="subdomainTunneling"></a>
-				<h3>Subdomain Tunneling</h3>
+				<h3 id="subdomain-tunneling">Subdomain Tunneling</h3>
 				<p>
 				If your API endpoint is on a different subdomain as your documentation site, APEye will let you circumvent the same-origin policy by tunneling requests through an iframe. Enabling tunneling is a 3 step processs:
 				<ol>
@@ -357,8 +360,7 @@ $('.apeye-container').apeye({
 				</ol>
 				</p>
 
-				<a name="permalinks"></a>
-				<h3>Permanent Links</h3>
+				<h3 id="permalinks">Permanent Links</h3>
 				<p>
 				APEye has the ability to serialize the current request and response into a JSON string, and to deserialize such a string to restore all fields to the state represented therein. The <code>permalinkSender</code>, <code>permalinkRetriever</code> and <code>permalinkId</code> options are what facilitate this:
 				<ul>

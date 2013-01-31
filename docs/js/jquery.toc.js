@@ -41,7 +41,9 @@ $.fn.toc = function(options) {
       var elScrollTo = $(e.target).attr('href');
       var $el = $(elScrollTo);
       
-      scrollable.animate({ scrollTop: $el.offset().top - 60 }, 400, 'swing');
+      scrollable.animate({ scrollTop: $el.offset().top }, 400, 'swing', function() {
+        location.hash = elScrollTo;
+      });
     }
     $('li', self).removeClass(activeClassName);
     $(e.target).parent().addClass(activeClassName);
@@ -78,9 +80,6 @@ $.fn.toc = function(options) {
     headings.each(function(i, heading) {
       var $h = $(heading);
       headingOffsets.push($h.offset().top - opts.highlightOffset);
-
-      //add anchor
-      var anchor = $('<span/>').attr('id', opts.anchorName(i, heading, opts.prefix)).insertBefore($h);
 
       //build TOC item
       var a = $('<a/>')
