@@ -31,9 +31,14 @@
 					return heading.id;
 				}
 			});
+			$(window).on('hashchange', function() {
+				// hack to prevent the top navbar from obscuring the content
+				if ($(':target').length) window.scrollBy(0, -45);
+			});
 			prettyPrint();
 		});
 	</script>
+
 	<style type="text/css">
 		#apeye-rpc-example, #apeye-rest-example {
 			width: 580px;
@@ -365,7 +370,7 @@ $('.apeye-container').apeye({
 				APEye has the ability to serialize the current request and response into a JSON string, and to deserialize such a string to restore all fields to the state represented therein. The <code>permalinkSender</code>, <code>permalinkRetriever</code> and <code>permalinkId</code> options are what facilitate this:
 				<ul>
 					<li>The <code>permalinkSender</code> option should be set to a function with the prototype <code>function(jsonData, successCallback)</code> that sends the given jsonData string to an external server (e.g. a pastebin) for storage, and calls <code>successCallback</code> on success with a unique link. This function will be called when the "Link" button, which is only shown if permalinkSender is non-null, is clicked.
-					<li>The <code>permalinkRetriever</code> option should be set to a function with the prototype <code>function(permalinkId, successCallback)</code> that will retrieve the JSON string corresponding to the given permalinkId from the external server, and calls <code>successCallback</code> with that string on success. This function will be called when the <code>permalinkId</code> ID is set. 
+					<li>The <code>permalinkRetriever</code> option should be set to a function with the prototype <code>function(permalinkId, successCallback)</code> that will retrieve the JSON string corresponding to the given permalinkId from the external server, and calls <code>successCallback</code> with that string on success. This function will be called when the <code>permalinkId</code> option is set. 
 				</ul>
 				The example at the top of this page uses this feature with a <a href="http://bitbucket.org/MasonM/apeye/src/tip/examples/api.apeye.org/example_server/pastebin.py">simple MySQL-backed pastebin</a>. See the <a href="http://bitbucket.org/MasonM/apeye/src/tip/docs/js/apeye-rpc-example.js">apeye-rpc-example.js file</a> for the annotated code.
 				</p>

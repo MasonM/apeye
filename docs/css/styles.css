@@ -2,14 +2,6 @@ body {
 	padding: 50px;
 }
 
-:target::before { 
-	display: block; 
-	content: " "; 
-	margin-top: -45px; 
-	height: 45px; 
-	visibility: hidden; 
-}
-
 .span2 {
 	font-size: 12px;
 }
