@@ -30,6 +30,7 @@ $(function() {
 				ajax({
 					url: permalinkEndpoint,
 					type: "POST",
+					contentType: "text/plain",
 					data: jsonData
 				}).done(function(data) {
 					// The "$(window).on('hashchange')" logic below will take care of kicking off the unserialization,
