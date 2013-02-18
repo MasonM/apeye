@@ -1,1 +1,56 @@
-package.json
+{
+	"name": "apeye",
+	"title": "APEye",
+	"version": "1.0.0",
+	"main": "apeye.js",
+	"description": "jQuery widget for testing and documenting APIs",
+	"author": {
+		"name": "Mason Malone",
+		"email": "mason@masonm.org",
+		"url": "http://masonm.org"
+	},
+	"homepage": "http://www.apeye.org",
+	"licenses": [
+		{
+			"type": "MIT",
+			"url": "http://opensource.org/licenses/MIT"
+		}
+	],
+	"directories": {
+		"lib": "src"
+	},
+	"bugs": "https://bitbucket.org/MasonM/apeye/issues",
+	"keywords": [
+		"JavaScript",
+		"HTTP",
+		"SOAP",
+		"JSON-RPC",
+		"XML-RPC",
+		"API",
+		"REST",
+		"jQuery",
+		"testing"
+	],
+	"repositories": [
+		{
+			"type": "mercurial",
+			"url": "https://bitbucket.org/MasonM/apeye"
+		}
+	],
+	"dependencies": {
+		"jquery": ">=1.8",
+		"jquery-ui": ">=1.9",
+		"codemirror": "2.37 || 2.38"
+	},
+	"devDependencies": {
+		"grunt": "~0.4.0",
+		"grunt-contrib-qunit": "~0.1.1",
+		"grunt-contrib-jshint": "~0.1.0",
+		"grunt-contrib-uglify": "https://github.com/gruntjs/grunt-contrib-uglify/tarball/master",
+		"grunt-contrib-less": "https://github.com/gruntjs/grunt-contrib-less/tarball/master",
+		"grunt-contrib-concat": "https://github.com/gruntjs/grunt-contrib-concat/tarball/master",
+		"grunt-contrib-watch": "~0.1.4",
+		"grunt-templater": "~0.0.3",
+		"swig": "~0.13.4"
+	}
+}
