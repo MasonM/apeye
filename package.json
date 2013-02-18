@@ -1,6 +1,7 @@
 {
-	"name": "APEye",
-	"version": "0.6.0",
+	"name": "apeye",
+	"title": "APEye",
+	"version": "1.0.0",
 	"main": "apeye.js",
 	"description": "jQuery widget for testing and documenting APIs",
 	"author": {
@@ -36,6 +37,11 @@
 			"url": "https://bitbucket.org/MasonM/apeye"
 		}
 	],
+	"dependencies": {
+		"jquery": ">=1.8",
+		"jquery-ui": ">=1.9",
+		"codemirror": "2.37 || 2.38"
+	},
 	"devDependencies": {
 		"grunt": "~0.4.0",
 		"grunt-contrib-qunit": "~0.1.1",
