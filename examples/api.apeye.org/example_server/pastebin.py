@@ -6,14 +6,9 @@ import MySQLdb, hashlib, os, json
 from flask import request, make_response
 from example_server import app
 
-# appfog config. See https://docs.appfog.com/services/mysql
-services_json = json.loads(os.getenv("VCAP_SERVICES"))
-mysql_config = services_json['mysql-5.1'][0]['credentials']
-
 @app.route("/pastebin", methods=["GET", "POST"])
 def pastebin():
-	db = MySQLdb.connect(host=mysql_config['hostname'], port=mysql_config['port'],
-			user=mysql_config['user'], passwd=mysql_config['password'], db=mysql_config['name'])
+	db = MySQLdb.connect(user='apeye', db='pastebin')
 	result = ''
 	cursor = db.cursor()
 	if request.method == "POST" and request.headers['CONTENT_LENGTH']:
